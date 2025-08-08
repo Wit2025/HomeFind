@@ -590,7 +590,7 @@ class _BookingDetailPageState extends State<BookingDetailPage>
                 ),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.transparent,
@@ -602,7 +602,7 @@ class _BookingDetailPageState extends State<BookingDetailPage>
                     minimumSize: Size(140, 54),
                   ),
                   child: Text(
-                    'ກັບຄືນ',
+                    'ໃບບິນ',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,

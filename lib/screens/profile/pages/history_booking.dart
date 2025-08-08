@@ -150,12 +150,6 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
   String? _selectedStatusFilter;
   String? _selectedTypeFilter;
 
-  @override
-  void initState() {
-    super.initState();
-    _selectedTypeFilter = 'ເຊົ່າ';
-  }
-
   List<Map<String, String>> get _filteredBookings {
     return allBookings.where((booking) {
       final statusMatch =
@@ -323,7 +317,7 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
                   crossAxisCount: 2,
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 16,
-                  childAspectRatio: 0.85,
+                  childAspectRatio: 0.80,
                 ),
                 itemBuilder: (context, index) {
                   final booking = _filteredBookings[index];
@@ -464,6 +458,41 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
                                               color: Color(0xFF006B8B),
                                             ),
                                           ),
+                                          if (booking['type'] != null)
+                                            Positioned(
+                                              bottom: 8,
+                                              right: 8,
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 6,
+                                                      vertical: 2,
+                                                    ),
+                                                decoration: BoxDecoration(
+                                                  color: _getTypeColor(
+                                                    booking['type'],
+                                                  ).withOpacity(0.2),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                  border: Border.all(
+                                                    color: _getTypeColor(
+                                                      booking['type'],
+                                                    ),
+                                                    width: 1,
+                                                  ),
+                                                ),
+                                                child: Text(
+                                                  booking['type']!,
+                                                  style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: _getTypeColor(
+                                                      booking['type'],
+                                                    ),
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                         ],
                                       ),
                                     ],
@@ -472,36 +501,6 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
                               ),
                             ],
                           ),
-                          // Type badge (bottom-right of card)
-                          if (booking['type'] != null)
-                            Positioned(
-                              bottom: 8,
-                              right: 8,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 6,
-                                  vertical: 2,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: _getTypeColor(
-                                    booking['type'],
-                                  ).withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(
-                                    color: _getTypeColor(booking['type']),
-                                    width: 1,
-                                  ),
-                                ),
-                                child: Text(
-                                  booking['type']!,
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: _getTypeColor(booking['type']),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
                         ],
                       ),
                     ),

@@ -3,7 +3,7 @@ import 'package:homefind/screens/main_screen.dart';
 import 'package:homefind/auth/forget_pass.dart';
 import 'package:homefind/auth/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:math';
+// import 'dart:math';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -46,10 +46,10 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  String _generateOtp() {
-    final random = Random();
-    return (100000 + random.nextInt(900000)).toString();
-  }
+  // String _generateOtp() {
+  //   final random = Random();
+  //   return (100000 + random.nextInt(900000)).toString();
+  // }
 
   Future<void> _submitForm() async {
     if (!_formKey.currentState!.validate()) return;
