@@ -5,6 +5,7 @@ import 'package:homefind/screens/add/add_page.dart';
 import 'package:homefind/screens/join/join_page.dart';
 import 'package:homefind/screens/notification/notification_page.dart';
 import 'package:homefind/screens/profile/profile_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -41,20 +42,26 @@ class _MainScreenState extends State<MainScreen> {
     ];
   }
 
+  Future<void> _checkTermsAndRedirectIfNeeded() async {
+    final prefs = await SharedPreferences.getInstance();
+    bool termsAccepted = prefs.getBool('terms_accepted') ?? false;
+
+    if (!termsAccepted) {
+      _changePage(1);
+    } else {
+      _changePage(2);
+    }
+  }
+
   Future<void> _handlePageChange(int index) async {
     if (index == 0) {
       _changePage(index);
       return;
     }
 
-    // Check auth status first
     bool isLoggedIn = await AuthChecker.isLoggedIn();
 
-    if (isLoggedIn) {
-      // User is logged in, just change the page
-      _changePage(index);
-    } else {
-      // User not logged in, show auth flow
+    if (!isLoggedIn) {
       Widget targetPage = _pages[index];
       await AuthChecker.checkAuthAndNavigate(
         context: context,
@@ -62,10 +69,20 @@ class _MainScreenState extends State<MainScreen> {
         page: targetPage,
       );
 
-      // Check again after auth flow
       if (await AuthChecker.isLoggedIn()) {
-        _changePage(index);
+        if (index == 2) {
+          await _checkTermsAndRedirectIfNeeded();
+        } else {
+          _changePage(index);
+        }
       }
+      return;
+    }
+
+    if (index == 2) {
+      await _checkTermsAndRedirectIfNeeded();
+    } else {
+      _changePage(index);
     }
   }
 

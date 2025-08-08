@@ -598,11 +598,8 @@ class _BookingDetailPageState extends State<BookingDetailPage>
                           bookingId: widget.booking['id'] ?? 'B123456',
                           name: widget.booking['title'] ?? 'ສຸດທິພົນ',
                           category: widget.booking['type'] ?? 'ບ້ານໃຫ້ເຊົ່າ',
-                          amount:
-                              widget.booking['price'] ??
-                              '1500000', // ใช้ข้อมูลจาก booking
-                          bookingDate:
-                              DateTime.now(), // หรือใช้ข้อมูลวันที่จาก booking ถ้ามี
+                          amount: widget.booking['price'] ?? '1500000',
+                          bookingDate: DateTime.now(),
                         ),
                       ),
                     );

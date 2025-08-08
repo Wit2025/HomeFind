@@ -8,7 +8,6 @@ class BillPage extends StatefulWidget {
   final String category;
   final String amount;
   final DateTime bookingDate;
-  // final File? receiptImage;
 
   const BillPage({
     super.key,
@@ -17,7 +16,6 @@ class BillPage extends StatefulWidget {
     required this.category,
     required this.amount,
     required this.bookingDate,
-    // this.receiptImage,
   });
 
   @override
@@ -42,7 +40,7 @@ class _BillPageState extends State<BillPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Center(child: Text('ດາວໂຫລດບິນສຳເລັດແລ້ວ')),
-        backgroundColor: Colors.green,
+        backgroundColor: Color(0xFF0C697A),
       ),
     );
   }
@@ -52,7 +50,7 @@ class _BillPageState extends State<BillPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Center(child: Text('ຄັດລອກລະຫັດການຈອງແລ້ວ')),
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(0xFF0C697A),
         duration: Duration(seconds: 2),
       ),
     );
@@ -100,7 +98,7 @@ class _BillPageState extends State<BillPage> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Center(child: Text('ແບ່ງປັນບິນ')),
-                  backgroundColor: Colors.blue,
+                  backgroundColor: Color(0xFF0C697A),
                 ),
               );
             },
@@ -512,7 +510,7 @@ class _BillPageState extends State<BillPage> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Center(child: Text('ພິມບິນ')),
-                          backgroundColor: Colors.orange,
+                          backgroundColor: Color(0xFF0C697A),
                         ),
                       );
                     },
