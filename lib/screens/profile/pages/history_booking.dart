@@ -11,6 +11,7 @@ class HistoryBookingPages extends StatefulWidget {
 class _HistoryBookingPagesState extends State<HistoryBookingPages> {
   final List<Map<String, String>> allBookings = [
     {
+      'id': 'B45678787876',
       'title': 'ອະພາດເມັນ',
       'date': '10 ກໍລະກົດ 2025',
       'location': 'ນະຄອນຫຼວງ ເວຽງຈັນ',
@@ -20,6 +21,7 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'type': 'ຂາຍ',
     },
     {
+      'id': 'B46768787876',
       'title': 'ຫ້ອງແຖວແຊຫ້ອງ',
       'date': '25 ມິຖຸນາ 2025',
       'location': 'ໄຊຍະບູລີ',
@@ -29,6 +31,7 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'type': 'ຂາຍ',
     },
     {
+      'id': 'B456670976',
       'title': 'ເຮືອນ 2 ຊັ້ນ',
       'date': '15 ພຶດສະພາ 2025',
       'location': 'ເຊກອງ',
@@ -38,6 +41,7 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'type': 'ເຊົ່າ',
     },
     {
+      'id': 'B4567887876',
       'title': 'ວີລ້າ ສະຫງວນ',
       'date': '5 ມິຖຸນາ 2025',
       'location': 'ຫຼວງພະບາງ',
@@ -47,6 +51,7 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'type': 'ຂາຍ',
     },
     {
+      'id': 'B4567098876',
       'title': 'ໂຮງແຮມດີສະຫຼາດ',
       'date': '30 ພຶດສະພາ 2025',
       'location': 'ຈຳປາສັກ',
@@ -56,6 +61,7 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'type': 'ເຊົ່າ',
     },
     {
+      'id': 'B567787876',
       'title': 'ອະພາດເມັນ',
       'date': '10 ກໍລະກົດ 2025',
       'location': 'ນະຄອນຫຼວງ ເວຽງຈັນ',
@@ -65,6 +71,7 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'type': 'ຂາຍ',
     },
     {
+      'id': 'B09876676',
       'title': 'ຫ້ອງແຖວແຊຫ້ອງ',
       'date': '25 ມິຖຸນາ 2025',
       'location': 'ໄຊຍະບູລີ',
@@ -74,6 +81,7 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'type': 'ເຊົ່າ',
     },
     {
+      'id': 'B455678876576',
       'title': 'ເຮືອນ 2 ຊັ້ນ',
       'date': '15 ພຶດສະພາ 2025',
       'location': 'ເຊກອງ',
@@ -83,6 +91,7 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'type': 'ຂາຍ',
     },
     {
+      'id': 'B4509876776',
       'title': 'ວີລ້າ ສະຫງວນ',
       'date': '5 ມິຖຸນາ 2025',
       'location': 'ຫຼວງພະບາງ',
@@ -92,6 +101,7 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'type': 'ເຊົ່າ',
     },
     {
+      'id': 'B4567230966',
       'title': 'ໂຮງແຮມດີສະຫຼາດ',
       'date': '30 ພຶດສະພາ 2025',
       'location': 'ຈຳປາສັກ',
@@ -101,6 +111,7 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'type': 'ຂາຍ',
     },
     {
+      'id': 'B45679787876',
       'title': 'ອະພາດເມັນ',
       'date': '10 ກໍລະກົດ 2025',
       'location': 'ນະຄອນຫຼວງ ເວຽງຈັນ',
@@ -110,6 +121,7 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'type': 'ເຊົ່າ',
     },
     {
+      'id': 'B49823456876',
       'title': 'ຫ້ອງແຖວແຊຫ້ອງ',
       'date': '25 ມິຖຸນາ 2025',
       'location': 'ໄຊຍະບູລີ',
@@ -119,6 +131,7 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'type': 'ຂາຍ',
     },
     {
+      'id': 'B4556798787876',
       'title': 'ເຮືອນ 2 ຊັ້ນ',
       'date': '15 ພຶດສະພາ 2025',
       'location': 'ເຊກອງ',
@@ -128,6 +141,7 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'type': 'ເຊົ່າ',
     },
     {
+      'id': 'B45679873456',
       'title': 'ວີລ້າ ສະຫງວນ',
       'date': '5 ມິຖຸນາ 2025',
       'location': 'ຫຼວງພະບາງ',
@@ -137,6 +151,7 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'type': 'ຂາຍ',
     },
     {
+      'id': 'B458765677876',
       'title': 'ໂຮງແຮມດີສະຫຼາດ',
       'date': '30 ພຶດສະພາ 2025',
       'location': 'ຈຳປາສັກ',
@@ -246,11 +261,11 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
                       borderRadius: BorderRadius.circular(
                         20,
                       ), // Match button radius
-                      color: const Color(0xFF006B8B),
+                      color: Colors.teal,
                       border: Border.all(
                         color: _selectedTypeFilter == null
                             ? Colors.grey
-                            : const Color(0xFF006B8B),
+                            : Colors.teal,
                         width: 0.6,
                       ),
                     ),
@@ -259,22 +274,34 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
                       value: _selectedTypeFilter,
                       icon: Icon(
                         Icons.arrow_drop_down,
-                        color: _selectedTypeFilter == null
-                            ? Colors.black
-                            : Colors.white,
+                        color: Colors.white, // ตั้งค่าสีไอคอนเป็นสีขาวเสมอ
                         size: 20,
                       ),
                       elevation: 16,
                       style: TextStyle(
-                        color: _selectedTypeFilter == null
-                            ? Colors.black
-                            : Colors.white,
+                        color: Colors.white, // สีข้อความเมื่อเลือกแล้ว
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                       ),
                       underline: const SizedBox(),
                       borderRadius: BorderRadius.circular(12),
                       dropdownColor: Colors.white,
+                      selectedItemBuilder: (BuildContext context) {
+                        return ['ທັງໝົດ', 'ເຊົ່າ', 'ຂາຍ'].map<Widget>((
+                          String value,
+                        ) {
+                          return Text(
+                            value == 'ທັງໝົດ' && _selectedTypeFilter == null
+                                ? 'ທັງໝົດ'
+                                : value,
+                            style: TextStyle(
+                              color: Colors.white, // สีข้อความเมื่อเลือกแล้ว
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
+                        }).toList();
+                      },
                       items: <String>['ທັງໝົດ', 'ເຊົ່າ', 'ຂາຍ']
                           .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
@@ -285,8 +312,9 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
                                 ),
                                 child: Text(
                                   value,
-                                  style: const TextStyle(
-                                    color: Colors.black,
+                                  style: TextStyle(
+                                    color: Colors
+                                        .black, // สีข้อความในเมนู dropdown
                                     fontSize: 12,
                                   ),
                                 ),
@@ -299,7 +327,7 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
                           _selectedTypeFilter = newValue;
                         });
                       },
-                      isDense: true, // Makes the dropdown more compact
+                      isDense: true,
                     ),
                   ),
                 ],
@@ -534,7 +562,7 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
         constraints: const BoxConstraints(minWidth: 50),
         decoration: isSelected
             ? BoxDecoration(
-                color: const Color(0xFF006B8B),
+                color: Colors.teal,
                 borderRadius: BorderRadius.circular(20),
               )
             : null,

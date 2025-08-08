@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:homefind/screens/home/pages/bill_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class BookingDetailPage extends StatefulWidget {
@@ -590,8 +591,23 @@ class _BookingDetailPageState extends State<BookingDetailPage>
                 ),
                 child: ElevatedButton(
                   onPressed: () {
-                    
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BillPage(
+                          bookingId: widget.booking['id'] ?? 'B123456',
+                          name: widget.booking['title'] ?? 'ສຸດທິພົນ',
+                          category: widget.booking['type'] ?? 'ບ້ານໃຫ້ເຊົ່າ',
+                          amount:
+                              widget.booking['price'] ??
+                              '1500000', // ใช้ข้อมูลจาก booking
+                          bookingDate:
+                              DateTime.now(), // หรือใช้ข้อมูลวันที่จาก booking ถ้ามี
+                        ),
+                      ),
+                    );
                   },
+
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.transparent,
                     shadowColor: Colors.transparent,
