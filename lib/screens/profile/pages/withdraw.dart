@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homefind/generated/l10n.dart';
 
 // Account model class
 class Account {
@@ -32,7 +33,7 @@ class _WithdrawPagesState extends State<WithdrawPages> {
   final List<Account> _accounts = [
     Account(
       id: '4327',
-      name: 'ບັນຊີທະນາຄານ',
+      name: 'ຊື່ບັນຊີທະນາຄານ',
       number: '•• •••• •••• 4327',
       icon: Icons.account_balance,
     ),
@@ -40,9 +41,9 @@ class _WithdrawPagesState extends State<WithdrawPages> {
 
   void _submitWithdrawal() {
     if (_amountController.text.trim().isEmpty || _selectedAccountId == null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('ກະລຸນາປ້ອນຂໍ້ມູນໃຫ້ຄົບ')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(S.of(context).pleaseEnterCompleteData)),
+      );
       return;
     }
 
@@ -53,7 +54,7 @@ class _WithdrawPagesState extends State<WithdrawPages> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          'ຖອນ ${_amountController.text} ກີບ ໄປ ${selectedAccount.name} (${selectedAccount.number})',
+          '${S.of(context).withdrawMoney} ${_amountController.text} ${S.of(context).kip} ${S.of(context).to} ${selectedAccount.name} (${selectedAccount.number})',
         ),
       ),
     );
@@ -62,14 +63,15 @@ class _WithdrawPagesState extends State<WithdrawPages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: ValueKey(Localizations.localeOf(context).languageCode),
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'ຖອນເງິນ',
+        title: Text(
+          S.of(context).withdrawMoney,
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -124,8 +126,8 @@ class _WithdrawPagesState extends State<WithdrawPages> {
       ),
       child: Column(
         children: [
-          const Text(
-            'ຈຳນວນເງິນທີ່ຕ້ອງການຖອນ',
+          Text(
+            S.of(context).amountToWithdraw,
             style: TextStyle(fontSize: 16, color: Colors.black54),
           ),
           const SizedBox(height: 16),
@@ -138,7 +140,7 @@ class _WithdrawPagesState extends State<WithdrawPages> {
               fontWeight: FontWeight.bold,
               color: Color(0xFF0C697A),
             ),
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               border: InputBorder.none,
               hintText: '0.00',
               hintStyle: TextStyle(
@@ -146,7 +148,7 @@ class _WithdrawPagesState extends State<WithdrawPages> {
                 fontWeight: FontWeight.bold,
                 color: Colors.grey,
               ),
-              suffixText: 'ກີບ',
+              suffixText: S.of(context).kip,
               suffixStyle: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             onChanged: (value) => _formatNumber(value),
@@ -162,7 +164,7 @@ class _WithdrawPagesState extends State<WithdrawPages> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'ຍອດເງິນທີ່ມີ: $_availableBalance ກີບ',
+                  '${S.of(context).availableBalance}: $_availableBalance ${S.of(context).kip}',
                   style: const TextStyle(
                     color: Color(0xFF00CEB0),
                     fontWeight: FontWeight.w500,
@@ -188,8 +190,8 @@ class _WithdrawPagesState extends State<WithdrawPages> {
               color: Color(0xFF00CEB0),
             ),
             const SizedBox(width: 8),
-            const Text(
-              'ຖອນເງິນໄປບັນຊີ',
+            Text(
+              S.of(context).withdrawToAccount,
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
             const Spacer(),
@@ -198,7 +200,10 @@ class _WithdrawPagesState extends State<WithdrawPages> {
                 // TODO: Add new account
               },
               icon: const Icon(Icons.add, size: 16),
-              label: const Text('ເພີ່ມບັນຊີ', style: TextStyle(fontSize: 14)),
+              label: Text(
+                S.of(context).addAccount,
+                style: TextStyle(fontSize: 14),
+              ),
               style: TextButton.styleFrom(
                 foregroundColor: const Color(0xFF00CEB0),
               ),
@@ -276,8 +281,8 @@ class _WithdrawPagesState extends State<WithdrawPages> {
           ),
           elevation: 0,
         ),
-        child: const Text(
-          'ຢືນຢັນການຖອນເງິນ',
+        child: Text(
+          S.of(context).confirmWithdrawal,
           style: TextStyle(
             fontSize: 16,
             color: Colors.white,

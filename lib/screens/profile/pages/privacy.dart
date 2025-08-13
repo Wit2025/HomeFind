@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homefind/generated/l10n.dart';
 
 class PrivacyPages extends StatefulWidget {
   const PrivacyPages({super.key});
@@ -11,14 +12,15 @@ class _PrivacyPagesState extends State<PrivacyPages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: ValueKey(Localizations.localeOf(context).languageCode),
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'ຂໍ້ກໍານົດ ແລະ ນະໂຍບາຍ',
+        title: Text(
+          S.of(context).termsAndPolicy,
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -46,33 +48,28 @@ class _PrivacyPagesState extends State<PrivacyPages> {
             const SizedBox(height: 24),
             _buildPolicyItem(
               number: 1,
-              title: 'ການເກັບຮັກຂໍ້ມູນ',
-              content:
-                  'ແອັບພລິເຄຊັນຈະເກັບຂໍ້ມູນສ່ວນຕົວເທົ່າທີ່ຈໍາເປັນ ເພື່ອປະສົງການໃຊ້ງານແລະການບໍລິການ.',
+              title: S.of(context).dataCollection,
+              content: S.of(context).dataCollectionDescription,
             ),
             _buildPolicyItem(
               number: 2,
-              title: 'ການນໍາໃຊ້ຂໍ້ມູນ',
-              content:
-                  'ຂໍ້ມູນທີ່ໄດ້ຖືກເກັບຈະຖືກນໍາໃຊ້ໃນການພັດທະນາແລະປັບປຸງບໍລິການ.',
+              title: S.of(context).dataUsage,
+              content: S.of(context).dataUsageDescription,
             ),
             _buildPolicyItem(
               number: 3,
-              title: 'ການແບ່ງປັນຂໍ້ມູນ',
-              content:
-                  'ຂໍ້ມູນຂອງທ່ານຈະບໍ່ຖືກແບ່ງປັນໃຫ້ຜູ້ອື່ນ ນອກຈາກໃນກໍລະນີທີ່ມີກົດໝາຍກໍານົດ.',
+              title: S.of(context).dataSharing,
+              content: S.of(context).dataSharingDescription,
             ),
             _buildPolicyItem(
               number: 4,
-              title: 'ການປ້ອງກັນຂໍ້ມູນ',
-              content:
-                  'ແອັບພລິເຄຊັນໄດ້ດໍາເນີນມາດຕະການຄວາມປອດໄພເພື່ອປົກປ້ອງຂໍ້ມູນສ່ວນຕົວຂອງທ່ານ.',
+              title: S.of(context).dataProtection,
+              content: S.of(context).dataProtectionDescription,
             ),
             _buildPolicyItem(
               number: 5,
-              title: 'ການປັບປຸງຂໍ້ກໍານົດ',
-              content:
-                  'ເຮົາອາດປັບປຸງນະໂຍບາຍນີ້ໃນອະນາຄົດ ກະລຸນາກວດເບິ່ງໃຫ້ທັນສະໄໝ.',
+              title: S.of(context).policyUpdate,
+              content: S.of(context).policyUpdateDescription,
             ),
           ],
         ),
@@ -99,7 +96,7 @@ class _PrivacyPagesState extends State<PrivacyPages> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ',
+            S.of(context).privacyPolicy,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -108,7 +105,7 @@ class _PrivacyPagesState extends State<PrivacyPages> {
           ),
           const SizedBox(height: 8),
           Text(
-            'ກະລຸນາອ່ານນະໂຍບາຍຄວາມເປັນສ່ວນຕົວຂອງພວກເຮົາຢ່າງລະອຽດກ່ອນການໃຊ້ງານແອັບພລິເຄຊັນ',
+            S.of(context).privacyPolicyDescription,
             style: TextStyle(
               fontSize: 14,
               color: Colors.grey[600],

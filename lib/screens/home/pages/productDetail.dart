@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:homefind/auth/auth_check.dart';
+import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/home/pages/booking_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -113,6 +114,7 @@ class _ProductdetailsState extends State<Productdetails>
     final hotelImages = getHotelImages();
 
     return Scaffold(
+      key: ValueKey(Localizations.localeOf(context).languageCode),
       backgroundColor: Colors.grey[50],
       body: CustomScrollView(
         slivers: [
@@ -528,7 +530,7 @@ class _ProductdetailsState extends State<Productdetails>
                                 child: Row(
                                   children: [
                                     Text(
-                                      "${widget.views} reviews",
+                                      "${widget.views} ${S.of(context).reviews}",
                                       style: TextStyle(
                                         color: Colors.grey[700],
                                         fontWeight: FontWeight.w500,
@@ -553,7 +555,7 @@ class _ProductdetailsState extends State<Productdetails>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'ລາຍລະອຽດ',
+                                S.of(context).details,
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -562,7 +564,8 @@ class _ProductdetailsState extends State<Productdetails>
                               ),
                               SizedBox(height: 10),
                               Text(
-                                'The breakfast buffet was amazing and very worth it! The location is perfect and the staff was incredibly helpful throughout our stay.The breakfast buffet was amazing and very worth it! The location is perfect and the staff was incredibly helpful throughout our stay',
+                                // 'The breakfast buffet was amazing and very worth it! The location is perfect and the staff was incredibly helpful throughout our stay.The breakfast buffet was amazing and very worth it! The location is perfect and the staff was incredibly helpful throughout our stay',
+                                S.of(context).breakfast_review,
                                 style: TextStyle(
                                   fontSize: 15,
                                   color: Colors.grey[700],
@@ -626,7 +629,7 @@ class _ProductdetailsState extends State<Productdetails>
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
-                            '5% OFF',
+                            S.of(context).discount_5_percent,
                             style: TextStyle(
                               color: Colors.red.shade700,
                               fontSize: 12,
@@ -705,7 +708,7 @@ class _ProductdetailsState extends State<Productdetails>
                       Icon(Icons.calendar_today, color: Colors.white, size: 20),
                       SizedBox(width: 8),
                       Text(
-                        'ຈອງ',
+                        S.of(context).book,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,

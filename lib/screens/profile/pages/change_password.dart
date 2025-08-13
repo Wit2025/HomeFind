@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homefind/generated/l10n.dart';
 
 class ChangePasswordPages extends StatefulWidget {
   const ChangePasswordPages({super.key});
@@ -16,10 +17,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // เพิ่ม key เพื่อบังคับ rebuild เมื่อภาษาเปลี่ยน
+      key: ValueKey(Localizations.localeOf(context).languageCode),
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: const Text(
-          'ປ່ຽນລະຫັດຜ່ານ',
+        title: Text(
+          S.of(context).changePassword,
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -59,6 +62,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPages> {
             constraints: const BoxConstraints(maxWidth: 500),
             child: Card(
               elevation: 4,
+              color: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
@@ -69,14 +73,14 @@ class _ChangePasswordPageState extends State<ChangePasswordPages> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const Text(
-                        'ກະລຸນາໃສ່ລະຫັດຜ່ານໃໝ່ຂອງທ່ານ',
+                      Text(
+                        S.of(context).pleaseEnterNewPassword,
                         style: TextStyle(fontSize: 16, color: Colors.grey),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 30),
                       _buildPasswordField(
-                        label: 'ລະຫັດຜ່ານເກົ່າ',
+                        label: S.of(context).oldPassword,
                         isVisible: _showOldPassword,
                         onToggleVisibility: () {
                           setState(() {
@@ -85,14 +89,14 @@ class _ChangePasswordPageState extends State<ChangePasswordPages> {
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'ກະລຸນາໃສ່ລະຫັດຜ່ານເກົ່າ';
+                            return S.of(context).pleaseEnterOldPassword;
                           }
                           return null;
                         },
                       ),
                       const SizedBox(height: 20),
                       _buildPasswordField(
-                        label: 'ລະຫັດຜ່ານໃໝ່',
+                        label: S.of(context).newPassword,
                         isVisible: _showNewPassword,
                         onToggleVisibility: () {
                           setState(() {
@@ -101,17 +105,17 @@ class _ChangePasswordPageState extends State<ChangePasswordPages> {
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'ກະລຸນາໃສ່ລະຫັດຜ່ານໃໝ່';
+                            return S.of(context).pleaseEnterNewPasswordAgain;
                           }
                           if (value.length < 6) {
-                            return 'ລະຫັດຜ່ານຕ້ອງມີຢ່າງໜ້ອຍ 6 ຕົວອັກສອນ';
+                            return S.of(context).passwordMin6Chars;
                           }
                           return null;
                         },
                       ),
                       const SizedBox(height: 20),
                       _buildPasswordField(
-                        label: 'ຢືນຢັນລະຫັດຜ່ານໃໝ່',
+                        label: S.of(context).confirmNewPassword,
                         isVisible: _showConfirmPassword,
                         onToggleVisibility: () {
                           setState(() {
@@ -121,7 +125,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPages> {
                         validator: (value) {
                           // You would compare with new password here
                           if (value == null || value.isEmpty) {
-                            return 'ກະລຸນາຢືນຢັນລະຫັດຜ່ານ';
+                            return S.of(context).pleaseConfirmNewPassword;
                           }
                           return null;
                         },
@@ -130,12 +134,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPages> {
                       ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            // Process data
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('ກຳລັງປ່ຽນລະຫັດຜ່ານ...'),
-                              ),
-                            );
                             // Add your change password logic here
                           }
                         },
@@ -148,8 +146,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPages> {
                           ),
                           elevation: 2,
                         ),
-                        child: const Text(
-                          'ປ່ຽນລະຫັດຜ່ານ',
+                        child: Text(
+                          S.of(context).changePassword,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,

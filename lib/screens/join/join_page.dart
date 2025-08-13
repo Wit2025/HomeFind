@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:homefind/screens/join/post_page.dart';
+import 'package:homefind/screens/join/pages/persional_info_page.dart';
+import 'package:homefind/screens/join/pages/property_details_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class JoinPages extends StatefulWidget {
@@ -36,18 +37,6 @@ class _JoinPagesState extends State<JoinPages> {
     }
   }
 
-  Future<void> _resetTermsAcceptance() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('terms_accepted'); // Remove the stored status
-    setState(() {
-      _termsAccepted = false; // Reset the state
-    });
-    // Optionally, show the page immediately after reset
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _showTermsAndConditionsPage();
-    });
-  }
-
   void _showTermsAndConditionsPage() {
     Navigator.push(
       context,
@@ -66,6 +55,26 @@ class _JoinPagesState extends State<JoinPages> {
         ),
       ),
     );
+  }
+
+  // check user had posted
+  Future<void> checkAndNavigate(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    bool isFilled = prefs.getBool('isPersonalInfoFilled') ?? false;
+
+    if (isFilled) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PropertyDetailsPage(personalData: {}),
+        ),
+      );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => PersonalInfoPage()),
+      );
+    }
   }
 
   @override
@@ -93,14 +102,6 @@ class _JoinPagesState extends State<JoinPages> {
             ),
           ),
         ),
-        actions: [
-          // Add a reset button to the AppBar for testing purposes
-          IconButton(
-            icon: const Icon(Icons.refresh, color: Colors.white),
-            onPressed: _resetTermsAcceptance,
-            tooltip: 'ຣີເຊັດການຍອມຮັບເງື່ອນໄຂ',
-          ),
-        ],
       ),
       body: Center(
         child: _termsAccepted
@@ -113,11 +114,11 @@ class _JoinPagesState extends State<JoinPages> {
                       text: 'Post ເອງ',
                       icon: Icons.add_circle_outline,
                       onPressed: () {
-                        // showPostDialog(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => PostPage()),
-                        );
+                        // AuthChecker.checkAuthAndNavigate(
+                        //   context: context,
+                        //   page: PersonalInfoPage(),
+                        // );
+                        checkAndNavigate(context);
                       },
                       isPrimary: true,
                     ),
@@ -187,76 +188,6 @@ class _JoinPagesState extends State<JoinPages> {
       ),
     );
   }
-
-  // void showPostDialog(BuildContext context) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return Dialog(
-  //         backgroundColor: Colors.transparent,
-  //         child: Container(
-  //           decoration: BoxDecoration(
-  //             gradient: const LinearGradient(
-  //               colors: [
-  //                 Color.fromARGB(255, 87, 167, 177),
-  //                 Color.fromARGB(255, 12, 105, 122),
-  //               ],
-  //               begin: Alignment.topLeft,
-  //               end: Alignment.bottomRight,
-  //             ),
-  //             borderRadius: BorderRadius.circular(20),
-  //             boxShadow: const [
-  //               BoxShadow(
-  //                 color: Colors.black26,
-  //                 blurRadius: 10,
-  //                 offset: Offset(0, 5),
-  //               ),
-  //             ],
-  //           ),
-  //           padding: const EdgeInsets.all(20),
-  //           child: Column(
-  //             mainAxisSize: MainAxisSize.min,
-  //             children: [
-  //               const Text(
-  //                 'ຂໍ້ມູນ',
-  //                 style: TextStyle(
-  //                   color: Colors.white,
-  //                   fontSize: 22,
-  //                   fontWeight: FontWeight.bold,
-  //                 ),
-  //               ),
-  //               const SizedBox(height: 15),
-  //               const Text(
-  //                 'ຂະບວນການນີ້ກຳລັງພັດທະນາຢູ່...',
-  //                 style: TextStyle(color: Colors.white, fontSize: 16),
-  //                 textAlign: TextAlign.center,
-  //               ),
-  //               const SizedBox(height: 25),
-  //               ElevatedButton(
-  //                 style: ElevatedButton.styleFrom(
-  //                   backgroundColor: Colors.white,
-  //                   foregroundColor: const Color.fromARGB(255, 12, 105, 122),
-  //                   shape: RoundedRectangleBorder(
-  //                     borderRadius: BorderRadius.circular(15),
-  //                   ),
-  //                   padding: const EdgeInsets.symmetric(
-  //                     horizontal: 30,
-  //                     vertical: 12,
-  //                   ),
-  //                 ),
-  //                 onPressed: () => Navigator.pop(context),
-  //                 child: const Text(
-  //                   'ປິດ',
-  //                   style: TextStyle(fontWeight: FontWeight.bold),
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 }
 
 class TermsAndConditionsPage extends StatefulWidget {

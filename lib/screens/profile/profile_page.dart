@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/main_screen.dart';
 import 'package:homefind/screens/profile/pages/help.dart';
 import 'package:homefind/screens/profile/pages/change_password.dart';
@@ -82,8 +83,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   // Title with fade animation
                   FadeTransition(
                     opacity: animation,
-                    child: const Text(
-                      'ອອກຈາກລະບົບ',
+                    child: Text(
+                      S.of(context).logout,
                       style: TextStyle(
                         fontFamily: 'NotoSansLao',
                         fontSize: 22,
@@ -101,8 +102,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       begin: const Offset(0, 0.5),
                       end: Offset.zero,
                     ).animate(animation),
-                    child: const Text(
-                      'ທ່ານໝັ້ນໃຈບໍວ່າຕ້ອງການອອກຈາກລະບົບ?',
+                    child: Text(
+                      S.of(context).logoutConfirm,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'NotoSansLao',
@@ -144,8 +145,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             elevation: 3,
                           ),
                           onPressed: () => Navigator.of(context).pop(),
-                          child: const Text(
-                            'ຍົກເລີກ',
+                          child: Text(
+                            S.of(context).cancel,
                             style: TextStyle(
                               fontFamily: 'NotoSansLao',
                               color: Color(0xFF006B8B),
@@ -192,6 +193,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             // Always clear login status
                             await prefs.setBool('isLoggedIn', false);
 
+                            await prefs.remove('savedPassword');
+
                             // Only clear credentials if "Remember Me" wasn't checked
                             if (!rememberMe) {
                               await prefs.remove('savedPhone');
@@ -213,18 +216,15 @@ class _ProfilePageState extends State<ProfilePage> {
 
                             // Show logout confirmation
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                backgroundColor: Colors.green,
-                                content: Text('ອອກຈາກລະບົບສຳເລັດແລ້ວ'),
+                              SnackBar(
+                                backgroundColor: Color(0xFF006B8B),
+                                content: Text(S.of(context).logoutSuccess),
                                 duration: Duration(seconds: 2),
                               ),
                             );
-
-                            // No navigation - user stays on current page
-                            // Protected pages will now show login prompt when accessed
                           },
-                          child: const Text(
-                            'ອອກຈາກລະບົບ',
+                          child: Text(
+                            S.of(context).logout,
                             style: TextStyle(
                               fontFamily: 'NotoSansLao',
                               color: Colors.white,
@@ -301,11 +301,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                       MainAxisAlignment.spaceAround,
                                   children: [
                                     _buildIncomeExpenseItem(
+                                      context, // ต้องส่ง context
                                       Icons.arrow_upward,
-                                      'ລາຍໄດ້',
-                                      '3,214 ກີບ',
+                                      S.of(context).income, // เอาคำแปลมาเลย
+                                      '3,214 ${S.of(context).kip}',
                                       Colors.green,
                                     ),
+
                                     const SizedBox(width: 10),
                                     Container(
                                       width: 5,
@@ -319,11 +321,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                     ),
                                     const SizedBox(width: 10),
-                                    _buildIncomeExpenseItem(
+                                    _buildFeeItem(
+                                      context,
                                       Icons.arrow_downward,
-                                      'ຄ່າທຳນຽມ',
-                                      '1,640 ກິບ',
-                                      Colors.redAccent,
+                                      S.of(context).fee,
+                                      '1,550 ${S.of(context).kip}',
+                                      Colors.red,
                                     ),
                                   ],
                                 ),
@@ -360,8 +363,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                         MainAxisAlignment.spaceAround,
                                     children: [
                                       _buildActionButton(
+                                        context: context,
                                         icon: Icons.download,
-                                        label: 'ຖອນເງິນ',
+                                        label: S.of(context).withdraw,
                                         backgroundColor: const Color.fromARGB(
                                           61,
                                           158,
@@ -386,8 +390,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                         },
                                       ),
                                       _buildActionButton(
+                                        context: context,
                                         icon: Icons.emoji_events,
-                                        label: 'ຄະແນນ',
+                                        label: S.of(context).points,
                                         backgroundColor: const Color.fromARGB(
                                           61,
                                           158,
@@ -412,8 +417,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                         },
                                       ),
                                       _buildActionButton(
+                                        context: context,
                                         icon: Icons.history,
-                                        label: 'ປະຫວັດການຖອນ',
+                                        label: S.of(context).withdrawHistory,
                                         backgroundColor: const Color.fromARGB(
                                           61,
                                           158,
@@ -438,8 +444,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                         },
                                       ),
                                       _buildActionButton(
+                                        context: context,
                                         icon: Icons.mobile_screen_share,
-                                        label: 'ເຊີນເພື່ອນ',
+                                        label: S.of(context).inviteFriends,
                                         backgroundColor: const Color.fromARGB(
                                           61,
                                           158,
@@ -465,8 +472,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
 
                           const SizedBox(height: 30),
-                          const Text(
-                            'ທົ່ວໄປ',
+                          Text(
+                            S.of(context).general,
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 12,
@@ -475,7 +482,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           const SizedBox(height: 10),
                           _buildSettingsItem(
-                            title: 'ຂໍ້ມູນສ່ວນຕົວ',
+                            context: context,
+                            title: S.of(context).personalInfo,
                             icon: Icons.person,
                             iconColor: Color.fromARGB(255, 87, 167, 177),
                             textColor: Colors.black87,
@@ -489,7 +497,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             },
                           ),
                           _buildSettingsItem(
-                            title: 'ປ່ຽນລະຫັດຜ່ານ',
+                            context: context,
+                            title: S.of(context).changePassword,
                             icon: Icons.lock,
                             iconColor: Color.fromARGB(255, 87, 167, 177),
                             textColor: Colors.black87,
@@ -503,7 +512,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             },
                           ),
                           _buildSettingsItem(
-                            title: 'ພາສາ',
+                            context: context,
+                            title: S.of(context).language,
                             icon: Icons.language,
                             iconColor: Color.fromARGB(255, 87, 167, 177),
                             textColor: Colors.black87,
@@ -517,7 +527,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             },
                           ),
                           _buildSettingsItem(
-                            title: 'ປະຫວັດການຈອງ',
+                            context: context,
+                            title: S.of(context).bookingHistory,
                             icon: Icons.history,
                             iconColor: Color.fromARGB(255, 87, 167, 177),
                             textColor: Colors.black87,
@@ -531,7 +542,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             },
                           ),
                           _buildSettingsItem(
-                            title: 'ຂໍ້ກຳນົດ ແລະ ນະໂຍບາຍ',
+                            context: context,
+                            title: S.of(context).termsPolicies,
                             icon: Icons.receipt,
                             iconColor: Color.fromARGB(255, 87, 167, 177),
                             textColor: Colors.black87,
@@ -545,7 +557,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             },
                           ),
                           _buildSettingsItem(
-                            title: 'ຊ່ວຍເຫຼືອ',
+                            context: context,
+                            title: S.of(context).help,
                             icon: Icons.help,
                             iconColor: Color.fromARGB(255, 87, 167, 177),
                             textColor: Colors.black87,
@@ -559,7 +572,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             },
                           ),
                           _buildSettingsItem(
-                            title: 'ອອກຈາກລະບົບ',
+                            context: context,
+                            title: S.of(context).logout,
                             icon: Icons.logout,
                             iconColor: Colors.red,
                             textColor: Colors.black87,
@@ -614,6 +628,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildIncomeExpenseItem(
+    BuildContext context,
     IconData icon,
     String title,
     String amount,
@@ -624,6 +639,41 @@ class _ProfilePageState extends State<ProfilePage> {
         Icon(icon, color: color),
         const SizedBox(width: 10),
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(color: Colors.black87, fontSize: 14),
+            ),
+            const SizedBox(height: 5),
+            Text(
+              amount,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFeeItem(
+    BuildContext context,
+    IconData icon,
+    String title,
+    String amount,
+    Color color,
+  ) {
+    // โครงสร้างเหมือนกัน หรือจะเปลี่ยนสไตล์ได้ตามต้องการ
+    return Row(
+      children: [
+        Icon(icon, color: color),
+        const SizedBox(width: 10),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               title,
@@ -645,6 +695,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildActionButton({
+    required BuildContext context, // เพิ่ม context
     required IconData icon,
     required String label,
     required Color backgroundColor,
@@ -679,6 +730,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildSettingsItem({
+    required BuildContext context, // เพิ่ม context
     required String title,
     required IconData icon,
     Color iconColor = Colors.grey,

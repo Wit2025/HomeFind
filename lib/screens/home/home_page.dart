@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:homefind/screens/home/pages/productDetail.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -11,7 +12,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedCategoryIndex = 0;
   final TextEditingController _controller = TextEditingController();
-  // Removed _controllerDot since we're not using CarouselSlider
+  final CarouselSliderController _controllerDot = CarouselSliderController();
   bool _showHint = true;
   String _selectedCategory = "ທັງຫມົດ";
   String _selectedStatus = "ເຊົ່າ";
@@ -37,14 +38,12 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  // Removed goToCategory function since we're not using CarouselSlider
-
-  // ฟังก์ชันสำหรับเปลี่ยนหมวดหมู่
-  void _onCategoryChanged(int index) {
-    setState(() {
-      _selectedCategoryIndex = index;
-      _selectedCategory = categories[index]['title'];
-    });
+  void goToCategory(int index) {
+    _controllerDot.animateToPage(
+      index,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
   }
 
   final List<Map<String, String>> propertyList = [
@@ -75,13 +74,13 @@ class _HomePageState extends State<HomePage> {
       'dateValue': '365',
     },
     {
-      'title': 'ວິວລ່າ ທະເລສາບ',
+      'title': 'ອາພາດເມັ້ນ ທະເລສາບ',
       'location': 'ນະຄອນຫຼວງວຽງຈັນ, ສີສັດຕະນາກ, ດົງປາລານ',
       'date': '1 ອາທິດກ່ອນ',
       'price': '180000',
       'views': '120',
       'image': 'assets/images/ap3.jpeg',
-      'category': 'ວິວລ່າ',
+      'category': 'ອາພາດເມັ້ນ',
       'status': 'ເຊົ່າ',
       'roomSharing': 'ບໍ່ແຊຫ້ອງ',
       'priceValue': '180000',
@@ -101,7 +100,59 @@ class _HomePageState extends State<HomePage> {
       'dateValue': '1',
     },
     {
-      'title': 'ເຮືອນ 2 ຊັ້ນ',
+      'title': 'ເຮືອນ 4 ຊັ້ນ',
+      'location': 'ນະຄອນຫຼວງວຽງຈັນ, ໄຊເສດຖາ, ບ້ານໄຊທານີ',
+      'date': '4 ມື້ກ່ອນ',
+      'price': '9500000',
+      'views': '95',
+      'image': 'assets/images/ap1.jpeg',
+      'category': 'ເຮືອນ',
+      'status': 'ເຊົ່າ',
+      'roomSharing': 'ບໍ່ແຊຫ້ອງ',
+      'priceValue': '95000',
+      'dateValue': '4',
+    },
+    {
+      'title': 'ເຮືອນ 3 ຊັ້ນ',
+      'location': 'ນະຄອນຫຼວງວຽງຈັນ, ຈັນທະບຸລີ, ທົ່ງສາງນາງ',
+      'date': '1 ປີກ່ອນ',
+      'price': '2500000',
+      'views': '276',
+      'image': 'assets/images/ap2.jpeg',
+      'category': 'ເຮືອນ',
+      'status': 'ຂາຍ',
+      'roomSharing': 'ບໍ່ແຊຫ້ອງ',
+      'priceValue': '2500000000',
+      'dateValue': '365',
+    },
+    {
+      'title': 'ດີນ',
+      'location': 'ນະຄອນຫຼວງວຽງຈັນ, ສີສັດຕະນາກ, ດົງປາລານ',
+      'date': '1 ອາທິດກ່ອນ',
+      'price': '180000',
+      'views': '120',
+      'image': 'assets/images/ap3.jpeg',
+      'category': 'ດີນ',
+      'status': 'ຂາຍ',
+      'roomSharing': 'ບໍ່ແຊຫ້ອງ',
+      'priceValue': '180000',
+      'dateValue': '7',
+    },
+    {
+      'title': 'ອາພາດເມັ້ນ ໃຈກາງເມືອງ',
+      'location': 'ນະຄອນຫຼວງວຽງຈັນ, ຈັນທະບຸລີ, ທົ່ງສາງນາງ',
+      'date': '1 ມື້ກ່ອນ',
+      'price': '18000000',
+      'views': '276',
+      'image': 'assets/images/ap4.jpeg',
+      'category': 'ອາພາດເມັ້ນ',
+      'status': 'ຂາຍ',
+      'roomSharing': 'ແຊຫ້ອງ',
+      'priceValue': '1800000000',
+      'dateValue': '1',
+    },
+    {
+      'title': 'ເຮືອນ 5 ຊັ້ນ',
       'location': 'ນະຄອນຫຼວງວຽງຈັນ, ໄຊເສດຖາ, ບ້ານໄຊທານີ',
       'date': '4 ມື້ກ່ອນ',
       'price': '9500000',
@@ -117,13 +168,16 @@ class _HomePageState extends State<HomePage> {
 
   // Categories data
   final List<Map<String, dynamic>> categories = [
-    {'title': 'ທັງຫມົດ', 'icon': Icons.holiday_village},
+    {'title': 'ທັງຫມົດ', 'icon': Icons.apps},
     {'title': 'ເຮືອນ', 'icon': Icons.home},
     {'title': 'ຫ້ອງແຖວ', 'icon': Icons.home_work},
-    {'title': 'ວິວລ່າ', 'icon': Icons.villa},
     {'title': 'ອາພາດເມັ້ນ', 'icon': Icons.apartment},
-    {'title': 'ດິນ', 'icon': Icons.landscape},
-    {'title': 'ອື່ນໆ', 'icon': Icons.more_horiz},
+    {'title': 'ດີນ', 'icon': Icons.landscape},
+    {'title': 'ແຊທີ່ພັກ', 'icon': Icons.castle},
+    {'title': 'ຕິດຕັ້ງແອ', 'icon': Icons.ac_unit},
+    {'title': 'ແກ່ເຄື່ອງ', 'icon': Icons.local_shipping},
+    {'title': 'ຕິດຕັ້ງແວ່ນ', 'icon': Icons.window},
+    {'title': 'ເຟີນີເຈີ້', 'icon': Icons.chair},
   ];
 
   // Enhanced filtering logic
@@ -135,8 +189,7 @@ class _HomePageState extends State<HomePage> {
           property['category'] == _selectedCategory;
 
       // Status filter (rent/sale)
-      bool statusMatch =
-          _selectedStatus == "ທັງຫມົດ" || property['status'] == _selectedStatus;
+      bool statusMatch = property['status'] == _selectedStatus;
 
       // Room sharing filter (only for rent)
       bool roomSharingMatch = true;
@@ -197,7 +250,7 @@ class _HomePageState extends State<HomePage> {
             _buildHeaderSection(),
             _buildCategoriesSection(),
             Transform.translate(
-              offset: Offset(0, -50),
+              offset: const Offset(0, -30),
               child: _buildPropertyListingsSection(),
             ),
           ],
@@ -345,10 +398,11 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
               child: SizedBox(
                 height: 80, // ความสูงคงที่
                 child: ListView.builder(
+                  // controller: _categoryScrollController, // Add this if you want smooth scrolling
                   scrollDirection: Axis.horizontal,
                   itemCount: categories.length,
                   itemBuilder: (context, index) {
@@ -368,11 +422,9 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
-          const SizedBox(height: 8),
-
           // Dot indicator ที่ปรับปรุงแล้ว
-          Container(
-            margin: const EdgeInsets.only(bottom: 24),
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
             child: Center(
               child: AnimatedSmoothIndicator(
                 activeIndex: _selectedCategoryIndex,
@@ -385,7 +437,13 @@ class _HomePageState extends State<HomePage> {
                   expansionFactor: 4,
                   spacing: 8,
                 ),
-                onDotClicked: _onCategoryChanged, // ใช้ฟังก์ชันเดียวกัน
+                onDotClicked: (index) {
+                  // Safe dot click handling - no carousel navigation needed
+                  setState(() {
+                    _selectedCategoryIndex = index;
+                    _selectedCategory = categories[index]['title'];
+                  });
+                },
               ),
             ),
           ),
@@ -394,20 +452,26 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // ALSO UPDATE the _buildCategoryButton method's onTap:
   Widget _buildCategoryButton(
     String title,
     IconData icon,
     bool isSelected,
-    int index, // เพิ่ม parameter index
+    int index,
   ) {
     return GestureDetector(
-      onTap: () => _onCategoryChanged(index), // ใช้ฟังก์ชันเดียวกัน
+      onTap: () {
+        // Simple state update without carousel navigation
+        setState(() {
+          _selectedCategoryIndex = index;
+          _selectedCategory = title; // Update selected category name
+        });
+      },
       child: Semantics(
         button: true,
         selected: isSelected,
         label: 'ໝວດໝູ່ $title',
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Container สำหรับ icon
@@ -607,11 +671,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildPropertyGrid() {
+    // Check if the filtered list is empty
+    if (filteredPropertyList.isEmpty) {
+      return _buildEmptyState();
+    }
+
     return GridView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: filteredPropertyList.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
@@ -619,17 +688,54 @@ class _HomePageState extends State<HomePage> {
       ),
       itemBuilder: (context, index) {
         final item = filteredPropertyList[index];
-        return _buildPropertyCard(
-          item['title']!,
-          item['location']!,
-          item['date']!,
-          double.parse(item['price']!),
-          item['views']!,
-          item['image']!,
-          item['category']!,
-          item['status']!,
+        return Transform.translate(
+          offset: Offset(0, -30),
+          child: _buildPropertyCard(
+            item['title']!,
+            item['location']!,
+            item['date']!,
+            double.parse(item['price']!),
+            item['views']!,
+            item['image']!,
+            item['category']!,
+            item['status']!,
+          ),
         );
       },
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(40),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SizedBox(height: 50),
+          // World icon
+          Container(
+            width: 80,
+            height: 80,
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              shape: BoxShape.circle,
+            ),
+            child: Image.asset('assets/icons/city.png', fit: BoxFit.cover),
+          ),
+          const SizedBox(height: 20),
+
+          // No data text
+          Text(
+            'ບໍ່ມີຂໍ້ມູນ',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              color: Colors.grey[600],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -930,7 +1036,7 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                       _buildRadioGroup(
-                        'ແຫ່ງພັກ',
+                        'ແຊທີ່ພັກ',
                         ['ທັງໝົດ', 'ແຊຫ້ອງ', 'ບໍ່ແຊຫ້ອງ'],
                         selectedPlace,
                         (val) => setState(() => selectedPlace = val),
@@ -1093,6 +1199,7 @@ class _HomePageState extends State<HomePage> {
                                 });
                                 Navigator.of(context).pop();
                               },
+
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.teal.shade200,
                               ),

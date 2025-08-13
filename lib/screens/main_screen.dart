@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/auth/auth_check.dart';
+import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/home/home_page.dart';
 import 'package:homefind/screens/add/add_page.dart';
 import 'package:homefind/screens/join/join_page.dart';
@@ -21,26 +22,19 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  late final List<Widget> _pages;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _pages = [
-      HomePage(),
-      JoinPages(
-        onGoToAddPage: () {
-          setState(() {
-            _currentIndex = 2;
-          });
-        },
-      ),
-      AddPage(),
-      NotificationsBody(),
-      ProfilePage(),
-    ];
-  }
+  List<Widget> get _pages => [
+    HomePage(),
+    JoinPages(
+      onGoToAddPage: () {
+        setState(() {
+          _currentIndex = 2;
+        });
+      },
+    ),
+    AddPage(),
+    NotificationsBody(),
+    ProfilePage(),
+  ];
 
   Future<void> _checkTermsAndRedirectIfNeeded() async {
     final prefs = await SharedPreferences.getInstance();
@@ -113,11 +107,11 @@ class _MainScreenState extends State<MainScreen> {
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home, size: 30),
-              label: 'ໜ້າຫຼັກ',
+              label: S.of(context).homepage,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.join_full, size: 30),
-              label: 'ເຂົ້າຮ່ວມ',
+              label: S.of(context).joinpage,
             ),
             BottomNavigationBarItem(
               icon: Container(
@@ -132,11 +126,11 @@ class _MainScreenState extends State<MainScreen> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.notifications, size: 30),
-              label: 'ແຈ້ງເຕືອນ',
+              label: S.of(context).notification,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person, size: 30),
-              label: 'ໂປຟາຍ',
+              label: S.of(context).profile,
             ),
           ],
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/profile/pages/history_booking_detail.dart';
 
 class HistoryBookingPages extends StatefulWidget {
@@ -16,9 +17,9 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'date': '10 ກໍລະກົດ 2025',
       'location': 'ນະຄອນຫຼວງ ເວຽງຈັນ',
       'image': 'assets/images/house.jpg',
-      'price': '50,000 ກີບ',
-      'status': 'ສຳເລັດ',
-      'type': 'ຂາຍ',
+      'price': '50,000',
+      'status': 'ສຳເລັດ', // Key remains in Lao
+      'type': 'ຂາຍ', // Key remains in Lao
     },
     {
       'id': 'B46768787876',
@@ -26,9 +27,9 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'date': '25 ມິຖຸນາ 2025',
       'location': 'ໄຊຍະບູລີ',
       'image': 'assets/images/house.jpg',
-      'price': '50,000 ກີບ',
-      'status': 'ລໍຖ້າຢືນຢັນ',
-      'type': 'ຂາຍ',
+      'price': '50,000',
+      'status': 'ລໍຖ້າຢືນຢັນ', // Key remains in Lao
+      'type': 'ຂາຍ', // Key remains in Lao
     },
     {
       'id': 'B456670976',
@@ -36,9 +37,9 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'date': '15 ພຶດສະພາ 2025',
       'location': 'ເຊກອງ',
       'image': 'assets/images/house.jpg',
-      'price': '50,000 ກີບ',
-      'status': 'ຍົກເລີກ',
-      'type': 'ເຊົ່າ',
+      'price': '50,000',
+      'status': 'ຍົກເລີກ', // Key remains in Lao
+      'type': 'ເຊົ່າ', // Key remains in Lao
     },
     {
       'id': 'B4567887876',
@@ -46,9 +47,9 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'date': '5 ມິຖຸນາ 2025',
       'location': 'ຫຼວງພະບາງ',
       'image': 'assets/images/house.jpg',
-      'price': '75,000 ກີບ',
-      'status': 'ສຳເລັດ',
-      'type': 'ຂາຍ',
+      'price': '75,000',
+      'status': 'ສຳເລັດ', // Key remains in Lao
+      'type': 'ຂາຍ', // Key remains in Lao
     },
     {
       'id': 'B4567098876',
@@ -56,9 +57,9 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'date': '30 ພຶດສະພາ 2025',
       'location': 'ຈຳປາສັກ',
       'image': 'assets/images/house.jpg',
-      'price': '60,000 ກີບ',
-      'status': 'ລໍຖ້າຢືນຢັນ',
-      'type': 'ເຊົ່າ',
+      'price': '60,000',
+      'status': 'ລໍຖ້າຢືນຢັນ', // Key remains in Lao
+      'type': 'ເຊົ່າ', // Key remains in Lao
     },
     {
       'id': 'B567787876',
@@ -66,9 +67,9 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'date': '10 ກໍລະກົດ 2025',
       'location': 'ນະຄອນຫຼວງ ເວຽງຈັນ',
       'image': 'assets/images/house.jpg',
-      'price': '50,000 ກີບ',
-      'status': 'ສຳເລັດ',
-      'type': 'ຂາຍ',
+      'price': '50,000',
+      'status': 'ສຳເລັດ', // Key remains in Lao
+      'type': 'ຂາຍ', // Key remains in Lao
     },
     {
       'id': 'B09876676',
@@ -76,9 +77,9 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'date': '25 ມິຖຸນາ 2025',
       'location': 'ໄຊຍະບູລີ',
       'image': 'assets/images/house.jpg',
-      'price': '50,000 ກີບ',
-      'status': 'ລໍຖ້າຢືນຢັນ',
-      'type': 'ເຊົ່າ',
+      'price': '50,000',
+      'status': 'ລໍຖ້າຢືນຢັນ', // Key remains in Lao
+      'type': 'ເຊົ່າ', // Key remains in Lao
     },
     {
       'id': 'B455678876576',
@@ -86,9 +87,9 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'date': '15 ພຶດສະພາ 2025',
       'location': 'ເຊກອງ',
       'image': 'assets/images/house.jpg',
-      'price': '50,000 ກີບ',
-      'status': 'ຍົກເລີກ',
-      'type': 'ຂາຍ',
+      'price': '50,000',
+      'status': 'ຍົກເລີກ', // Key remains in Lao
+      'type': 'ຂາຍ', // Key remains in Lao
     },
     {
       'id': 'B4509876776',
@@ -96,9 +97,9 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'date': '5 ມິຖຸນາ 2025',
       'location': 'ຫຼວງພະບາງ',
       'image': 'assets/images/house.jpg',
-      'price': '75,000 ກີບ',
-      'status': 'ສຳເລັດ',
-      'type': 'ເຊົ່າ',
+      'price': '75,000',
+      'status': 'ສຳເລັດ', // Key remains in Lao
+      'type': 'ເຊົ່າ', // Key remains in Lao
     },
     {
       'id': 'B4567230966',
@@ -106,9 +107,9 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'date': '30 ພຶດສະພາ 2025',
       'location': 'ຈຳປາສັກ',
       'image': 'assets/images/house.jpg',
-      'price': '60,000 ກີບ',
-      'status': 'ລໍຖ້າຢືນຢັນ',
-      'type': 'ຂາຍ',
+      'price': '60,000',
+      'status': 'ລໍຖ້າຢືນຢັນ', // Key remains in Lao
+      'type': 'ຂາຍ', // Key remains in Lao
     },
     {
       'id': 'B45679787876',
@@ -116,9 +117,9 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'date': '10 ກໍລະກົດ 2025',
       'location': 'ນະຄອນຫຼວງ ເວຽງຈັນ',
       'image': 'assets/images/house.jpg',
-      'price': '50,000 ກີບ',
-      'status': 'ສຳເລັດ',
-      'type': 'ເຊົ່າ',
+      'price': '50,000',
+      'status': 'ສຳເລັດ', // Key remains in Lao
+      'type': 'ເຊົ່າ', // Key remains in Lao
     },
     {
       'id': 'B49823456876',
@@ -126,9 +127,9 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'date': '25 ມິຖຸນາ 2025',
       'location': 'ໄຊຍະບູລີ',
       'image': 'assets/images/house.jpg',
-      'price': '50,000 ກີບ',
-      'status': 'ລໍຖ້າຢືນຢັນ',
-      'type': 'ຂາຍ',
+      'price': '50,000',
+      'status': 'ລໍຖ້າຢືນຢັນ', // Key remains in Lao
+      'type': 'ຂາຍ', // Key remains in Lao
     },
     {
       'id': 'B4556798787876',
@@ -136,7 +137,7 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'date': '15 ພຶດສະພາ 2025',
       'location': 'ເຊກອງ',
       'image': 'assets/images/house.jpg',
-      'price': '50,000 ກີບ',
+      'price': '50,000',
       'status': 'ຍົກເລີກ',
       'type': 'ເຊົ່າ',
     },
@@ -146,9 +147,9 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'date': '5 ມິຖຸນາ 2025',
       'location': 'ຫຼວງພະບາງ',
       'image': 'assets/images/house.jpg',
-      'price': '75,000 ກີບ',
-      'status': 'ສຳເລັດ',
-      'type': 'ຂາຍ',
+      'price': '75,000',
+      'status': 'ສຳເລັດ', // Key remains in Lao
+      'type': 'ຂາຍ', // Key remains in Lao
     },
     {
       'id': 'B458765677876',
@@ -156,9 +157,9 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'date': '30 ພຶດສະພາ 2025',
       'location': 'ຈຳປາສັກ',
       'image': 'assets/images/house.jpg',
-      'price': '60,000 ກີບ',
-      'status': 'ລໍຖ້າຢືນຢັນ',
-      'type': 'ເຊົ່າ',
+      'price': '60,000',
+      'status': 'ລໍຖ້າຢືນຢັນ', // Key remains in Lao
+      'type': 'ເຊົ່າ', // Key remains in Lao
     },
   ];
 
@@ -203,8 +204,36 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
     }
   }
 
+  // Helper method to get localized status text
+  String _getLocalizedStatus(String status, S l10n) {
+    switch (status) {
+      case 'ສຳເລັດ':
+        return l10n.completed;
+      case 'ລໍຖ້າຢືນຢັນ':
+        return l10n.pending;
+      case 'ຍົກເລີກ':
+        return l10n.cancelled;
+      default:
+        return status;
+    }
+  }
+
+  // Helper method to get localized type text
+  String _getLocalizedType(String type, S l10n) {
+    switch (type) {
+      case 'ເຊົ່າ':
+        return l10n.rent;
+      case 'ຂາຍ':
+        return l10n.sale;
+      default:
+        return type;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -220,9 +249,9 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
             ),
           ),
         ),
-        title: const Text(
-          'ປະຫວັດການຈອງ',
-          style: TextStyle(
+        title: Text(
+          l10n.bookingHistory,
+          style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 18,
@@ -246,21 +275,19 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  _buildStatusFilterButton('ທັງໝົດ', null),
-                  const SizedBox(width: 8),
-                  _buildStatusFilterButton('ສຳເລັດ', 'ສຳເລັດ'),
-                  const SizedBox(width: 8),
-                  _buildStatusFilterButton('ລໍຖ້າ', 'ລໍຖ້າຢືນຢັນ'),
-                  const SizedBox(width: 8),
-                  _buildStatusFilterButton('ຍົກເລີກ', 'ຍົກເລີກ'),
-                  const SizedBox(width: 8),
+                  _buildStatusFilterButton(l10n.all, null, l10n),
+                  const SizedBox(width: 2),
+                  _buildStatusFilterButton(l10n.completed, 'ສຳເລັດ', l10n),
+                  const SizedBox(width: 2),
+                  _buildStatusFilterButton(l10n.pending, 'ລໍຖ້າຢືນຢັນ', l10n),
+                  const SizedBox(width: 2),
+                  _buildStatusFilterButton(l10n.cancelled, 'ຍົກເລີກ', l10n),
+                  const SizedBox(width: 2),
                   Container(
-                    height: 32, // Match the height of your filter buttons
+                    height: 32,
                     constraints: const BoxConstraints(minWidth: 50),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(
-                        20,
-                      ), // Match button radius
+                      borderRadius: BorderRadius.circular(20),
                       color: Colors.teal,
                       border: Border.all(
                         color: _selectedTypeFilter == null
@@ -272,14 +299,14 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: DropdownButton<String>(
                       value: _selectedTypeFilter,
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.arrow_drop_down,
-                        color: Colors.white, // ตั้งค่าสีไอคอนเป็นสีขาวเสมอ
+                        color: Colors.white,
                         size: 20,
                       ),
                       elevation: 16,
-                      style: TextStyle(
-                        color: Colors.white, // สีข้อความเมื่อเลือกแล้ว
+                      style: const TextStyle(
+                        color: Colors.white,
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                       ),
@@ -287,41 +314,43 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
                       borderRadius: BorderRadius.circular(12),
                       dropdownColor: Colors.white,
                       selectedItemBuilder: (BuildContext context) {
-                        return ['ທັງໝົດ', 'ເຊົ່າ', 'ຂາຍ'].map<Widget>((
+                        return [l10n.all, l10n.rent, l10n.sale].map<Widget>((
                           String value,
                         ) {
                           return Text(
-                            value == 'ທັງໝົດ' && _selectedTypeFilter == null
-                                ? 'ທັງໝົດ'
-                                : value,
-                            style: TextStyle(
-                              color: Colors.white, // สีข้อความเมื่อเลือกแล้ว
+                            value,
+                            style: const TextStyle(
+                              color: Colors.white,
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
                             ),
                           );
                         }).toList();
                       },
-                      items: <String>['ທັງໝົດ', 'ເຊົ່າ', 'ຂາຍ']
-                          .map<DropdownMenuItem<String>>((String value) {
+                      items:
+                          <Map<String, String?>>[
+                            {'label': l10n.all, 'value': null},
+                            {'label': l10n.rent, 'value': 'ເຊົ່າ'},
+                            {'label': l10n.sale, 'value': 'ຂາຍ'},
+                          ].map<DropdownMenuItem<String>>((
+                            Map<String, String?> item,
+                          ) {
                             return DropdownMenuItem<String>(
-                              value: value == 'ທັງໝົດ' ? null : value,
+                              value: item['value'],
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 8,
                                 ),
                                 child: Text(
-                                  value,
-                                  style: TextStyle(
-                                    color: Colors
-                                        .black, // สีข้อความในเมนู dropdown
+                                  item['label']!,
+                                  style: const TextStyle(
+                                    color: Colors.black,
                                     fontSize: 12,
                                   ),
                                 ),
                               ),
                             );
-                          })
-                          .toList(),
+                          }).toList(),
                       onChanged: (String? newValue) {
                         setState(() {
                           _selectedTypeFilter = newValue;
@@ -422,7 +451,10 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
                                               ),
                                             ),
                                             child: Text(
-                                              booking['status']!,
+                                              _getLocalizedStatus(
+                                                booking['status']!,
+                                                l10n,
+                                              ),
                                               style: TextStyle(
                                                 fontSize: 10,
                                                 color: _getStatusColor(
@@ -479,7 +511,7 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            booking['price'] ?? '',
+                                            '${booking['price'] ?? ''} ${l10n.kip}',
                                             style: const TextStyle(
                                               fontSize: 13,
                                               fontWeight: FontWeight.bold,
@@ -487,37 +519,36 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
                                             ),
                                           ),
                                           if (booking['type'] != null)
-                                            Positioned(
-                                              bottom: 8,
-                                              right: 8,
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                      horizontal: 6,
-                                                      vertical: 2,
-                                                    ),
-                                                decoration: BoxDecoration(
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 6,
+                                                    vertical: 2,
+                                                  ),
+                                              decoration: BoxDecoration(
+                                                color: _getTypeColor(
+                                                  booking['type'],
+                                                ).withOpacity(0.2),
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
                                                   color: _getTypeColor(
                                                     booking['type'],
-                                                  ).withOpacity(0.2),
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                  border: Border.all(
-                                                    color: _getTypeColor(
-                                                      booking['type'],
-                                                    ),
-                                                    width: 1,
                                                   ),
+                                                  width: 1,
                                                 ),
-                                                child: Text(
+                                              ),
+                                              child: Text(
+                                                _getLocalizedType(
                                                   booking['type']!,
-                                                  style: TextStyle(
-                                                    fontSize: 10,
-                                                    color: _getTypeColor(
-                                                      booking['type'],
-                                                    ),
-                                                    fontWeight: FontWeight.bold,
+                                                  l10n,
+                                                ),
+                                                style: TextStyle(
+                                                  fontSize: 10,
+                                                  color: _getTypeColor(
+                                                    booking['type'],
                                                   ),
+                                                  fontWeight: FontWeight.bold,
                                                 ),
                                               ),
                                             ),
@@ -542,7 +573,7 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
     );
   }
 
-  Widget _buildStatusFilterButton(String label, String? status) {
+  Widget _buildStatusFilterButton(String label, String? status, S l10n) {
     final isSelected = _selectedStatusFilter == status;
     return OutlinedButton(
       onPressed: () {

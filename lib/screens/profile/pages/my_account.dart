@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homefind/generated/l10n.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
@@ -48,7 +49,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                 Icons.photo_library,
                 color: Color(0xFF0D9488),
               ),
-              title: const Text('ເລືອກຮູບຈາກຄັງ'),
+              title: Text(S.of(context).chooseFromGallery),
               onTap: () {
                 Navigator.pop(context);
                 _pickImageFromGallery();
@@ -56,7 +57,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
             ),
             ListTile(
               leading: const Icon(Icons.camera_alt, color: Color(0xFF0D9488)),
-              title: const Text('ຖ່າຍຮູບ'),
+              title: Text(S.of(context).takePhoto),
               onTap: () {
                 Navigator.pop(context);
                 _pickImageFromCamera();
@@ -88,8 +89,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
               ),
             ),
           ),
-          title: const Text(
-            'ຂໍ້ມູນສ່ວນຕົວ',
+          title: Text(
+            S.of(context).personalInformation,
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -141,7 +142,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           : null,
                     ),
                     child: _profileImage == null
-                        ? const Icon(
+                        ? //Image.asset('assets/images/house.jpg')
+                          const Icon(
                             Icons.person,
                             size: 50,
                             color: Color(0xFF0D9488),
@@ -193,19 +195,19 @@ class _MyAccountPageState extends State<MyAccountPage> {
                 children: [
                   _buildInfoTile(
                     icon: Icons.person_outline,
-                    title: 'ຊື່',
+                    title: S.of(context).name,
                     value: 'ສາຍສະຫັວນ ແກ້ວມະນີ',
                   ),
                   const Divider(height: 1, indent: 20),
                   _buildInfoTile(
                     icon: Icons.phone_iphone_outlined,
-                    title: 'ເບີໂທ',
+                    title: S.of(context).phone,
                     value: '209747xxxx',
                   ),
                   const Divider(height: 1, indent: 20),
                   _buildInfoTile(
                     icon: Icons.email_outlined,
-                    title: 'ອີເມວ',
+                    title: S.of(context).email,
                     value: 'xxx@gmail.com',
                     lastItem: true,
                   ),
@@ -228,8 +230,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
                   ),
                   elevation: 0,
                 ),
-                child: const Text(
-                  'ແກ້ໄຂຂໍ້ມູນ',
+                child: Text(
+                  S.of(context).editData,
                   style: TextStyle(fontSize: 16),
                 ),
               ),
@@ -308,8 +310,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
-              const Text(
-                'ແກ້ໄຂຂໍ້ມູນສ່ວນຕົວ',
+              Text(
+                S.of(context).editPersonalInformation,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -320,7 +322,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
               TextFormField(
                 initialValue: name,
                 decoration: InputDecoration(
-                  labelText: 'ຊື່',
+                  labelText: S.of(context).name,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
@@ -334,7 +336,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
               TextFormField(
                 initialValue: phone,
                 decoration: InputDecoration(
-                  labelText: 'ເບີໂທ',
+                  labelText: S.of(context).phone,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
@@ -349,7 +351,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
               TextFormField(
                 initialValue: email,
                 decoration: InputDecoration(
-                  labelText: 'ອີເມວ',
+                  labelText: S.of(context).email,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
@@ -367,8 +369,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
                   onPressed: () {
                     Navigator.pop(context);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('ບັນທຶກຂໍ້ມູນສຳເລັດ'),
+                      SnackBar(
+                        content: Text(S.of(context).dataSavedSuccessfully),
                         backgroundColor: Color(0xFF0D9488),
                       ),
                     );
@@ -380,8 +382,8 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: const Text(
-                    'ບັນທຶກ',
+                  child: Text(
+                    S.of(context).save,
                     style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 ),

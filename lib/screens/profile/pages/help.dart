@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homefind/generated/l10n.dart';
 
 class HelpPages extends StatefulWidget {
   const HelpPages({super.key});
@@ -11,14 +12,15 @@ class _HelpPagesState extends State<HelpPages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: ValueKey(Localizations.localeOf(context).languageCode),
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'ຊ່ວຍເຫຼືອ',
+        title: Text(
+          S.of(context).help,
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -47,27 +49,27 @@ class _HelpPagesState extends State<HelpPages> {
 
             // Help Categories
             _buildHelpCategory(
-              title: 'ປະເພດຄຳຖາມທີ່ນິຍົມ',
+              title: S.of(context).popularQuestionTypes,
               items: [
                 _buildHelpItem(
                   icon: Icons.lock,
-                  title: 'ປັນຫາການເຂົ້າລະບົບ',
-                  subtitle: 'ລືມລະຫັດຜ່ານ ຫຼື ບັນຊີຖືກລັອກ',
+                  title: S.of(context).loginIssues,
+                  subtitle: S.of(context).forgotPasswordOrLocked,
                 ),
                 _buildHelpItem(
                   icon: Icons.account_circle,
-                  title: 'ຈັດການບັນຊີ',
-                  subtitle: 'ປ່ຽນຂໍ້ມູນສ່ວນຕົວ ຫຼື ລຶບບັນຊີ',
+                  title: S.of(context).accountManagement,
+                  subtitle: S.of(context).updatePersonalInfoOrDeleteAccount,
                 ),
                 _buildHelpItem(
                   icon: Icons.shopping_cart,
-                  title: 'ຄຳສັ່ງຊື້ & ການຊຳລະເງິນ',
-                  subtitle: 'ກວດສອບການຊື້ ຫຼື ຄືນເງິນ',
+                  title: S.of(context).ordersAndPayments,
+                  subtitle: S.of(context).purchaseOrRefundCheck,
                 ),
                 _buildHelpItem(
                   icon: Icons.privacy_tip,
-                  title: 'ຄວາມປອດໄພ & ຄວາມເປັນສ່ວນໂຕ',
-                  subtitle: 'ກ່ຽວກັບນະໂຍບາຍຂໍ້ມູນ',
+                  title: S.of(context).securityAndPrivacy,
+                  subtitle: S.of(context).aboutPolicy,
                 ),
               ],
             ),
@@ -99,7 +101,7 @@ class _HelpPagesState extends State<HelpPages> {
       ),
       child: TextField(
         decoration: InputDecoration(
-          hintText: 'ຊອກຫາຄຳຖາມ...',
+          hintText: S.of(context).searchQuestions,
           hintStyle: TextStyle(color: Colors.grey[500]),
           prefixIcon: Icon(Icons.search, color: Colors.grey[500]),
           filled: true,
@@ -220,8 +222,8 @@ class _HelpPagesState extends State<HelpPages> {
       ),
       child: Column(
         children: [
-          const Text(
-            'ຕ້ອງການຊ່ວຍເຫຼືອເພີ່ມເຕີມ?',
+          Text(
+            S.of(context).needMoreHelp,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -230,7 +232,7 @@ class _HelpPagesState extends State<HelpPages> {
           ),
           const SizedBox(height: 12),
           Text(
-            'ທີມງານສະຫນັບສະຫນູນຂອງພວກເຮົາພ້ອມຊ່ວຍເຫຼືອທ່ານ 24 ຊົ່ວໂມງ',
+            S.of(context).supportTeam24h,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
@@ -247,7 +249,7 @@ class _HelpPagesState extends State<HelpPages> {
                     // TODO: contact support
                   },
                   icon: const Icon(Icons.email, size: 20),
-                  label: const Text('ສົ່ງອີເມວ'),
+                  label: Text(S.of(context).sendEmail),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF0C697A),
                     foregroundColor: Colors.white,
@@ -265,7 +267,7 @@ class _HelpPagesState extends State<HelpPages> {
                     // TODO: call support
                   },
                   icon: const Icon(Icons.phone, size: 20),
-                  label: const Text('ໂທຫາ'),
+                  label: Text(S.of(context).call),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF00CEB0),
                     foregroundColor: Colors.white,
@@ -287,10 +289,10 @@ class _HelpPagesState extends State<HelpPages> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
+        Padding(
           padding: EdgeInsets.only(left: 8, bottom: 12),
           child: Text(
-            'ຄຳຖາມທີ່ຖາມເລື້ອຍໆ',
+            S.of(context).frequentQuestions,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -298,10 +300,10 @@ class _HelpPagesState extends State<HelpPages> {
             ),
           ),
         ),
-        _buildFaqItem(question: 'ຂ້ອຍຈະປ່ຽນລະຫັດຜ່ານໄດ້ແນວໃດ?'),
-        _buildFaqItem(question: 'ຂ້ອຍຈະຍົກເລີກການສັ່ງຊື້ໄດ້ແນວໃດ?'),
-        _buildFaqItem(question: 'ວິທີການຊຳລະເງິນມີຫຍັງແດ່?'),
-        _buildFaqItem(question: 'ຈະຕິດຕໍ່ສະຫນັບສະຫນູນໄດ້ຈາກໃສ?'),
+        _buildFaqItem(question: S.of(context).howToChangePassword),
+        _buildFaqItem(question: S.of(context).howToCancelOrder),
+        _buildFaqItem(question: S.of(context).paymentMethods),
+        _buildFaqItem(question: S.of(context).contactSupportFrom),
       ],
     );
   }
@@ -330,7 +332,7 @@ class _HelpPagesState extends State<HelpPages> {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
             child: Text(
-              'ຄຳຕອບຕົວຢ່າງສຳລັບຄຳຖາມນີ້. ທ່ານສາມາດຊອກຫາຂໍ້ມູນເພີ່ມເຕີມໃນສ່ວນຊ່ວຍເຫຼືອຂອງແອັບພລິເຄຊັນຂອງພວກເຮົາ.',
+              S.of(context).exampleAnswer,
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey[600],
