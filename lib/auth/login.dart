@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:homefind/service/Auth_Service.dart';
+import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/main_screen.dart';
 import 'package:homefind/auth/forget_pass.dart';
 import 'package:homefind/auth/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+
 // import 'dart:math';
 
 class LoginPage extends StatefulWidget {
@@ -34,7 +38,6 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         _rememberMe = true;
         _phoneController.text = prefs.getString('savedPhone') ?? '';
-        _passwordController.text = prefs.getString('savedPassword') ?? '';
       });
     }
   }
@@ -56,30 +59,63 @@ class _LoginPageState extends State<LoginPage> {
 
     setState(() => _isLoading = true);
 
-    // Generate OTP
-    // final otp = _generateOtp();
-
-    // Simulate network delay
-    await Future.delayed(const Duration(seconds: 1));
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isLoggedIn', true);
-
-    // Navigate to OTP verification page
-    if (mounted) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MainScreen(
-            // generatedOtp: otp,
-            // phoneNumber: _phoneController.text,
-            // rememberMe: _rememberMe,
-            // isLoginFlow parameter is no longer needed here
-          ),
-        ),
+    try {
+      final response = await AuthService.loginWithPhoneNumber(
+        phoneNumber: _phoneController.text.trim(),
+        password: _passwordController.text,
       );
-    }
 
-    setState(() => _isLoading = false);
+      if (response.statusCode == 201) {
+        // สมมติว่า response body เป็น JSON ที่มี token หรือข้อมูลผู้ใช้
+        final data = jsonDecode(response.body);
+        final token = data['token'] ?? ''; // กรณี backend ส่ง token
+
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('authToken', token);
+
+        await prefs.setBool('isLoggedIn', true);
+
+        if (_rememberMe) {
+          await prefs.setBool('rememberMe', true);
+          await prefs.setString('savedPhone', _phoneController.text.trim());
+        } else {
+          await prefs.setBool('rememberMe', false);
+          await prefs.remove('savedPhone');
+        }
+
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MainScreen()),
+          );
+        }
+      } else {
+        // ล็อกอินไม่สำเร็จ แจ้ง error
+        final errorMsg =
+            // 'Login failed. Please check your phone number and password.'
+            S.of(context).login_failed;
+        if (mounted) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(errorMsg)));
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              // 'An error occurred: $e')));
+              '${S.of(context).error_occurred}: $e',
+            ),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
 
   Future<void> _signInWithGoogle() async {
@@ -103,6 +139,7 @@ class _LoginPageState extends State<LoginPage> {
     final isSmallScreen = size.height < 700;
 
     return Scaffold(
+      key: ValueKey(Localizations.localeOf(context).languageCode),
       resizeToAvoidBottomInset: true,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
@@ -154,7 +191,8 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            'ຍິນດີຕ້ອນຮັບສູ່Home find',
+                            // 'ຍິນດີຕ້ອນຮັບສູ່ Home Find'
+                            S.of(context).welcome_home_find,
                             style: TextStyle(
                               fontFamily: 'NotoSansLao',
                               fontSize: isSmallScreen ? 20 : 24,
@@ -165,7 +203,8 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'ກະລຸນາເຂົ້າສູ່ລະບົບ',
+                            // 'ກະລຸນາເຂົ້າສູ່ລະບົບ'
+                            S.of(context).please_login,
                             style: TextStyle(
                               fontFamily: 'NotoSansLao',
                               fontSize: isSmallScreen ? 14 : 16,
@@ -213,7 +252,8 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                             child: Text(
-                              'ເຂົ້າສູ່ລະບົບ',
+                              // 'ເຂົ້າສູ່ລະບົບ',
+                              S.of(context).login,
                               style: TextStyle(
                                 fontFamily: 'NotoSansLao',
                                 fontSize: isSmallScreen ? 20 : 24,
@@ -228,7 +268,8 @@ class _LoginPageState extends State<LoginPage> {
                           TextFormField(
                             controller: _phoneController,
                             decoration: InputDecoration(
-                              labelText: 'ເບີໂທ',
+                              // labelText: 'ເບີໂທ',
+                              labelText: S.of(context).phone,
                               labelStyle: TextStyle(fontFamily: 'NotoSansLao'),
                               prefixIcon: const Icon(Icons.phone),
                               border: OutlineInputBorder(
@@ -246,10 +287,12 @@ class _LoginPageState extends State<LoginPage> {
                             keyboardType: TextInputType.phone,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'ກະລຸນາໃສ່ເບີໂທ';
+                                // return 'ກະລຸນາໃສ່ເບີໂທ';
+                                return S.of(context).please_enter_phone;
                               }
                               if (!RegExp(r'^[0-9]{8,15}$').hasMatch(value)) {
-                                return 'ເບີໂທບໍ່ຖືກຕ້ອງ';
+                                // return 'ເບີໂທບໍ່ຖືກຕ້ອງ';
+                                return S.of(context).invalid_phone_number;
                               }
                               return null;
                             },
@@ -260,7 +303,8 @@ class _LoginPageState extends State<LoginPage> {
                           TextFormField(
                             controller: _passwordController,
                             decoration: InputDecoration(
-                              labelText: 'ລະຫັດຜ່ານ',
+                              // labelText: 'ລະຫັດຜ່ານ',
+                              labelText: S.of(context).password,
                               labelStyle: TextStyle(fontFamily: 'NotoSansLao'),
                               prefixIcon: const Icon(Icons.lock_outline),
                               suffixIcon: IconButton(
@@ -311,7 +355,8 @@ class _LoginPageState extends State<LoginPage> {
                                     activeColor: const Color(0xFF008B8B),
                                   ),
                                   Text(
-                                    'ຈື່ຈຳຜູ້ໃຊ້ງານ',
+                                    // 'ຈື່ຈຳຜູ້ໃຊ້ງານ'
+                                    S.of(context).remember_user,
                                     style: TextStyle(
                                       fontFamily: 'NotoSansLao',
                                       fontSize: 14,
@@ -337,7 +382,8 @@ class _LoginPageState extends State<LoginPage> {
                                       MaterialTapTargetSize.shrinkWrap,
                                 ),
                                 child: Text(
-                                  'ລືມລະຫັດຜ່ານ?',
+                                  // 'ລືມລະຫັດຜ່ານ?'
+                                  S.of(context).forgot_password,
                                   style: TextStyle(
                                     fontFamily: 'NotoSansLao',
                                     color: const Color(0xFF008B8B),
@@ -374,7 +420,8 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                     )
                                   : Text(
-                                      'ເຂົ້າສູ່ລະບົບ',
+                                      // 'ເຂົ້າສູ່ລະບົບ'
+                                      S.of(context).login,
                                       style: TextStyle(
                                         fontFamily: 'NotoSansLao',
                                         fontSize: isSmallScreen ? 16 : 18,
@@ -400,7 +447,8 @@ class _LoginPageState extends State<LoginPage> {
                                   horizontal: 12,
                                 ),
                                 child: Text(
-                                  'ຫຼື',
+                                  // 'ຫຼື'
+                                  S.of(context).or,
                                   style: TextStyle(
                                     fontFamily: 'NotoSansLao',
                                     color: Colors.grey.shade600,
@@ -442,7 +490,8 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                   const SizedBox(width: 12),
                                   Text(
-                                    'ເຂົ້າສູ່ລະບົບດ້ວຍ Google',
+                                    // 'ເຂົ້າສູ່ລະບົບດ້ວຍ Google'
+                                    S.of(context).login_with_google,
                                     style: TextStyle(
                                       fontFamily: 'NotoSansLao',
                                       fontSize: isSmallScreen ? 14 : 16,
@@ -460,7 +509,8 @@ class _LoginPageState extends State<LoginPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'ຍັງບໍ່ມີບັນຊີ?',
+                                // 'ຍັງບໍ່ມີບັນຊີ?'
+                                S.of(context).no_account_yet,
                                 style: TextStyle(
                                   fontFamily: 'NotoSansLao',
                                   fontSize: isSmallScreen ? 14 : 16,
@@ -482,7 +532,8 @@ class _LoginPageState extends State<LoginPage> {
                                       MaterialTapTargetSize.shrinkWrap,
                                 ),
                                 child: Text(
-                                  'ລົງທະບຽນ',
+                                  // 'ລົງທະບຽນ'
+                                  S.of(context).register,
                                   style: TextStyle(
                                     fontFamily: 'NotoSansLao',
                                     fontSize: isSmallScreen ? 14 : 16,

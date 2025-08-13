@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homefind/generated/l10n.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
@@ -29,15 +30,115 @@ class _AddPageState extends State<AddPage> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _areaController = TextEditingController();
 
-  // Amenities selection
+  // ใช้ภาษาลาวเป็น key เหมือนเดิม
   Map<String, bool> _amenities = {
     'ຈອດລົດ': false,
     'ອິນເຕີເນັດ': false,
     'ເຄື່ອງເຮືອນ': false,
-    'ເຮືອນຄາບ': false,
+    'ສະລອຍນ້ໍາ': false,
     'ຕູ້ເຢັນ': false,
     'ກວດຄົນເຂົ້າ': false,
+    'ແອ': false,
+    'ເຄື່ອງຊັກຜ້າ': false,
   };
+
+  // Method สำหรับแสดงชื่อสิ่งอำนวยความสะดวกตามภาษา
+  String _getAmenityDisplayName(String laoKey) {
+    switch (laoKey) {
+      case 'ຈອດລົດ':
+        return S.of(context).parking;
+      case 'ອິນເຕີເນັດ':
+        return S.of(context).internet;
+      case 'ເຄື່ອງເຮືອນ':
+        return S.of(context).home_appliance;
+      case 'ສະລອຍນ້ໍາ':
+        return S.of(context).swimming;
+      case 'ຕູ້ເຢັນ':
+        return S.of(context).refrigerator;
+      case 'ກວດຄົນເຂົ້າ':
+        return S.of(context).security_check;
+      case 'ແອ':
+        return S.of(context).air;
+      case 'ເຄື່ອງຊັກຜ້າ':
+        return S.of(context).washing_machine;
+      default:
+        return laoKey; // แสดงภาษาลาวถ้าไม่มี localization
+    }
+  }
+
+  // ใช้ภาษาลาวเป็น key
+  IconData _getAmenityIcon(String laoKey) {
+    switch (laoKey) {
+      case 'ຈອດລົດ':
+        return Icons.local_parking;
+      case 'ອິນເຕີເນັດ':
+        return Icons.wifi;
+      case 'ເຄື່ອງເຮືອນ':
+        return Icons.home;
+      case 'ສະລອຍນ້ໍາ':
+        return Icons.pool;
+      case 'ຕູ້ເຢັນ':
+        return Icons.kitchen;
+      case 'ກວດຄົນເຂົ້າ':
+        return Icons.security;
+      case 'ແອ':
+        return Icons.ac_unit;
+      case 'ເຄື່ອງຊັກຜ້າ':
+        return Icons.local_laundry_service;
+      default:
+        return Icons.check;
+    }
+  }
+
+  // Helper method to get category display name
+  String _getCategoryDisplayName(String value) {
+    switch (value) {
+      case 'ເຮືອນ':
+        return S.of(context).house;
+      case 'ຫ້ອງແຖວ':
+        return S.of(context).townhouse;
+      case 'ອາພາດເມັ້ນ':
+        return S.of(context).apartment;
+      case 'ດິນ':
+        return S.of(context).land;
+      case 'ແຊທີ່ພັກ':
+        return S.of(context).accommodation_zone;
+      case 'ຕິດຕັ້ງແອ':
+        return S.of(context).install_air;
+      case 'ແກ່ເຄື່ອງ':
+        return S.of(context).moving_goods;
+      case 'ຕິດຕັ້ງແວ່ນ':
+        return S.of(context).install_glass;
+      case 'ເຟີນີເຈີ້':
+        return S.of(context).furniture;
+      default:
+        return value;
+    }
+  }
+
+  // Helper method to get status display name
+  String _getStatusDisplayName(String value) {
+    switch (value) {
+      case 'ເຊົ່າ':
+        return S.of(context).rent;
+      case 'ຂາຍ':
+        return S.of(context).sale;
+      default:
+        return value;
+    }
+  }
+
+  // Helper method to get room sharing display name
+  String _getRoomSharingDisplayName(String value) {
+    switch (value) {
+      case 'ແຊຫ້ອງ':
+        return S.of(context).share_room;
+      case 'ບໍ່ແຊຫ້ອງ':
+        return S.of(context).no_share_room;
+      default:
+        return value;
+    }
+  }
 
   @override
   void dispose() {
@@ -53,11 +154,12 @@ class _AddPageState extends State<AddPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: ValueKey(Localizations.localeOf(context).languageCode),
       backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text(
-          'ຝາກໃຫ້ Post',
+        title: Text(
+          S.of(context).post_delivery,
           style: TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 20,
@@ -90,7 +192,7 @@ class _AddPageState extends State<AddPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Section 1: Basic Information
-                    _buildSectionHeader('ຂໍ້ມູນທີ່ພັກຂອງທ່ານ'),
+                    _buildSectionHeader(S.of(context).your_accommodation_info),
                     const SizedBox(height: 12),
 
                     // Property Images
@@ -99,22 +201,33 @@ class _AddPageState extends State<AddPage> {
 
                     // Property Title
                     _buildInputField(
-                      label: 'ຊື່ທີ່ພັກ',
+                      label: S.of(context).accommodation_name,
                       controller: _titleController,
                       icon: Icons.title,
-                      validator: (value) =>
-                          value?.isEmpty ?? true ? 'ກະລຸນາໃສ່ຊື່ທີ່ພັກ' : null,
+                      validator: (value) => value?.isEmpty ?? true
+                          ? S.of(context).please_enter_accommodation_name
+                          : null,
                     ),
                     const SizedBox(height: 16),
 
                     // Property Category
                     _buildDropdownSection(
-                      'ປະເພດທີ່ພັກ',
+                      S.of(context).accommodation_type,
                       _selectedCategory,
-                      ['ເຮືອນ', 'ຫ້ອງແຖວ', 'ວິວລ່າ', 'ອາພາດເມັ້ນ'],
-
+                      [
+                        'ເຮືອນ',
+                        'ຫ້ອງແຖວ',
+                        'ອາພາດເມັ້ນ',
+                        'ດິນ',
+                        'ແຊທີ່ພັກ',
+                        'ຕິດຕັ້ງແອ',
+                        'ແກ່ເຄື່ອງ',
+                        'ຕິດຕັ້ງແວ່ນ',
+                        'ເຟີນີເຈີ້',
+                      ],
                       (value) => setState(() => _selectedCategory = value),
                       Icons.category,
+                      displayNameMapper: _getCategoryDisplayName,
                     ),
                     const SizedBox(height: 16),
 
@@ -125,6 +238,7 @@ class _AddPageState extends State<AddPage> {
                       ['ເຊົ່າ', 'ຂາຍ'],
                       (value) => setState(() => _selectedStatus = value),
                       Icons.sell,
+                      displayNameMapper: _getStatusDisplayName,
                     ),
                     const SizedBox(height: 16),
 
@@ -136,24 +250,26 @@ class _AddPageState extends State<AddPage> {
                         ['ແຊຫ້ອງ', 'ບໍ່ແຊຫ້ອງ'],
                         (value) => setState(() => _selectedRoomSharing = value),
                         Icons.people,
+                        displayNameMapper: _getRoomSharingDisplayName,
                       ),
                       const SizedBox(height: 16),
                     ],
 
                     // Section 2: Property Details
-                    _buildSectionHeader('ລາຍລະອຽດທີ່ພັກ'),
+                    _buildSectionHeader(S.of(context).accommodation_details),
                     const SizedBox(height: 12),
 
                     // Property Price
                     _buildInputField(
-                      label: 'ລາຄາ (₭)',
+                      label: '${S.of(context).price} (₭)',
                       controller: _priceController,
                       icon: Icons.attach_money,
                       keyboardType: TextInputType.number,
                       validator: (value) {
-                        if (value?.isEmpty ?? true) return 'ກະລຸນາໃສ່ລາຄາ';
+                        if (value?.isEmpty ?? true)
+                          return S.of(context).please_enter_price;
                         if (double.tryParse(value!) == null) {
-                          return 'ກະລຸນາໃສ່ຕົວເລກຖືກຕ້ອງ';
+                          return S.of(context).please_enter_valid_number;
                         }
                         return null;
                       },
@@ -162,14 +278,15 @@ class _AddPageState extends State<AddPage> {
 
                     // Property Area
                     _buildInputField(
-                      label: 'ຂະໜາດ (ຕລ.ມ.)',
+                      label: S.of(context).size,
                       controller: _areaController,
                       icon: Icons.aspect_ratio,
                       keyboardType: TextInputType.number,
                       validator: (value) {
-                        if (value?.isEmpty ?? true) return 'ກະລຸນາໃສ່ຂະໜາດ';
+                        if (value?.isEmpty ?? true)
+                          return S.of(context).please_enter_size;
                         if (double.tryParse(value!) == null) {
-                          return 'ກະລຸນາໃສ່ຕົວເລກຖືກຕ້ອງ';
+                          return S.of(context).please_enter_valid_number;
                         }
                         return null;
                       },
@@ -178,22 +295,24 @@ class _AddPageState extends State<AddPage> {
 
                     // Property Location
                     _buildInputField(
-                      label: 'ທີ່ຢູ່',
+                      label: S.of(context).address,
                       controller: _locationController,
                       icon: Icons.location_on,
-                      validator: (value) =>
-                          value?.isEmpty ?? true ? 'ກະລຸນາໃສ່ທີ່ຢູ່' : null,
+                      validator: (value) => value?.isEmpty ?? true
+                          ? S.of(context).please_enter_address
+                          : null,
                     ),
                     const SizedBox(height: 16),
 
                     // Contact Phone
                     _buildInputField(
-                      label: 'ເບີໂທລະສັບ',
+                      label: S.of(context).phone,
                       controller: _phoneController,
                       icon: Icons.phone,
                       keyboardType: TextInputType.phone,
-                      validator: (value) =>
-                          value?.isEmpty ?? true ? 'ກະລຸນາໃສ່ເບີໂທ' : null,
+                      validator: (value) => value?.isEmpty ?? true
+                          ? S.of(context).please_enter_phone
+                          : null,
                     ),
                     const SizedBox(height: 16),
 
@@ -202,7 +321,7 @@ class _AddPageState extends State<AddPage> {
                     const SizedBox(height: 20),
 
                     // Amenities Section
-                    _buildSectionHeader('ສິ່ງອຳນວຍຄວາມສະດວກ'),
+                    _buildSectionHeader(S.of(context).facilities),
                     const SizedBox(height: 12),
                     _buildAmenitiesGrid(),
                     const SizedBox(height: 30),
@@ -276,7 +395,7 @@ class _AddPageState extends State<AddPage> {
       child: TextFormField(
         controller: _descriptionController,
         decoration: InputDecoration(
-          labelText: 'ລາຍລະອຽດ',
+          labelText: S.of(context).details,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide.none,
@@ -288,7 +407,7 @@ class _AddPageState extends State<AddPage> {
         ),
         maxLines: 5,
         validator: (value) =>
-            value?.isEmpty ?? true ? 'ກະລຸນາໃສ່ລາຍລະອຽດ' : null,
+            value?.isEmpty ?? true ? S.of(context).please_enter_details : null,
       ),
     );
   }
@@ -297,8 +416,8 @@ class _AddPageState extends State<AddPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'ຮູບພາບທີ່ພັກ (ຢ່າງໜ້ອຍ 1 ຮູບ)',
+        Text(
+          S.of(context).accommodation_photo_min_1,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -326,7 +445,6 @@ class _AddPageState extends State<AddPage> {
         width: double.infinity,
         decoration: BoxDecoration(
           color: Colors.grey[200],
-
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
@@ -338,17 +456,19 @@ class _AddPageState extends State<AddPage> {
               color: Colors.grey[600],
             ),
             const SizedBox(height: 8),
-            Text('ເພີ່ມຮູບພາບ', style: TextStyle(color: Colors.grey[600])),
+            Text(
+              S.of(context).add_photo,
+              style: TextStyle(color: Colors.grey[600]),
+            ),
           ],
         ),
       ),
     );
   }
 
-  // Widget _buildImageGrid() {
   Widget _buildImageRow() {
     return SizedBox(
-      height: 100, // ความสูงของรูปภาพแต่ละรูป
+      height: 100,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount:
@@ -444,7 +564,10 @@ class _AddPageState extends State<AddPage> {
           padding: const EdgeInsets.symmetric(vertical: 12),
         ),
         icon: const Icon(Icons.add_a_photo, color: Colors.white),
-        label: const Text('ເພີ່ມຮູບພາບ', style: TextStyle(color: Colors.white)),
+        label: Text(
+          S.of(context).add_photo,
+          style: TextStyle(color: Colors.white),
+        ),
       ),
     );
   }
@@ -454,8 +577,9 @@ class _AddPageState extends State<AddPage> {
     String? value,
     List<String> items,
     void Function(String?) onChanged,
-    IconData icon,
-  ) {
+    IconData icon, {
+    String Function(String)? displayNameMapper,
+  }) {
     return Material(
       elevation: 2,
       borderRadius: BorderRadius.circular(10),
@@ -489,7 +613,12 @@ class _AddPageState extends State<AddPage> {
               ),
               style: const TextStyle(color: Colors.black, fontSize: 16),
               items: items.map((String item) {
-                return DropdownMenuItem<String>(value: item, child: Text(item));
+                return DropdownMenuItem<String>(
+                  value: item,
+                  child: Text(
+                    displayNameMapper != null ? displayNameMapper(item) : item,
+                  ),
+                );
               }).toList(),
               onChanged: onChanged,
             ),
@@ -511,49 +640,32 @@ class _AddPageState extends State<AddPage> {
       ),
       itemCount: _amenities.length,
       itemBuilder: (context, index) {
-        final amenity = _amenities.keys.elementAt(index);
+        final amenityLaoKey = _amenities.keys.elementAt(index);
         return FilterChip(
           backgroundColor: Colors.white,
-          label: Text(amenity),
-          selected: _amenities[amenity]!,
+          label: Text(
+            _getAmenityDisplayName(amenityLaoKey),
+          ), // แสดงตามภาษาที่เลือก
+          selected: _amenities[amenityLaoKey]!,
           onSelected: (selected) {
             setState(() {
-              _amenities[amenity] = selected;
+              _amenities[amenityLaoKey] = selected;
             });
           },
           selectedColor: const Color(0xFF00CEB0),
           checkmarkColor: Colors.white,
           labelStyle: TextStyle(
-            color: _amenities[amenity]! ? Colors.white : Colors.black,
+            color: _amenities[amenityLaoKey]! ? Colors.white : Colors.black,
           ),
           avatar: Icon(
-            _getAmenityIcon(amenity),
-            color: _amenities[amenity]!
+            _getAmenityIcon(amenityLaoKey), // ใช้ key ภาษาลาว
+            color: _amenities[amenityLaoKey]!
                 ? Colors.white
                 : const Color.fromARGB(255, 87, 167, 177),
           ),
         );
       },
     );
-  }
-
-  IconData _getAmenityIcon(String amenity) {
-    switch (amenity) {
-      case 'ບ່ອນຈອດລົດ':
-        return Icons.local_parking;
-      case 'ໄວໄຟ':
-        return Icons.wifi;
-      case 'ເຄື່ອງໃຊ້ໃນເຮືອນ':
-        return Icons.kitchen;
-      case 'ສະລອຍນ້ຳ':
-        return Icons.pool;
-      case 'ຕູ້ເຢັນ':
-        return Icons.ac_unit;
-      case 'ນາຍຍາມ':
-        return Icons.security;
-      default:
-        return Icons.check;
-    }
   }
 
   Widget _buildSubmitButton() {
@@ -571,8 +683,8 @@ class _AddPageState extends State<AddPage> {
         ),
         child: _isLoading
             ? const CircularProgressIndicator(color: Colors.white)
-            : const Text(
-                'ຕົກລົງ',
+            : Text(
+                S.of(context).submit,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -597,15 +709,15 @@ class _AddPageState extends State<AddPage> {
           if (_selectedImages.length > 10) {
             _selectedImages = _selectedImages.sublist(0, 10);
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('ສາມາດເພີ່ມຮູບໄດ້ສູງສຸດ 10 ຮູບ')),
+              SnackBar(content: Text(S.of(context).max_10_photos)),
             );
           }
         });
       }
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('ຜິດພາດໃນການເລືອກຮູບ: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('${S.of(context).photo_selection_error}: $e')),
+      );
     }
   }
 
@@ -619,7 +731,7 @@ class _AddPageState extends State<AddPage> {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedImages.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('ກະລຸນາເພີ່ມຮູບພາບຢ່າງໜ້ອຍ 1 ຮູບ')),
+        SnackBar(content: Text(S.of(context).please_add_min_1_photo)),
       );
       return;
     }
@@ -631,11 +743,13 @@ class _AddPageState extends State<AddPage> {
       await Future.delayed(const Duration(seconds: 2));
 
       // Process form data
+      // _amenities ยังคงมี key เป็นภาษาลาว: 'ຈອດລົດ', 'ອິນເຕີເນັດ', etc.
+      print('Selected amenities: $_amenities');
 
       // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('ເພີ່ມທີ່ພັກສຳເລັດແລ້ວ'),
+          content: Text(S.of(context).added_accommodation_success),
           backgroundColor: Colors.green,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
@@ -655,7 +769,10 @@ class _AddPageState extends State<AddPage> {
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('ຜິດພາດ: $e'), backgroundColor: Colors.red),
+        SnackBar(
+          content: Text('${S.of(context).error}: $e'),
+          backgroundColor: Colors.red,
+        ),
       );
     } finally {
       setState(() => _isLoading = false);

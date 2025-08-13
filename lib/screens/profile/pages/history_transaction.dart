@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homefind/generated/l10n.dart';
 
 // Transaction model class
 class Transaction {
@@ -6,7 +7,8 @@ class Transaction {
   final String date;
   final double amount;
   final String account;
-  final String status;
+  final String
+  status; // เก็บเป็น key constant เช่น 'completed', 'pending', 'cancelled'
   final String type;
   final double fee;
   final String method;
@@ -23,6 +25,13 @@ class Transaction {
   });
 }
 
+// Status constants - ใช้เป็น internal value
+class TransactionStatus {
+  static const String completed = 'completed';
+  static const String pending = 'pending';
+  static const String cancelled = 'cancelled';
+}
+
 class HistoryTransaction extends StatefulWidget {
   const HistoryTransaction({super.key});
 
@@ -37,7 +46,7 @@ class _HistoryTransactionState extends State<HistoryTransaction> {
       date: '2023-10-15 14:30',
       amount: 150.00,
       account: '•••• 4327',
-      status: 'ສຳເລັດ',
+      status: TransactionStatus.completed, // ใช้ constant
       type: 'withdrawal',
       fee: 5.00,
       method: 'ບັນຊີທະນາຄານ',
@@ -47,7 +56,7 @@ class _HistoryTransactionState extends State<HistoryTransaction> {
       date: '2023-10-10 09:15',
       amount: 200.00,
       account: '20 ••••',
-      status: 'ສຳເລັດ',
+      status: TransactionStatus.completed,
       type: 'withdrawal',
       fee: 5.00,
       method: 'ບັນຊີທະນາຄານ',
@@ -57,7 +66,7 @@ class _HistoryTransactionState extends State<HistoryTransaction> {
       date: '2023-10-05 16:45',
       amount: 75.50,
       account: '•••• 4327',
-      status: 'ຍົກເລີກ',
+      status: TransactionStatus.cancelled,
       type: 'withdrawal',
       fee: 0.00,
       method: 'ບັນຊີທະນາຄານ',
@@ -67,7 +76,7 @@ class _HistoryTransactionState extends State<HistoryTransaction> {
       date: '2023-09-28 11:20',
       amount: 300.00,
       account: '20 ••••',
-      status: 'ສຳເລັດ',
+      status: TransactionStatus.completed,
       type: 'withdrawal',
       fee: 5.00,
       method: 'ບັນຊີທະນາຄານ',
@@ -77,7 +86,7 @@ class _HistoryTransactionState extends State<HistoryTransaction> {
       date: '2023-09-20 10:10',
       amount: 100.00,
       account: '•••• 4327',
-      status: 'ລໍຖ້າຢືນຢັນ',
+      status: TransactionStatus.pending,
       type: 'withdrawal',
       fee: 5.00,
       method: 'ບັນຊີທະນາຄານ',
@@ -91,13 +100,27 @@ class _HistoryTransactionState extends State<HistoryTransaction> {
     return _allTransactions.where((t) => t.status == _selectedFilter).toList();
   }
 
+  // Function เพื่อแปลง status เป็นข้อความที่แสดงผล
+  String _getStatusDisplayText(String status, BuildContext context) {
+    switch (status) {
+      case TransactionStatus.completed:
+        return S.of(context).completed; // ต้องเพิ่มใน l10n
+      case TransactionStatus.pending:
+        return S.of(context).pending; // ต้องเพิ่มใน l10n
+      case TransactionStatus.cancelled:
+        return S.of(context).cancelled; // ต้องเพิ่มใน l10n
+      default:
+        return status;
+    }
+  }
+
   Color _getStatusColor(String status) {
     switch (status) {
-      case 'ສຳເລັດ':
+      case TransactionStatus.completed: // ใช้ constant แทน
         return Colors.green;
-      case 'ລໍຖ້າຢືນຢັນ':
+      case TransactionStatus.pending:
         return Colors.orange;
-      case 'ຍົກເລີກ':
+      case TransactionStatus.cancelled:
         return Colors.red;
       default:
         return Colors.grey;
@@ -114,14 +137,15 @@ class _HistoryTransactionState extends State<HistoryTransaction> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: ValueKey(Localizations.localeOf(context).languageCode),
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'ປະຫວັດການຖອນເງິນ',
+        title: Text(
+          S.of(context).withdrawalHistory,
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -170,13 +194,22 @@ class _HistoryTransactionState extends State<HistoryTransaction> {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            _buildFilterButton('ທັງໝົດ', null),
+            _buildFilterButton(S.of(context).all, null), // ต้องเพิ่มใน l10n
             const SizedBox(width: 8),
-            _buildFilterButton('ສຳເລັດ', 'ສຳເລັດ'),
+            _buildFilterButton(
+              S.of(context).completed,
+              TransactionStatus.completed,
+            ),
             const SizedBox(width: 8),
-            _buildFilterButton('ລໍຖ້າ', 'ລໍຖ້າຢືນຢັນ'),
+            _buildFilterButton(
+              S.of(context).pending,
+              TransactionStatus.pending,
+            ),
             const SizedBox(width: 8),
-            _buildFilterButton('ຍົກເລີກ', 'ຍົກເລີກ'),
+            _buildFilterButton(
+              S.of(context).cancelled,
+              TransactionStatus.cancelled,
+            ),
           ],
         ),
       ),
@@ -263,7 +296,7 @@ class _HistoryTransactionState extends State<HistoryTransaction> {
                     Row(
                       children: [
                         Text(
-                          '-${transaction.amount.toStringAsFixed(2)} ກີບ',
+                          '-${transaction.amount.toStringAsFixed(2)} ${S.of(context).kip}',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -286,7 +319,10 @@ class _HistoryTransactionState extends State<HistoryTransaction> {
                             ),
                           ),
                           child: Text(
-                            transaction.status,
+                            _getStatusDisplayText(
+                              transaction.status,
+                              context,
+                            ), // ใช้ function แปลงเป็นข้อความ
                             style: TextStyle(
                               fontSize: 10,
                               color: _getStatusColor(transaction.status),
@@ -322,6 +358,33 @@ class TransactionDetailDialog extends StatelessWidget {
 
   const TransactionDetailDialog({super.key, required this.transaction});
 
+  // Function เพื่อแปลง status เป็นข้อความที่แสดงผล
+  String _getStatusDisplayText(String status, BuildContext context) {
+    switch (status) {
+      case TransactionStatus.completed:
+        return S.of(context).completed;
+      case TransactionStatus.pending:
+        return S.of(context).pending;
+      case TransactionStatus.cancelled:
+        return S.of(context).cancelled;
+      default:
+        return status;
+    }
+  }
+
+  Color _getStatusColor(String status) {
+    switch (status) {
+      case TransactionStatus.completed:
+        return Colors.green;
+      case TransactionStatus.pending:
+        return Colors.orange;
+      case TransactionStatus.cancelled:
+        return Colors.red;
+      default:
+        return Colors.grey;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -344,7 +407,7 @@ class TransactionDetailDialog extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'ລາຍລະອຽດການຖອນເງິນ',
+                    S.of(context).withdrawalDetails,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -389,7 +452,7 @@ class TransactionDetailDialog extends StatelessWidget {
               // Amount
               Center(
                 child: Text(
-                  '-${transaction.amount.toStringAsFixed(2)} ກີບ',
+                  '-${transaction.amount.toStringAsFixed(2)} ${S.of(context).kip}',
                   style: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -413,7 +476,10 @@ class TransactionDetailDialog extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    transaction.status,
+                    _getStatusDisplayText(
+                      transaction.status,
+                      context,
+                    ), // ใช้ function แปลงเป็นข้อความ
                     style: TextStyle(
                       color: _getStatusColor(transaction.status),
                       fontWeight: FontWeight.bold,
@@ -424,14 +490,17 @@ class TransactionDetailDialog extends StatelessWidget {
               const SizedBox(height: 24),
 
               // Details
-              _buildDetailRow('ວິທີຖອນ', transaction.method),
-              _buildDetailRow('ບັນຊີປາຍທາງ', transaction.account),
+              _buildDetailRow(S.of(context).withdrawMethod, transaction.method),
               _buildDetailRow(
-                'ຄ່າທຳນຽມ',
-                '${transaction.fee.toStringAsFixed(2)} ກີບ',
+                S.of(context).destinationAccount,
+                transaction.account,
               ),
-              _buildDetailRow('ລະຫັດທຸລະກຳ', transaction.id),
-              _buildDetailRow('ວັນທີ່', transaction.date),
+              _buildDetailRow(
+                S.of(context).fee,
+                '${transaction.fee.toStringAsFixed(2)} ${S.of(context).kip}',
+              ),
+              _buildDetailRow(S.of(context).transactionId, transaction.id),
+              _buildDetailRow(S.of(context).date, transaction.date),
 
               const SizedBox(height: 24),
 
@@ -447,8 +516,8 @@ class TransactionDetailDialog extends StatelessWidget {
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
-                  child: const Text(
-                    'ປິດ',
+                  child: Text(
+                    S.of(context).close,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -491,18 +560,5 @@ class TransactionDetailDialog extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Color _getStatusColor(String status) {
-    switch (status) {
-      case 'ສຳເລັດ':
-        return Colors.green;
-      case 'ລໍຖ້າຢືນຢັນ':
-        return Colors.orange;
-      case 'ຍົກເລີກ':
-        return Colors.red;
-      default:
-        return Colors.grey;
-    }
   }
 }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:homefind/generated/l10n.dart';
+import 'package:homefind/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LanguegePage extends StatefulWidget {
   const LanguegePage({super.key});
@@ -8,15 +11,44 @@ class LanguegePage extends StatefulWidget {
 }
 
 class _LanguagePageState extends State<LanguegePage> {
-  String _selectedLanguage = 'lo';
+  String _selectedLanguage = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSelectedLanguage();
+  }
+
+  // โหลดภาษาที่บันทึกไว้
+  _loadSelectedLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _selectedLanguage = prefs.getString('selected_language') ?? 'lo';
+    });
+  }
+
+  // บันทึกภาษาและอัปเดตแอปทันที
+  _saveLanguageAndUpdate(String languageCode) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('selected_language', languageCode);
+
+    // อัปเดตภาษาในแอปทันที
+    MyApp.of(context)?.setLocale(Locale(languageCode));
+
+    setState(() {
+      _selectedLanguage = languageCode;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // เพิ่ม key เพื่อบังคับ rebuild เมื่อภาษาเปลี่ยน
+      key: ValueKey(Localizations.localeOf(context).languageCode),
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: const Text(
-          'ປ່ຽນພາສາ',
+        title: Text(
+          S.of(context).changeLanguage,
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -54,12 +86,13 @@ class _LanguagePageState extends State<LanguegePage> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              'ເລືອກພາສາທີ່ທ່ານຕ້ອງການ',
+              S.of(context).selectLanguage,
               style: TextStyle(fontSize: 16, color: Colors.grey[600]),
             ),
           ),
           Expanded(
             child: Card(
+              color: Colors.white,
               margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               elevation: 2,
               shape: RoundedRectangleBorder(
@@ -98,31 +131,6 @@ class _LanguagePageState extends State<LanguegePage> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              onPressed: () {
-                // Save language preference
-                Navigator.pop(context, _selectedLanguage);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF0C697A),
-                minimumSize: Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                elevation: 2,
-              ),
-              child: Text(
-                'ຢືນຢັນ',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -152,16 +160,14 @@ class _LanguagePageState extends State<LanguegePage> {
         value: languageCode,
         groupValue: _selectedLanguage,
         onChanged: (value) {
-          setState(() {
-            _selectedLanguage = value!;
-          });
+          if (value != null) {
+            _saveLanguageAndUpdate(value); // บันทึกและอัปเดตทันที
+          }
         },
         activeColor: Color(0xFF0C697A),
       ),
       onTap: () {
-        setState(() {
-          _selectedLanguage = languageCode;
-        });
+        _saveLanguageAndUpdate(languageCode); // บันทึกและอัปเดตทันที
       },
     );
   }

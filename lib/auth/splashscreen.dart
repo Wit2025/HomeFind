@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:homefind/main.dart';
 import 'package:homefind/screens/main_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,7 +22,20 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
+    _initializeLanguage(); // โหลดภาษาก่อน
+    _setupAnimations();
+  }
 
+  // โหลดภาษาที่บันทึกไว้และอัปเดต context ทันที
+  Future<void> _initializeLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? savedLanguage = prefs.getString('selected_language');
+    if (savedLanguage != null && mounted) {
+      MyApp.of(context)?.setLocale(Locale(savedLanguage));
+    }
+  }
+
+  void _setupAnimations() {
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 2500),
@@ -69,7 +83,7 @@ class _SplashScreenState extends State<SplashScreen>
     Navigator.pushReplacement(
       context,
       PageRouteBuilder(
-        pageBuilder: (_, __, ___) => isLoggedIn ? MainScreen() : MainScreen(),
+        pageBuilder: (_, __, ___) => MainScreen(),
         transitionsBuilder: (_, animation, __, child) =>
             FadeTransition(opacity: animation, child: child),
         transitionDuration: const Duration(milliseconds: 800),

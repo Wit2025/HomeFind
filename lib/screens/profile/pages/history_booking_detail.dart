@@ -2,7 +2,20 @@ import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:homefind/screens/home/pages/bill_page.dart';
+import 'package:homefind/generated/l10n.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+// Status และ Type constants
+class BookingStatus {
+  static const String completed = 'ສຳເລັດ';
+  static const String pending = 'ລໍຖ້າ';
+  static const String cancelled = 'ຍົກເລີກ';
+}
+
+class BookingType {
+  static const String rental = 'ເຊົ່າ';
+  static const String sale = 'ຂາຍ';
+}
 
 class BookingDetailPage extends StatefulWidget {
   final Map<String, String> booking;
@@ -42,6 +55,95 @@ class _BookingDetailPageState extends State<BookingDetailPage>
     _animationController.dispose();
     _thumbnailScrollController.dispose();
     super.dispose();
+  }
+
+  // Function เพื่อแปลง status เป็นข้อความที่แสดงผล
+  String _getStatusDisplayText(String status) {
+    switch (status) {
+      case BookingStatus.completed:
+        return S.of(context).completed;
+      case BookingStatus.pending:
+        return S.of(context).pending;
+      case BookingStatus.cancelled:
+        return S.of(context).cancelled;
+      default:
+        return status;
+    }
+  }
+
+  // Function เพื่อแปลง type เป็นข้อความที่แสดงผล
+  String _getTypeDisplayText(String type) {
+    switch (type) {
+      case BookingType.rental:
+        return S.of(context).rent;
+      case BookingType.sale:
+        return S.of(context).sale;
+      default:
+        return type;
+    }
+  }
+
+  // Function เพื่อกำหนดสีของ status
+  Color _getStatusBackgroundColor(String status) {
+    switch (status) {
+      case BookingStatus.completed:
+        return Colors.green.shade100;
+      case BookingStatus.pending:
+        return Colors.orange.shade100;
+      case BookingStatus.cancelled:
+        return Colors.red.shade100;
+      default:
+        return Colors.grey.shade100;
+    }
+  }
+
+  Color _getStatusBorderColor(String status) {
+    switch (status) {
+      case BookingStatus.completed:
+        return Colors.green.shade300;
+      case BookingStatus.pending:
+        return Colors.orange.shade300;
+      case BookingStatus.cancelled:
+        return Colors.red.shade300;
+      default:
+        return Colors.grey.shade300;
+    }
+  }
+
+  Color _getStatusTextColor(String status) {
+    switch (status) {
+      case BookingStatus.completed:
+        return Colors.green.shade700;
+      case BookingStatus.pending:
+        return Colors.orange.shade700;
+      case BookingStatus.cancelled:
+        return Colors.red.shade700;
+      default:
+        return Colors.grey.shade700;
+    }
+  }
+
+  // Function เพื่อกำหนดสีของ type
+  Color _getTypeBackgroundColor(String type) {
+    switch (type) {
+      case BookingType.rental:
+        return Colors.blue.shade50;
+      case BookingType.sale:
+        return Colors.red.shade50;
+      default:
+        return Colors.grey.shade50;
+    }
+  }
+
+  Color _getTypeTextColor(String type) {
+    switch (type) {
+      case BookingType.rental:
+        return Colors.blue.shade700;
+      case BookingType.sale:
+        return Colors.red.shade700;
+      default:
+        return Colors.grey.shade700;
+    }
   }
 
   void goToImage(int index) {
@@ -91,8 +193,11 @@ class _BookingDetailPageState extends State<BookingDetailPage>
   @override
   Widget build(BuildContext context) {
     final hotelImages = getHotelImages();
+    final status = widget.booking['status'] ?? BookingStatus.pending;
+    final type = widget.booking['type'] ?? BookingType.rental;
 
     return Scaffold(
+      key: ValueKey(Localizations.localeOf(context).languageCode),
       backgroundColor: Colors.grey[50],
       body: CustomScrollView(
         slivers: [
@@ -348,32 +453,17 @@ class _BookingDetailPageState extends State<BookingDetailPage>
                                   vertical: 8,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: widget.booking['status'] == 'ສຳເລັດ'
-                                      ? Colors.green.shade100
-                                      : widget.booking['status'] ==
-                                            'ລໍຖ້າຢືນຢັນ'
-                                      ? Colors.orange.shade100
-                                      : Colors.red.shade100,
+                                  color: _getStatusBackgroundColor(status),
                                   borderRadius: BorderRadius.circular(20),
                                   border: Border.all(
-                                    color: widget.booking['status'] == 'ສຳເລັດ'
-                                        ? Colors.green.shade300
-                                        : widget.booking['status'] ==
-                                              'ລໍຖ້າຢືນຢັນ'
-                                        ? Colors.orange.shade300
-                                        : Colors.red.shade300,
+                                    color: _getStatusBorderColor(status),
                                   ),
                                 ),
                                 child: Text(
-                                  widget.booking['status'] ?? '',
+                                  _getStatusDisplayText(status),
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: widget.booking['status'] == 'ສຳເລັດ'
-                                        ? Colors.green.shade700
-                                        : widget.booking['status'] ==
-                                              'ລໍຖ້າຢືນຢັນ'
-                                        ? Colors.orange.shade700
-                                        : Colors.red.shade700,
+                                    color: _getStatusTextColor(status),
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -389,18 +479,14 @@ class _BookingDetailPageState extends State<BookingDetailPage>
                                   vertical: 6,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: widget.booking['type'] == 'ເຊົ່າ'
-                                      ? Colors.blue.shade50
-                                      : Colors.red.shade50,
+                                  color: _getTypeBackgroundColor(type),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text(
-                                  'ປະເພດ: ${widget.booking['type'] ?? ''}',
+                                  '${S.of(context).bookingType}: ${_getTypeDisplayText(type)}',
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: widget.booking['type'] == 'ເຊົ່າ'
-                                        ? Colors.blue.shade700
-                                        : Colors.red.shade700,
+                                    color: _getTypeTextColor(type),
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -491,7 +577,7 @@ class _BookingDetailPageState extends State<BookingDetailPage>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'ລາຍລະອຽດ',
+                                S.of(context).details,
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -540,7 +626,7 @@ class _BookingDetailPageState extends State<BookingDetailPage>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'ລາຄາ:',
+                      S.of(context).price, // ต้องเพิ่มใน l10n
                       style: TextStyle(color: Colors.grey[700], fontSize: 16),
                     ),
                     SizedBox(height: 4),
@@ -597,14 +683,15 @@ class _BookingDetailPageState extends State<BookingDetailPage>
                         builder: (context) => BillPage(
                           bookingId: widget.booking['id'] ?? 'B123456',
                           name: widget.booking['title'] ?? 'ສຸດທິພົນ',
-                          category: widget.booking['type'] ?? 'ບ້ານໃຫ້ເຊົ່າ',
+                          category: _getTypeDisplayText(
+                            type,
+                          ), // ใช้ function แปลงภาษา
                           amount: widget.booking['price'] ?? '1500000',
                           bookingDate: DateTime.now(),
                         ),
                       ),
                     );
                   },
-
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.transparent,
                     shadowColor: Colors.transparent,
@@ -615,7 +702,7 @@ class _BookingDetailPageState extends State<BookingDetailPage>
                     minimumSize: Size(140, 54),
                   ),
                   child: Text(
-                    'ໃບບິນ',
+                    S.of(context).receipt, // ต้องเพิ่มใน l10n
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,

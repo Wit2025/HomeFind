@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:homefind/generated/l10n.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class BillPage extends StatefulWidget {
@@ -39,7 +40,12 @@ class _BillPageState extends State<BillPage> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Center(child: Text('ດາວໂຫລດບິນສຳເລັດແລ້ວ')),
+        content: Center(
+          child: Text(
+            //'ດາວໂຫລດບິນສຳເລັດແລ້ວ'
+            S.of(context).download_receipt_success,
+          ),
+        ),
         backgroundColor: Color(0xFF0C697A),
       ),
     );
@@ -49,7 +55,12 @@ class _BillPageState extends State<BillPage> {
     Clipboard.setData(ClipboardData(text: widget.bookingId));
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Center(child: Text('ຄັດລອກລະຫັດການຈອງແລ້ວ')),
+        content: Center(
+          child: Text(
+            //'ຄັດລອກລະຫັດການຈອງແລ້ວ'
+            S.of(context).booking_code_copied,
+          ),
+        ),
         backgroundColor: Color(0xFF0C697A),
         duration: Duration(seconds: 2),
       ),
@@ -67,10 +78,12 @@ class _BillPageState extends State<BillPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: ValueKey(Localizations.localeOf(context).languageCode),
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          'ບິນການຈອງ',
+          // 'ບິນການຈອງ'
+          S.of(context).booking_receipt,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         flexibleSpace: Container(
@@ -97,7 +110,12 @@ class _BillPageState extends State<BillPage> {
               // Share functionality
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Center(child: Text('ແບ່ງປັນບິນ')),
+                  content: Center(
+                    child: Text(
+                      // 'ແບ່ງປັນບິນ'
+                      S.of(context).share_receipt,
+                    ),
+                  ),
                   backgroundColor: Color(0xFF0C697A),
                 ),
               );
@@ -139,7 +157,8 @@ class _BillPageState extends State<BillPage> {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    'ການຈອງສຳເລັດແລ້ວ',
+                    // 'ການຈອງສຳເລັດແລ້ວ'
+                    S.of(context).booking_successful,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -148,7 +167,8 @@ class _BillPageState extends State<BillPage> {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    'ຂໍ້ມູນການຈອງຂອງທ່ານໄດ້ຖືກບັນທຶກແລ້ວ',
+                    // 'ຂໍ້ມູນການຈອງຂອງທ່ານໄດ້ຖືກບັນທຶກແລ້ວ'
+                    S.of(context).booking_data_saved,
                     style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                     textAlign: TextAlign.center,
                   ),
@@ -180,7 +200,8 @@ class _BillPageState extends State<BillPage> {
                       Icon(Icons.receipt_long, color: Colors.teal, size: 24),
                       SizedBox(width: 12),
                       Text(
-                        'ລາຍລະອຽດການຈອງ',
+                        // 'ລາຍລະອຽດການຈອງ'
+                        S.of(context).booking_details,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -193,18 +214,41 @@ class _BillPageState extends State<BillPage> {
 
                   // Booking ID
                   _buildDetailRow(
-                    'ລະຫັດການຈອງ',
+                    // 'ລະຫັດການຈອງ'
+                    S.of(context).booking_code,
                     widget.bookingId,
                     showCopy: true,
                   ),
-                  _buildDetailRow('ຊື່', widget.name),
-                  _buildDetailRow('ປະເພດ', widget.category),
+                  _buildDetailRow(
+                    // 'ຊື່'
+                    S.of(context).name,
+                    widget.name,
+                  ),
+                  _buildDetailRow(
+                    // 'ປະເພດ'
+                    S.of(context).bookingType,
+                    widget.category,
+                  ),
 
-                  _buildDetailRow('ວັນທີ່ຈອງ', _formatDate(widget.bookingDate)),
+                  _buildDetailRow(
+                    // 'ວັນທີ່ຈອງ'
+                    S.of(context).booking_date,
+                    _formatDate(widget.bookingDate),
+                  ),
 
-                  _buildDetailRow('ເວລາຈອງ', _formatTime(widget.bookingDate)),
+                  _buildDetailRow(
+                    // 'ເວລາຈອງ'
+                    S.of(context).booking_time,
+                    _formatTime(widget.bookingDate),
+                  ),
 
-                  _buildDetailRow('ສະຖານະ', 'ຢືນຢັນແລ້ວ', isStatus: true),
+                  _buildDetailRow(
+                    // 'ສະຖານະ'
+                    S.of(context).status,
+                    // 'ຢືນຢັນແລ້ວ'
+                    S.of(context).confirmed,
+                    isStatus: true,
+                  ),
 
                   Divider(height: 30, thickness: 1),
 
@@ -213,7 +257,8 @@ class _BillPageState extends State<BillPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'ຄ່າຈອງທັງໝົດ',
+                        // 'ຄ່າຈອງທັງໝົດ'
+                        S.of(context).total_booking_price,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -231,7 +276,7 @@ class _BillPageState extends State<BillPage> {
                           border: Border.all(color: Colors.teal.shade200),
                         ),
                         child: Text(
-                          '₭ ${widget.amount} ກິບ',
+                          '₭ ${widget.amount} ${S.of(context).kip}',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -486,7 +531,10 @@ class _BillPageState extends State<BillPage> {
                           )
                         : Icon(Icons.download, color: Colors.white),
                     label: Text(
-                      _isDownloading ? 'ກຳລັງດາວໂຫລດ...' : 'ດາວໂຫລດບິນ',
+                      // _isDownloading ? 'ກຳລັງດາວໂຫລດ...' : 'ດາວໂຫລດບິນ',
+                      _isDownloading
+                          ? S.of(context).downloading
+                          : S.of(context).download_receipt,
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -509,14 +557,20 @@ class _BillPageState extends State<BillPage> {
                       // Print functionality
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Center(child: Text('ພິມບິນ')),
+                          content: Center(
+                            child: Text(
+                              // 'ພິມບິນ'
+                              S.of(context).print_receipt,
+                            ),
+                          ),
                           backgroundColor: Color(0xFF0C697A),
                         ),
                       );
                     },
                     icon: Icon(Icons.print, color: Colors.black),
                     label: Text(
-                      'ພິມບິນ',
+                      // 'ພິມບິນ'
+                      S.of(context).print_receipt,
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
@@ -550,7 +604,8 @@ class _BillPageState extends State<BillPage> {
                   Icon(Icons.info_outline, color: Colors.blueGrey, size: 20),
                   SizedBox(width: 12),
                   Text(
-                    'ກະລຸນາເກັບຮັກສາບິນນີ້ໄວ້ເປັນຫຼັກຖານການຈອງ',
+                    // 'ກະລຸນາເກັບຮັກສາບິນນີ້ໄວ້ເປັນຫຼັກຖານການຈອງ'
+                    S.of(context).keep_receipt_notice,
                     style: TextStyle(
                       color: Colors.blueGrey,
                       fontSize: 14,

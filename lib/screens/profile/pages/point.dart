@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homefind/generated/l10n.dart';
 
 class PointPages extends StatefulWidget {
   const PointPages({super.key});
@@ -39,14 +40,15 @@ class _PointPagesState extends State<PointPages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: ValueKey(Localizations.localeOf(context).languageCode),
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'ຄະແນນ',
+        title: Text(
+          S.of(context).score,
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -103,8 +105,8 @@ class _PointPagesState extends State<PointPages> {
       ),
       child: Column(
         children: [
-          const Text(
-            'ຄະແນນສະສົມທັງໝົດ',
+          Text(
+            S.of(context).totalScore,
             style: TextStyle(color: Colors.white, fontSize: 16),
           ),
           const SizedBox(height: 8),
@@ -122,14 +124,14 @@ class _PointPagesState extends State<PointPages> {
             children: [
               _buildPointsAction(
                 icon: Icons.card_giftcard,
-                label: 'ແລກຄະແນນ',
+                label: S.of(context).redeemPoints,
                 onTap: () {
                   // TODO: Redeem points
                 },
               ),
               _buildPointsAction(
                 icon: Icons.info_outline,
-                label: 'ລາຍລະອຽດ',
+                label: S.of(context).details,
                 onTap: () {
                   // TODO: Show points details
                 },
@@ -177,8 +179,8 @@ class _PointPagesState extends State<PointPages> {
         children: [
           const Icon(Icons.history, color: Color(0xFF006B8B), size: 24),
           const SizedBox(width: 8),
-          const Text(
-            'ປະຫວັດຄະແນນ',
+          Text(
+            S.of(context).scoreHistory,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -194,8 +196,8 @@ class _PointPagesState extends State<PointPages> {
               foregroundColor: const Color(0xFF00CEB0),
               padding: EdgeInsets.zero,
             ),
-            child: const Text(
-              'ທັງໝົດ',
+            child: Text(
+              S.of(context).all,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
@@ -284,8 +286,8 @@ class _PointPagesState extends State<PointPages> {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  const Text(
-                    'ຄະແນນ',
+                  Text(
+                    S.of(context).score,
                     style: TextStyle(fontSize: 12, color: Colors.grey),
                   ),
                 ],

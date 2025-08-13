@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/home/pages/bill_page.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -28,6 +29,7 @@ class _BookingPageState extends State<BookingPage> {
       ),
       builder: (_) {
         return SafeArea(
+          key: ValueKey(Localizations.localeOf(context).languageCode),
           child: Container(
             height: 200,
             padding: EdgeInsets.all(16),
@@ -45,7 +47,8 @@ class _BookingPageState extends State<BookingPage> {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'ເລືອກຮູບພາບ',
+                  // 'ເລືອກຮູບພາບ'
+                  S.of(context).select_image,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 Padding(
@@ -84,7 +87,8 @@ class _BookingPageState extends State<BookingPage> {
                                     color: Colors.blue,
                                   ),
                                   Text(
-                                    'ແກລເລີຣີ',
+                                    // 'ແກລເລີຣີ'
+                                    S.of(context).gallery,
                                     style: TextStyle(fontSize: 14),
                                   ),
                                 ],
@@ -125,7 +129,8 @@ class _BookingPageState extends State<BookingPage> {
                                     color: Colors.green,
                                   ),
                                   Text(
-                                    'ກ້ອງຖ່າຍ',
+                                    // 'ກ້ອງຖ່າຍ'
+                                    S.of(context).camera,
                                     style: TextStyle(fontSize: 14),
                                   ),
                                 ],
@@ -154,6 +159,7 @@ class _BookingPageState extends State<BookingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: ValueKey(Localizations.localeOf(context).languageCode),
       backgroundColor: Colors.white,
       appBar: AppBar(
         // title: Text('ຈອງ'),
@@ -197,7 +203,8 @@ class _BookingPageState extends State<BookingPage> {
               child: Column(
                 children: [
                   Text(
-                    'ສະແກນ QR Code ເພື່ອຈ່າຍເງິນ',
+                    // 'ສະແກນ QR Code ເພື່ອຈ່າຍເງິນ'
+                    S.of(context).scan_qr_code_payment,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -235,7 +242,8 @@ class _BookingPageState extends State<BookingPage> {
                       border: Border.all(color: Colors.teal.shade200),
                     ),
                     child: Text(
-                      "ຄ່າຈອງ: ₭ 50,000 ກິບ",
+                      // "ຄ່າຈອງ: ₭ 50,000 ກິບ",
+                      "${S.of(context).price} ₭ 50,000 ${S.of(context).kip}",
                       style: TextStyle(
                         color: Colors.blueAccent,
                         fontSize: 20,
@@ -266,7 +274,8 @@ class _BookingPageState extends State<BookingPage> {
               child: Column(
                 children: [
                   Text(
-                    'ອັບໂຫລດສຳເນົາການໂອນເງິນ',
+                    // 'ອັບໂຫລດສຳເນົາການໂອນເງິນ'
+                    S.of(context).upload_transfer_receipt,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -296,7 +305,8 @@ class _BookingPageState extends State<BookingPage> {
                           ),
                           SizedBox(width: 8),
                           Text(
-                            'ອັບໂຫລດສຳເລັດແລ້ວ',
+                            // 'ອັບໂຫລດສຳເລັດແລ້ວ',
+                            S.of(context).upload_completed,
                             style: TextStyle(
                               color: Colors.green.shade700,
                               fontWeight: FontWeight.w500,
@@ -344,7 +354,8 @@ class _BookingPageState extends State<BookingPage> {
                                 ),
                                 SizedBox(height: 12),
                                 Text(
-                                  'ແຕະເພື່ອເລືອກຮູບພາບ',
+                                  // 'ແຕະເພື່ອເລືອກຮູບພາບ',
+                                  S.of(context).tap_to_select_image,
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.grey[600],
@@ -352,7 +363,8 @@ class _BookingPageState extends State<BookingPage> {
                                 ),
                                 SizedBox(height: 8),
                                 Text(
-                                  'JPG, PNG ຫຼື PDF',
+                                  // 'JPG, PNG ຫຼື PDF',
+                                  S.of(context).file_formats,
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.grey[400],
@@ -488,7 +500,8 @@ class _BookingPageState extends State<BookingPage> {
                                 ),
                                 SizedBox(height: 24),
                                 Text(
-                                  'ກຳລັງດຳເນີນການ...',
+                                  // 'ກຳລັງດຳເນີນການ...',
+                                  S.of(context).processing,
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600,
@@ -497,7 +510,8 @@ class _BookingPageState extends State<BookingPage> {
                                 ),
                                 SizedBox(height: 8),
                                 Text(
-                                  'ກະລຸນາລໍຖ້າ',
+                                  // 'ກະລຸນາລໍຖ້າ',
+                                  S.of(context).please_wait,
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.white70,
@@ -528,7 +542,7 @@ class _BookingPageState extends State<BookingPage> {
                                     "BK${DateTime.now().millisecondsSinceEpoch}",
                                 name: widget.name,
                                 category: widget.category,
-                                amount: "50,000",
+                                amount: "50,000 ",
                                 bookingDate: DateTime.now(),
                                 // receiptImage: _image,
                               ),
@@ -562,7 +576,8 @@ class _BookingPageState extends State<BookingPage> {
                 ),
               ),
               child: Text(
-                'ຢືນຢັນການຈອງ',
+                // 'ຢືນຢັນການຈອງ',
+                S.of(context).confirm_booking,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,

@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:homefind/auth/otp_verify_page.dart';
 import 'dart:math';
-
 import 'package:homefind/auth/login.dart';
+import 'package:homefind/service/Auth_Service.dart';
+import 'package:homefind/generated/l10n.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -13,7 +15,7 @@ class Register extends StatefulWidget {
 
 class _SignUpPageState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
-  final _fullNameController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -26,7 +28,7 @@ class _SignUpPageState extends State<Register> {
 
   @override
   void dispose() {
-    _fullNameController.dispose();
+    _usernameController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
     _passwordController.dispose();
@@ -43,32 +45,65 @@ class _SignUpPageState extends State<Register> {
     if (!_formKey.currentState!.validate()) return;
     if (!_acceptTerms) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('ກະລຸນາຍອມຮັບຂໍ້ກຳນົດແລະເງື່ອນໄຂກ່ອນ')),
+        // const SnackBar(content: Text('ກະລຸນາຍອມຮັບຂໍ້ກຳນົດແລະເງື່ອນໄຂກ່ອນ')),
+        SnackBar(content: Text(S.of(context).accept_terms_first)),
       );
       return;
     }
 
     setState(() => _isLoading = true);
 
-    // Simulate registration process
-    await Future.delayed(const Duration(seconds: 2));
-
-    final testOtp = _generateRandomOtp();
-
-    if (mounted) {
-      setState(
-        () => _isLoading = false,
-      ); // Reset loading state before navigation
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => OTPVerifyPage(
-            generatedOtp: testOtp,
-            phoneNumber: _phoneController.text,
-            rememberMe: _rememberMe,
-          ),
-        ),
+    try {
+      final response = await AuthService.registerWithPhoneNumber(
+        username: _usernameController.text.trim(),
+        email: _emailController.text.trim(),
+        phoneNumber: _phoneController.text.trim(),
+        password: _passwordController.text,
       );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // สมัครสมาชิกสำเร็จ
+        final testOtp = _generateRandomOtp();
+
+        if (mounted) {
+          setState(() => _isLoading = false);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => OTPVerifyPage(
+                generatedOtp: testOtp,
+                phoneNumber: _phoneController.text,
+                rememberMe: _rememberMe,
+              ),
+            ),
+          );
+        }
+      } else {
+        // เกิดข้อผิดพลาด
+        final errorData = jsonDecode(response.body);
+        String errorMessage =
+            // errorData['message'] ?? 'ເກີດຂໍ້ຜິດພາດໃນການສະໝັກສະມາຊິກ';
+            errorData['message'] ?? S.of(context).registration_error;
+
+        if (mounted) {
+          setState(() => _isLoading = false);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(errorMessage), backgroundColor: Colors.red),
+          );
+        }
+      }
+    } catch (e) {
+      // จัดการ network error หรือ exception อื่นๆ
+      if (mounted) {
+        setState(() => _isLoading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            // content: Text('ເກີດຂໍ້ຜິດພາດ: ${e.toString()}'),
+            content: Text('${S.of(context).error_occurred}: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
@@ -91,6 +126,7 @@ class _SignUpPageState extends State<Register> {
     final isSmallScreen = size.height < 700;
 
     return Scaffold(
+      key: ValueKey(Localizations.localeOf(context).languageCode),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -137,7 +173,8 @@ class _SignUpPageState extends State<Register> {
                       const SizedBox(height: 10),
                       // Title Text
                       Text(
-                        'ສ້າງບັນຊີໃໝ່',
+                        // 'ສ້າງບັນຊີໃໝ່',
+                        S.of(context).create_new_account,
                         style: TextStyle(
                           fontFamily: 'NotoSansLao',
                           fontSize: isSmallScreen ? 24 : 28,
@@ -148,7 +185,8 @@ class _SignUpPageState extends State<Register> {
                       const SizedBox(height: 6),
                       // Subtitle Text
                       Text(
-                        'ກະລຸນາປ້ອນຂໍ້ມູນຂອງທ່ານ',
+                        // 'ກະລຸນາປ້ອນຂໍ້ມູນຂອງທ່ານ',
+                        S.of(context).please_enter_your_info,
                         style: TextStyle(
                           fontFamily: 'NotoSansLao',
                           fontSize: isSmallScreen ? 14 : 16,
@@ -195,7 +233,8 @@ class _SignUpPageState extends State<Register> {
                           ),
                         ),
                         child: Text(
-                          'ລົງທະບຽນ',
+                          // 'ລົງທະບຽນ',
+                          S.of(context).register,
                           style: TextStyle(
                             fontFamily:
                                 'NotoSansLao', // Added Noto Sans Lao font
@@ -209,9 +248,10 @@ class _SignUpPageState extends State<Register> {
 
                       // Full name field
                       TextFormField(
-                        controller: _fullNameController,
+                        controller: _usernameController,
                         decoration: InputDecoration(
-                          labelText: 'ຊື່ ແລະ ນາມສະກຸນ',
+                          // labelText: 'ຊື່ ແລະ ນາມສະກຸນ',
+                          labelText: S.of(context).full_name,
                           labelStyle: TextStyle(fontFamily: 'NotoSansLao'),
                           prefixIcon: const Icon(Icons.badge_outlined),
                           border: OutlineInputBorder(
@@ -227,7 +267,8 @@ class _SignUpPageState extends State<Register> {
                         style: TextStyle(fontFamily: 'NotoSansLao'),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'ກະລຸນາໃສ່ຊື່ ແລະ ນາມສະກຸນ';
+                            // return 'ກະລຸນາໃສ່ຊື່ ແລະ ນາມສະກຸນ';
+                            return S.of(context).please_enter_full_name;
                           }
                           return null;
                         },
@@ -238,7 +279,8 @@ class _SignUpPageState extends State<Register> {
                       TextFormField(
                         controller: _emailController,
                         decoration: InputDecoration(
-                          labelText: 'ອີເມວ',
+                          // labelText: 'ອີເມວ',
+                          labelText: S.of(context).email,
                           labelStyle: TextStyle(fontFamily: 'NotoSansLao'),
                           prefixIcon: const Icon(Icons.email_outlined),
                           border: OutlineInputBorder(
@@ -255,14 +297,16 @@ class _SignUpPageState extends State<Register> {
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'ກະລຸນາໃສ່ອີເມວ';
+                            // return 'ກະລຸນາໃສ່ອີເມວ';
+                            return S.of(context).please_enter_email;
                           }
                           // ตรวจสอบรูปแบบอีเมล
                           final emailRegExp = RegExp(
                             r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
                           );
                           if (!emailRegExp.hasMatch(value)) {
-                            return 'ອີເມວບໍ່ຖືກຕ້ອງ';
+                            // return 'ອີເມວບໍ່ຖືກຕ້ອງ';
+                            return S.of(context).invalid_email;
                           }
                           return null;
                         },
@@ -273,7 +317,8 @@ class _SignUpPageState extends State<Register> {
                       TextFormField(
                         controller: _phoneController,
                         decoration: InputDecoration(
-                          labelText: 'ເບີໂທລະສັບ',
+                          // labelText: 'ເບີໂທລະສັບ',
+                          labelText: S.of(context).phone,
                           labelStyle: TextStyle(fontFamily: 'NotoSansLao'),
                           prefixIcon: const Icon(Icons.phone_outlined),
                           border: OutlineInputBorder(
@@ -290,10 +335,12 @@ class _SignUpPageState extends State<Register> {
                         keyboardType: TextInputType.phone,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'ກະລຸນາໃສ່ເບີໂທລະສັບ';
+                            // return 'ກະລຸນາໃສ່ເບີໂທລະສັບ';
+                            return S.of(context).please_enter_phone;
                           }
                           if (value.length < 8) {
-                            return 'ເບີໂທລະສັບຕ້ອງຖືກຕ້ອງ';
+                            // return 'ເບີໂທລະສັບຕ້ອງຖືກຕ້ອງ';
+                            return S.of(context).invalid_phone_number;
                           }
                           return null;
                         },
@@ -304,7 +351,8 @@ class _SignUpPageState extends State<Register> {
                       TextFormField(
                         controller: _passwordController,
                         decoration: InputDecoration(
-                          labelText: 'ລະຫັດຜ່ານ',
+                          // labelText: 'ລະຫັດຜ່ານ',
+                          labelText: S.of(context).password,
                           labelStyle: TextStyle(fontFamily: 'NotoSansLao'),
                           prefixIcon: const Icon(Icons.lock_outline),
                           suffixIcon: IconButton(
@@ -334,10 +382,12 @@ class _SignUpPageState extends State<Register> {
                         obscureText: _obscurePassword,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'ກະລຸນາໃສ່ລະຫັດຜ່ານ';
+                            // return 'ກະລຸນາໃສ່ລະຫັດຜ່ານ';
+                            return S.of(context).please_enter_password;
                           }
                           if (value.length < 6) {
-                            return 'ລະຫັດຜ່ານຕ້ອງຍາວຢ່າງໜ້ອຍ 6 ຕົວອັກສອນ';
+                            // return 'ລະຫັດຜ່ານຕ້ອງຍາວຢ່າງໜ້ອຍ 6 ຕົວອັກສອນ';
+                            return S.of(context).password_min_length;
                           }
                           return null;
                         },
@@ -359,7 +409,8 @@ class _SignUpPageState extends State<Register> {
                             child: Padding(
                               padding: const EdgeInsets.only(top: 10),
                               child: Text(
-                                'ຍອມຮັບຂໍ້ກຳນົດ ແລະ ເງື່ອນໄຂການໃຊ້ງານ',
+                                // 'ຍອມຮັບຂໍ້ກຳນົດ ແລະ ເງື່ອນໄຂການໃຊ້ງານ',
+                                S.of(context).accept_terms_conditions,
                                 style: TextStyle(
                                   fontFamily: 'NotoSansLao',
                                   fontSize: 14,
@@ -396,7 +447,8 @@ class _SignUpPageState extends State<Register> {
                                   ),
                                 )
                               : Text(
-                                  'ລົງທະບຽນ',
+                                  // 'ລົງທະບຽນ',
+                                  S.of(context).register,
                                   style: TextStyle(
                                     fontFamily: 'NotoSansLao',
                                     fontSize: isSmallScreen ? 16 : 18,
@@ -417,7 +469,8 @@ class _SignUpPageState extends State<Register> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 12),
                             child: Text(
-                              'ຫຼື',
+                              // 'ຫຼື',
+                              S.of(context).or,
                               style: TextStyle(
                                 fontFamily: 'NotoSansLao',
                                 color: Colors.grey.shade600,
@@ -456,7 +509,8 @@ class _SignUpPageState extends State<Register> {
                               ),
                               const SizedBox(width: 12),
                               Text(
-                                'ລົງທະບຽນດ້ວຍ Google',
+                                // 'ລົງທະບຽນດ້ວຍ Google',
+                                S.of(context).register_with_google,
                                 style: TextStyle(
                                   fontFamily: 'NotoSansLao',
                                   fontSize: isSmallScreen ? 14 : 16,
@@ -474,7 +528,8 @@ class _SignUpPageState extends State<Register> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'ມີບັນຊີແລ້ວ?',
+                            // 'ມີບັນຊີແລ້ວ?',
+                            S.of(context).already_have_account,
                             style: TextStyle(
                               fontFamily: 'NotoSansLao',
                               fontSize: isSmallScreen ? 14 : 16,
@@ -495,7 +550,8 @@ class _SignUpPageState extends State<Register> {
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
                             child: Text(
-                              'ເຂົ້າສູ່ລະບົບ',
+                              // 'ເຂົ້າສູ່ລະບົບ',
+                              S.of(context).login,
                               style: TextStyle(
                                 fontFamily: 'NotoSansLao',
                                 fontSize: isSmallScreen ? 14 : 16,

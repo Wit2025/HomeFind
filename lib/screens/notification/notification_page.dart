@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:homefind/generated/l10n.dart';
+
+// Notification Tab constants
+class NotificationTabs {
+  static const String unread = 'ຍັງບໍ່ອ່ານ';
+  static const String read = 'ອ່ານແລ້ວ';
+}
 
 class NotificationItem {
   final String id;
@@ -29,7 +36,7 @@ class _NotificationsBodyState extends State<NotificationsBody> {
   final _darkPrimaryColor = const Color.fromARGB(255, 12, 105, 122);
   final _scrollController = ScrollController();
 
-  String _selectedTab = 'ຍັງບໍ່ອ່ານ'; // Default to unread notifications
+  String _selectedTab = NotificationTabs.unread; // ใช้ constant แทน
   List<NotificationItem> _notifications = [];
 
   @override
@@ -42,6 +49,18 @@ class _NotificationsBodyState extends State<NotificationsBody> {
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  // Function เพื่อแปลง tab เป็นข้อความที่แสดงผล
+  String _getTabDisplayText(String tab) {
+    switch (tab) {
+      case NotificationTabs.unread:
+        return S.of(context).unread; // ต้องเพิ่มใน l10n
+      case NotificationTabs.read:
+        return S.of(context).read; // ต้องเพิ่มใน l10n
+      default:
+        return tab;
+    }
   }
 
   void _loadNotifications() {
@@ -106,7 +125,9 @@ class _NotificationsBodyState extends State<NotificationsBody> {
 
   List<NotificationItem> get _filteredNotifications {
     return _notifications.where((notification) {
-      return _selectedTab == 'ຍັງບໍ່ອ່ານ'
+      return _selectedTab ==
+              NotificationTabs
+                  .unread // ใช้ constant แทน
           ? !notification.isRead
           : notification.isRead;
     }).toList();
@@ -117,24 +138,29 @@ class _NotificationsBodyState extends State<NotificationsBody> {
     final difference = now.difference(date);
 
     if (difference.inDays > 0) {
-      return '${difference.inDays} ມື້ຜ່ານໄປ';
+      return S
+          .of(context)
+          .daysAgo(difference.inDays.toString()); // ต้องเพิ่มใน l10n
     } else if (difference.inHours > 0) {
-      return '${difference.inHours} ຊົ່ວໂມງຜ່ານໄປ';
+      return S
+          .of(context)
+          .hoursAgo(difference.inHours.toString()); // ต้องเพิ่มใน l10n
     } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes} ນາທີຜ່ານໄປ';
+      return S.of(context).minutesAgo(difference.inMinutes.toString());
     } else {
-      return 'ບໍ່ດົນມານີ້';
+      return S.of(context).justNow;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: ValueKey(Localizations.localeOf(context).languageCode),
       backgroundColor: const Color(0xFFF8F9FA),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text(
-          'ການແຈ້ງເຕືອນ',
+        title: Text(
+          S.of(context).notifications, // ต้องเพิ่มใน l10n
           style: TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 20,
@@ -156,14 +182,14 @@ class _NotificationsBodyState extends State<NotificationsBody> {
           ),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
-
         actions: [
-          if (_selectedTab == 'ຍັງບໍ່ອ່ານ' && _filteredNotifications.isNotEmpty)
+          if (_selectedTab == NotificationTabs.unread &&
+              _filteredNotifications.isNotEmpty)
             TextButton(
               onPressed: _markAllAsRead,
-              child: const Text(
-                'ອ່ານທັງໝົດ',
-                style: TextStyle(color: Colors.white), // White text
+              child: Text(
+                S.of(context).markAllAsRead, // ต้องเพิ่มใน l10n
+                style: TextStyle(color: Colors.white),
               ),
             ),
         ],
@@ -183,8 +209,10 @@ class _NotificationsBodyState extends State<NotificationsBody> {
                 ),
                 child: Row(
                   children: [
-                    Expanded(child: _buildTabButton('ຍັງບໍ່ອ່ານ', 0)),
-                    Expanded(child: _buildTabButton('ອ່ານແລ້ວ', 1)),
+                    Expanded(
+                      child: _buildTabButton(NotificationTabs.unread, 0),
+                    ),
+                    Expanded(child: _buildTabButton(NotificationTabs.read, 1)),
                   ],
                 ),
               ),
@@ -200,9 +228,13 @@ class _NotificationsBodyState extends State<NotificationsBody> {
                 child: _filteredNotifications.isEmpty
                     ? Center(
                         child: Text(
-                          _selectedTab == 'ຍັງບໍ່ອ່ານ'
-                              ? 'ບໍ່ມີການແຈ້ງເຕືອນທີ່ຍັງບໍ່ອ່ານ'
-                              : 'ບໍ່ມີການແຈ້ງເຕືອນທີ່ອ່ານແລ້ວ',
+                          _selectedTab == NotificationTabs.unread
+                              ? S
+                                    .of(context)
+                                    .noUnreadNotifications // ต้องเพิ่มใน l10n
+                              : S
+                                    .of(context)
+                                    .noReadNotifications, // ต้องเพิ่มใน l10n
                           style: TextStyle(color: Colors.grey[600]),
                         ),
                       )
@@ -228,12 +260,12 @@ class _NotificationsBodyState extends State<NotificationsBody> {
     );
   }
 
-  Widget _buildTabButton(String tabName, int index) {
-    bool isSelected = _selectedTab == tabName;
+  Widget _buildTabButton(String tab, int index) {
+    bool isSelected = _selectedTab == tab;
     return GestureDetector(
       onTap: () {
         setState(() {
-          _selectedTab = tabName;
+          _selectedTab = tab;
         });
       },
       child: AnimatedContainer(
@@ -247,7 +279,7 @@ class _NotificationsBodyState extends State<NotificationsBody> {
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Center(
           child: Text(
-            tabName,
+            _getTabDisplayText(tab), // ใช้ function แปลงเป็นข้อความ
             style: TextStyle(
               color: isSelected ? Colors.white : Colors.grey[700],
               fontWeight: FontWeight.w600,
@@ -323,16 +355,20 @@ class _NotificationsBodyState extends State<NotificationsBody> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          notification.title,
-                          style: TextStyle(
-                            fontWeight: !notification.isRead
-                                ? FontWeight.bold
-                                : FontWeight.w600,
-                            fontSize: 15,
-                            color: Colors.black87,
+                        Expanded(
+                          child: Text(
+                            notification.title,
+                            style: TextStyle(
+                              fontWeight: !notification.isRead
+                                  ? FontWeight.bold
+                                  : FontWeight.w600,
+                              fontSize: 15,
+                              color: Colors.black87,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
+                        const SizedBox(width: 8),
                         Text(
                           _formatTimeAgo(notification.date),
                           style: TextStyle(
@@ -352,6 +388,8 @@ class _NotificationsBodyState extends State<NotificationsBody> {
                             ? FontWeight.w500
                             : FontWeight.normal,
                       ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
