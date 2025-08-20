@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:homefind/generated/l10n.dart';
+import 'package:homefind/widgets/Colors.dart';
 
 class ForgetPassPage extends StatefulWidget {
   const ForgetPassPage({super.key});
@@ -20,8 +22,9 @@ class _ForgetPassPageState extends State<ForgetPassPage> {
     final phone = _phoneController.text;
     if (phone.isEmpty || !RegExp(r'^[0-9]{8,15}$').hasMatch(phone)) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('ເບີໂທບໍ່ຖືກຕ້ອງ'),
+        SnackBar(
+          // content: Text('ເບີໂທບໍ່ຖືກຕ້ອງ'),
+          content: Text(S.of(context).invalid_phone_number),
           backgroundColor: Colors.red,
         ),
       );
@@ -37,50 +40,56 @@ class _ForgetPassPageState extends State<ForgetPassPage> {
     );
   }
 
+  // ໜ້າປ້ອນເບີໂທ
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'ລືມລະຫັດຜ່ານ',
+        title: Text(
+          // 'ລືມລະຫັດຜ່ານ',
+          S.of(context).forgot_password,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
-        backgroundColor: const Color(0xFF008B8B),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [AppColors.color1, AppColors.color2],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+          ),
+        ),
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFFE0F7FA), Colors.white],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 40),
-              const Text(
-                'ປ້ອນເບີໂທລະສັບຂອງທ່ານ',
+              Text(
+                // 'ປ້ອນເບີໂທລະສັບຂອງທ່ານ',
+                S.of(context).please_enter_phone,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF008B8B),
+                  color: AppColors.color1,
                 ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 10),
-              const Text(
-                'ເພື່ອຮັບລະຫັດ OTP ໃນການປ່ຽນລະຫັດຜ່ານ',
-                style: TextStyle(fontSize: 14, color: Colors.grey),
+              Text(
+                // 'ເພື່ອຮັບລະຫັດ OTP ໃນການປ່ຽນລະຫັດຜ່ານ',
+                S.of(context).otp_for_password_change,
+                style: TextStyle(fontSize: 14, color: Colors.black),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 30),
@@ -88,24 +97,25 @@ class _ForgetPassPageState extends State<ForgetPassPage> {
                 controller: _phoneController,
                 keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
-                  labelText: 'ເບີໂທລະສັບ',
-                  labelStyle: const TextStyle(color: Color(0xFF008B8B)),
+                  // labelText: 'ເບີໂທລະສັບ',
+                  labelText: S.of(context).phone,
+                  labelStyle: const TextStyle(color: AppColors.color1),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(color: Color(0xFF008B8B)),
+                    borderSide: const BorderSide(color: AppColors.color1),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(color: Color(0xFF008B8B)),
+                    borderSide: const BorderSide(color: AppColors.color1),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: const BorderSide(
-                      color: Color(0xFF008B8B),
+                      color: AppColors.color1,
                       width: 2,
                     ),
                   ),
-                  prefixIcon: const Icon(Icons.phone, color: Color(0xFF008B8B)),
+                  prefixIcon: const Icon(Icons.phone, color: AppColors.color1),
                   contentPadding: const EdgeInsets.symmetric(
                     vertical: 12,
                     horizontal: 16,
@@ -113,22 +123,40 @@ class _ForgetPassPageState extends State<ForgetPassPage> {
                 ),
               ),
               const SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: _sendResetCode,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF008B8B),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [AppColors.color1, AppColors.color2],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
                   ),
-                  elevation: 3,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(0, 3),
+                      blurRadius: 3,
+                    ),
+                  ],
                 ),
-                child: const Text(
-                  'ສົ່ງລະຫັດ OTP',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                child: ElevatedButton(
+                  onPressed: _sendResetCode,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: Text(
+                    S.of(context).send_otp_code,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
@@ -137,10 +165,11 @@ class _ForgetPassPageState extends State<ForgetPassPage> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text(
-                  'ກັບຄືນໜ້າລ໋ອກອິນ',
+                child: Text(
+                  // 'ກັບຄືນໜ້າລ໋ອກອິນ',
+                  S.of(context).back_to_login,
                   style: TextStyle(
-                    color: Color(0xFF008B8B),
+                    color: AppColors.color1,
                     decoration: TextDecoration.underline,
                   ),
                 ),
@@ -188,8 +217,9 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
 
     if (otp.length != 6) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('ກະລຸນາປ້ອນ OTP 6 ໂຕ'),
+        SnackBar(
+          // content: Text('ກະລຸນາປ້ອນ OTP 6 ໂຕ'),
+          content: Text(S.of(context).enter_6_digit_otp),
           backgroundColor: Colors.red,
         ),
       );
@@ -215,49 +245,56 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
     }
   }
 
+  // ໜ້າໃສ່ otp
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: ValueKey(Localizations.localeOf(context).languageCode),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'ຢືນຢັນ OTP',
+        title: Text(
+          // 'ຢືນຢັນ OTP',
+          S.of(context).verify_otp,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
-        backgroundColor: const Color(0xFF008B8B),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [AppColors.color1, AppColors.color2],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+          ),
+        ),
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFFE0F7FA), Colors.white],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 40),
-              const Text(
-                'ປ້ອນລະຫັດ OTP',
+              Text(
+                // 'ປ້ອນລະຫັດ OTP',
+                S.of(context).enter_otp_code,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF008B8B),
+                  color: AppColors.color1,
                 ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 10),
               Text(
-                'ລະຫັດ OTP ຖືກສົ່ງໄປທີ່ເບີ ${widget.phoneNumber}',
+                // 'ລະຫັດ OTP ຖືກສົ່ງໄປທີ່ເບີ ${widget.phoneNumber}',
+                '${S.of(context).otp_sent_to_number} ${widget.phoneNumber}',
                 style: const TextStyle(fontSize: 14, color: Colors.grey),
                 textAlign: TextAlign.center,
               ),
@@ -279,20 +316,16 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                         counterText: '',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: Color(0xFF008B8B),
-                          ),
+                          borderSide: const BorderSide(color: AppColors.color1),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: Color(0xFF008B8B),
-                          ),
+                          borderSide: const BorderSide(color: AppColors.color1),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: const BorderSide(
-                            color: Color(0xFF008B8B),
+                            color: AppColors.color1,
                             width: 2,
                           ),
                         ),
@@ -302,22 +335,40 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                 ),
               ),
               const SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: _verifyOtp,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF008B8B),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [AppColors.color1, AppColors.color2],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
                   ),
-                  elevation: 3,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(0, 3),
+                      blurRadius: 3,
+                    ),
+                  ],
                 ),
-                child: const Text(
-                  'ຢືນຢັນ',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                child: ElevatedButton(
+                  onPressed: _verifyOtp,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: Text(
+                    S.of(context).confirm,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
@@ -326,10 +377,11 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text(
-                  'ກັບຄືນໜ້າກ່ອນໜ້າ',
+                child: Text(
+                  // 'ກັບຄືນໜ້າກ່ອນໜ້າ',
+                  S.of(context).back_to_previous,
                   style: TextStyle(
-                    color: Color(0xFF008B8B),
+                    color: AppColors.color1,
                     decoration: TextDecoration.underline,
                   ),
                 ),
@@ -370,8 +422,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
     if (newPassword.isEmpty || confirmPassword.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('ກະລຸນາປ້ອນລະຫັດຜ່ານໃໝ່'),
+        SnackBar(
+          // content: Text('ກະລຸນາປ້ອນລະຫັດຜ່ານໃໝ່'),
+          content: Text(S.of(context).pleaseConfirmNewPassword),
           backgroundColor: Colors.red,
         ),
       );
@@ -380,8 +433,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
     if (newPassword != confirmPassword) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('ລະຫັດຜ່ານບໍ່ກົງກັນ'),
+        SnackBar(
+          // content: Text('ລະຫັດຜ່ານບໍ່ກົງກັນ'),
+          content: Text(S.of(context).password_not_match),
           backgroundColor: Colors.red,
         ),
       );
@@ -390,9 +444,10 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
     // TODO: Implement password reset logic
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('ປ່ຽນລະຫັດຜ່ານສຳເລັດແລ້ວ'),
-        backgroundColor: Color(0xFF008B8B),
+      SnackBar(
+        // content: Text('ປ່ຽນລະຫັດຜ່ານສຳເລັດແລ້ວ'),
+        content: Text(S.of(context).password_changed_successfully),
+        backgroundColor: AppColors.color1,
       ),
     );
 
@@ -400,43 +455,48 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     Navigator.popUntil(context, (route) => route.isFirst);
   }
 
+  // ໜ້າປ່ຽນລະຫັັດ
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'ປ່ຽນລະຫັດຜ່ານໃໝ່',
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [AppColors.color1, AppColors.color2],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+          ),
+        ),
+        title: Text(
+          // 'ປ່ຽນລະຫັດຜ່ານໃໝ່',
+          S.of(context).change_new_password,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
-        backgroundColor: const Color(0xFF008B8B),
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFFE0F7FA), Colors.white],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 40),
-              const Text(
-                'ປ້ອນລະຫັດຜ່ານໃໝ່',
+              Text(
+                // 'ປ້ອນລະຫັດຜ່ານໃໝ່',
+                S.of(context).newPassword,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF008B8B),
+                  color: AppColors.color1,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -445,30 +505,31 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 controller: _newPasswordController,
                 obscureText: _obscureNewPassword,
                 decoration: InputDecoration(
-                  labelText: 'ລະຫັດຜ່ານໃໝ່',
-                  labelStyle: const TextStyle(color: Color(0xFF008B8B)),
+                  // labelText: 'ລະຫັດຜ່ານໃໝ່',
+                  labelText: S.of(context).newPassword,
+                  labelStyle: const TextStyle(color: AppColors.color1),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(color: Color(0xFF008B8B)),
+                    borderSide: const BorderSide(color: AppColors.color1),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(color: Color(0xFF008B8B)),
+                    borderSide: const BorderSide(color: AppColors.color1),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: const BorderSide(
-                      color: Color(0xFF008B8B),
+                      color: AppColors.color1,
                       width: 2,
                     ),
                   ),
-                  prefixIcon: const Icon(Icons.lock, color: Color(0xFF008B8B)),
+                  prefixIcon: const Icon(Icons.lock, color: AppColors.color1),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscureNewPassword
                           ? Icons.visibility
                           : Icons.visibility_off,
-                      color: const Color(0xFF008B8B),
+                      color: AppColors.color1,
                     ),
                     onPressed: () {
                       setState(() {
@@ -487,30 +548,31 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 controller: _confirmPasswordController,
                 obscureText: _obscureConfirmPassword,
                 decoration: InputDecoration(
-                  labelText: 'ຢືນຢັນລະຫັດຜ່ານໃໝ່',
-                  labelStyle: const TextStyle(color: Color(0xFF008B8B)),
+                  // labelText: 'ຢືນຢັນລະຫັດຜ່ານໃໝ່',
+                  labelText: S.of(context).confirm_new_password,
+                  labelStyle: const TextStyle(color: AppColors.color1),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(color: Color(0xFF008B8B)),
+                    borderSide: const BorderSide(color: AppColors.color1),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(color: Color(0xFF008B8B)),
+                    borderSide: const BorderSide(color: AppColors.color1),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: const BorderSide(
-                      color: Color(0xFF008B8B),
+                      color: AppColors.color1,
                       width: 2,
                     ),
                   ),
-                  prefixIcon: const Icon(Icons.lock, color: Color(0xFF008B8B)),
+                  prefixIcon: const Icon(Icons.lock, color: AppColors.color1),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscureConfirmPassword
                           ? Icons.visibility
                           : Icons.visibility_off,
-                      color: const Color(0xFF008B8B),
+                      color: AppColors.color1,
                     ),
                     onPressed: () {
                       setState(() {
@@ -525,22 +587,40 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 ),
               ),
               const SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: _resetPassword,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF008B8B),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [AppColors.color1, AppColors.color2],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
                   ),
-                  elevation: 3,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      offset: Offset(0, 3),
+                      blurRadius: 3,
+                    ),
+                  ],
                 ),
-                child: const Text(
-                  'ບັນທຶກລະຫັດຜ່ານໃໝ່',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                child: ElevatedButton(
+                  onPressed: _resetPassword,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: Text(
+                    S.of(context).save_new_password,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
@@ -549,10 +629,11 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text(
-                  'ກັບຄືນໜ້າກ່ອນໜ້າ',
+                child: Text(
+                  // 'ກັບຄືນໜ້າກ່ອນໜ້າ',
+                  S.of(context).back_to_previous,
                   style: TextStyle(
-                    color: Color(0xFF008B8B),
+                    color: AppColors.color1,
                     decoration: TextDecoration.underline,
                   ),
                 ),

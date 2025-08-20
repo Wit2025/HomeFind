@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/join/pages/persional_info_page.dart';
+import 'package:homefind/widgets/Colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+
+import 'package:intl/intl.dart';
 
 class PropertyDetailsPage extends StatefulWidget {
   final Map<String, dynamic> personalData;
@@ -13,8 +17,8 @@ class PropertyDetailsPage extends StatefulWidget {
 }
 
 class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
-  final _primaryColor = const Color.fromARGB(255, 87, 167, 177);
-  final _darkPrimaryColor = const Color.fromARGB(255, 12, 105, 122);
+  final _primaryColor = AppColors.color1;
+  final _darkPrimaryColor = AppColors.color2;
   final _formKey = GlobalKey<FormState>();
 
   // Controllers
@@ -23,6 +27,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _brokerageController = TextEditingController();
 
   // State variables
   int _selectedCategoryIndex = 0;
@@ -30,16 +35,19 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
   String? _selectedStatus = "ເຊົ່າ";
   String? _selectedRoomSharing = "ບໍ່ແຊຫ້ອງ";
   String? _selectedRentalPeriod = "ເປັນເດືອນ";
+  String? _selectedCurrency = "LAK";
   File? _selectedMainImage;
   List<File> _selectedPropertyImages = [];
   bool _isLoading = false;
+  double _totalPrice = 0.0;
+  final NumberFormat currencyFormat = NumberFormat("#,##0.00", "en_US");
 
   // Amenities selection
   final Map<String, bool> _amenities = {
     'ຈອດລົດ': false,
     'ອິນເຕີເນັດ': false,
     'ເຄື່ອງເຮືອນ': false,
-    'ເຮືອນຄາບ': false,
+    'ສະລອຍນໍ້າ': false,
     'ຕູ້ເຢັນ': false,
     'ກວດຄົນເຂົ້າ': false,
     'ແອ': false,
@@ -59,6 +67,68 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
     {'title': 'ເຟີນີເຈີ້', 'icon': Icons.chair},
   ];
 
+  // Translation helper methods
+  String _translateValue(String value) {
+    switch (value) {
+      case 'ເຊົ່າ':
+        return S.of(context).rent;
+      case 'ຂາຍ':
+        return S.of(context).sale;
+      case 'ເຮືອນ':
+        return S.of(context).house;
+      case 'ຫ້ອງແຖວ':
+        return S.of(context).townhouse;
+      case 'ອາພາດເມັ້ນ':
+        return S.of(context).apartment;
+      case 'ດິນ':
+        return S.of(context).land;
+      case 'ແຊທີ່ພັກ':
+        return S.of(context).room_sharing;
+      case 'ຕິດຕັ້ງແອ':
+        return S.of(context).install_air;
+      case 'ແກ່ເຄື່ອງ':
+        return S.of(context).moving_goods;
+      case 'ຕິດຕັ້ງແວ່ນ':
+        return S.of(context).install_glass;
+      case 'ເຟີນີເຈີ້':
+        return S.of(context).furniture;
+      case 'ແຊຫ້ອງ':
+        return S.of(context).share_room;
+      case 'ບໍ່ແຊຫ້ອງ':
+        return S.of(context).no_share_room;
+      case 'ເປັນເດືອນ':
+        return S.of(context).per_month;
+      case 'ເປັນປີ':
+        return S.of(context).perYear;
+      case 'ຈອດລົດ':
+        return S.of(context).parking;
+      case 'ອິນເຕີເນັດ':
+        return S.of(context).internet;
+      case 'ເຄື່ອງເຮືອນ':
+        return S.of(context).furniture;
+      case 'ສະລອຍນໍ້າ':
+        return S.of(context).swimmingPool;
+      case 'ຕູ້ເຢັນ':
+        return S.of(context).refrigerator;
+      case 'ກວດຄົນເຂົ້າ':
+        return S.of(context).security_check;
+      case 'ແອ':
+        return S.of(context).air;
+      case 'ເຄື່ອງຊັກຜ້າ':
+        return S.of(context).washing_machine;
+      default:
+        return value;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _priceController.addListener(_calculateTotal);
+    _brokerageController.addListener(_calculateTotal);
+  }
+
   @override
   void dispose() {
     _titleController.dispose();
@@ -66,6 +136,9 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
     _locationController.dispose();
     _descriptionController.dispose();
     _phoneController.dispose();
+    _brokerageController.dispose();
+    _priceController.removeListener(_calculateTotal);
+    _brokerageController.removeListener(_calculateTotal);
     super.dispose();
   }
 
@@ -88,8 +161,8 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('ຜິດພາດໃນການເລືອກຮູບ: $e'),
-            backgroundColor: Colors.red,
+            content: Text('${S.of(context).image_selection_error}: $e'),
+            backgroundColor: Color.fromARGB(255, 12, 105, 122),
           ),
         );
       }
@@ -117,9 +190,9 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
         if (remainingSlots <= 0) {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('ເຕັມຈຳນວນ 16 ຮູບແລ້ວ'),
-                backgroundColor: Colors.orange,
+              SnackBar(
+                content: Text(S.of(context).full_16_images),
+                backgroundColor: Color.fromARGB(255, 12, 105, 122),
               ),
             );
           }
@@ -137,9 +210,9 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
 
         if (pickedFiles.length > remainingSlots && mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('ສາມາດເພີ່ມໄດ້ສູງສຸດ 16 ຮູບ'),
-              backgroundColor: Colors.orange,
+            SnackBar(
+              content: Text(S.of(context).max_16_images),
+              backgroundColor: Color.fromARGB(255, 12, 105, 122),
             ),
           );
         }
@@ -148,8 +221,8 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('ຜິດພາດໃນການເລືອກຮູບ: $e'),
-            backgroundColor: Colors.red,
+            content: Text('${S.of(context).image_selection_error}: $e'),
+            backgroundColor: Color.fromARGB(255, 12, 105, 122),
           ),
         );
       }
@@ -162,9 +235,19 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
     });
   }
 
+  void _calculateTotal() {
+    final price = double.tryParse(_priceController.text) ?? 0.0;
+    final brokerage = double.tryParse(_brokerageController.text) ?? 0.0;
+
+    setState(() {
+      _totalPrice = price + brokerage;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: ValueKey(Localizations.localeOf(context).languageCode),
       backgroundColor: Colors.grey[50],
       appBar: _buildAppBar(),
       body: Column(
@@ -202,7 +285,6 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
               ),
             ),
           ),
-          // _buildBottomNavigation(),
         ],
       ),
     );
@@ -214,8 +296,8 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
         icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
         onPressed: () => Navigator.pop(context),
       ),
-      title: const Text(
-        'ຂໍ້ມູນທີ່ພັກ',
+      title: Text(
+        S.of(context).accommodation_info,
         style: TextStyle(
           fontWeight: FontWeight.w600,
           fontSize: 20,
@@ -254,9 +336,9 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
         children: [
           // Step 1 - Completed
           GestureDetector(
-            onLongPress: () => Navigator.push(
+            onTap: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => PersonalInfoPage()),
+              MaterialPageRoute(builder: (context) => const PersonalInfoPage()),
             ),
             child: Container(
               width: 40,
@@ -339,9 +421,9 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
                 ),
               ),
               const SizedBox(width: 12),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'ຂໍ້ມູນທີ່ພັກ',
+                  S.of(context).accommodation_info,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -353,7 +435,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            'ກະລຸນາກໍ່ນຂໍ້ມູນທີ່ພັກຂອງທ່ານໃຫ້ຄົບຖ້ວນ ເພື່ອການໂປນໂມດ',
+            S.of(context).complete_info_for_promo,
             style: TextStyle(
               fontSize: 14,
               color: Colors.grey[600],
@@ -369,8 +451,8 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'ປະເພດບໍລິການ',
+        Text(
+          S.of(context).service_type,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -392,28 +474,30 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
                 ),
               ],
             ),
-            child: GridView.builder(
-              // controller: _categoryScrollController, // Add this if you want smooth scrolling
-              // scrollDirection: Axis.horizontal,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 5,
-                crossAxisSpacing: 0,
-                mainAxisSpacing: 0,
-                childAspectRatio: 0.8,
+            child: Center(
+              child: GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 5,
+                  crossAxisSpacing: 0,
+                  mainAxisSpacing: 0,
+                  childAspectRatio: 0.8,
+                ),
+                itemCount: categories.length,
+                itemBuilder: (context, index) {
+                  final category = categories[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: _buildCategoryButton(
+                      category['title'],
+                      category['icon'],
+                      _selectedCategoryIndex == index,
+                      index,
+                    ),
+                  );
+                },
               ),
-              itemCount: categories.length,
-              itemBuilder: (context, index) {
-                final category = categories[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: _buildCategoryButton(
-                    category['title'],
-                    category['icon'],
-                    _selectedCategoryIndex == index,
-                    index,
-                  ),
-                );
-              },
             ),
           ),
         ),
@@ -429,20 +513,18 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
   ) {
     return GestureDetector(
       onTap: () {
-        // Simple state update without carousel navigation
         setState(() {
           _selectedCategoryIndex = index;
-          _selectedCategorybutton = title; // Update selected category name
+          _selectedCategorybutton = title; // Keep original Lao value
         });
       },
       child: Semantics(
         button: true,
         selected: isSelected,
-        label: 'ໝວດໝູ່ $title',
+        label: '${S.of(context).category} ${_translateValue(title)}',
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Container สำหรับ icon
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               padding: const EdgeInsets.all(12),
@@ -462,7 +544,6 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
 
             const SizedBox(height: 6),
 
-            // Text ที่ปรับปรุงแล้ว
             AnimatedDefaultTextStyle(
               duration: const Duration(milliseconds: 200),
               style: TextStyle(
@@ -471,7 +552,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
               child: Text(
-                title,
+                _translateValue(title), // Display translated text
                 textAlign: TextAlign.center,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -487,8 +568,8 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'ອັບໂຫຼດຮູບຫຼັກທີ່ພັກ',
+        Text(
+          S.of(context).upload_main_image,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -528,7 +609,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
         const SizedBox(height: 12),
         Center(
           child: Text(
-            'ອັບໂຫຼດຮູບຖ່າຍທີ່ພັກໃນປັດຈຸບັນ (1 ຮູບ)',
+            S.of(context).upload_current_photo_1,
             style: TextStyle(fontSize: 12, color: Colors.grey[600]),
             textAlign: TextAlign.center,
           ),
@@ -544,7 +625,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
         Icon(Icons.image, size: 50, color: _primaryColor),
         const SizedBox(height: 8),
         Text(
-          'ແຕະເພື່ອອັບໂຫຼດຮູບ',
+          S.of(context).tap_to_upload,
           style: TextStyle(
             color: _primaryColor,
             fontWeight: FontWeight.w600,
@@ -590,8 +671,8 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'ຮູບພາບທີ່ພັກ',
+        Text(
+          S.of(context).accommodation_photos,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -623,7 +704,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
               color: _primaryColor,
             ),
             label: Text(
-              'ເພີ່ມຮູບພາບ',
+              S.of(context).add_photo,
               style: TextStyle(
                 color: _primaryColor,
                 fontWeight: FontWeight.w600,
@@ -662,7 +743,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
             Icon(Icons.collections_outlined, size: 50, color: _primaryColor),
             const SizedBox(height: 8),
             Text(
-              'ອັບໂຫຼດຮູບພາບທີ່ພັກ',
+              S.of(context).upload_main_image,
               style: TextStyle(
                 color: _primaryColor,
                 fontWeight: FontWeight.w600,
@@ -671,7 +752,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
             ),
             const SizedBox(height: 4),
             Text(
-              'ສູງສຸດ 16 ຮູບ',
+              S.of(context).max_16_images,
               style: TextStyle(color: Colors.grey[600], fontSize: 12),
             ),
           ],
@@ -710,7 +791,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
                     Icon(Icons.add, size: 30, color: _primaryColor),
                     const SizedBox(height: 4),
                     Text(
-                      'ເພີ່ມຮູບ',
+                      S.of(context).add_photo,
                       style: TextStyle(color: _primaryColor, fontSize: 12),
                     ),
                   ],
@@ -765,8 +846,8 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'ຂໍ້ມູນພື້ນຖານ',
+        Text(
+          S.of(context).basic_info,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -775,16 +856,17 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
         ),
         const SizedBox(height: 8),
         _buildInputField(
-          label: 'ຊື່ທີ່ພັກ',
+          label: S.of(context).accommodation_name,
           controller: _titleController,
           icon: Icons.title_outlined,
-          validator: (value) =>
-              value?.isEmpty ?? true ? 'ກະລຸນາໃສ່ຊື່ທີ່ພັກ' : null,
+          validator: (value) => value?.isEmpty ?? true
+              ? S.of(context).please_enter_accommodation_name
+              : null,
         ),
 
         const SizedBox(height: 8),
-        _buildDropdownField(
-          'ສະຖານະ',
+        _buildTranslatableDropdownField(
+          S.of(context).status,
           _selectedStatus,
           ['ເຊົ່າ', 'ຂາຍ'],
           (value) => setState(() {
@@ -799,16 +881,16 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
         ),
         const SizedBox(height: 8),
         if (_selectedStatus == 'ເຊົ່າ') ...[
-          _buildDropdownField(
-            'ລະຍະເວລາເຊົ່າ',
+          _buildTranslatableDropdownField(
+            S.of(context).rental_period,
             _selectedRentalPeriod,
-            ['ເປັນເດືອນ', 'ເປັນປີ', 'ເປັນ 10 ປີ'],
+            ['ເປັນເດືອນ', 'ເປັນປີ'],
             (value) => setState(() => _selectedRentalPeriod = value),
             Icons.schedule_outlined,
           ),
           const SizedBox(height: 8),
-          _buildDropdownField(
-            'ການແຊ່ຫ້ອງ',
+          _buildTranslatableDropdownField(
+            S.of(context).share_room,
             _selectedRoomSharing,
             ['ແຊຫ້ອງ', 'ບໍ່ແຊຫ້ອງ'],
             (value) => setState(() => _selectedRoomSharing = value),
@@ -823,25 +905,33 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
     String getPriceLabel() {
       if (_selectedStatus == 'ເຊົ່າ') {
         if (_selectedRentalPeriod == 'ເປັນປີ') {
-          return 'ລາຄາເປັນປີ (₭)';
+          return '${S.of(context).price_per_year} ${_selectedCurrency}';
         } else {
-          return 'ລາຄາເປັນເດືອນ (₭)';
+          return '${S.of(context).price_per_month} ${_selectedCurrency}';
         }
       } else {
-        return 'ລາຄາ (₭)';
+        return '${S.of(context).price} ${_selectedCurrency}';
       }
     }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'ລາຄາແລະທີ່ຢູ່',
+        Text(
+          S.of(context).price,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
             color: Color.fromARGB(255, 12, 105, 122),
           ),
+        ),
+        const SizedBox(height: 12),
+        _buildDropdownField(
+          S.of(context).selectCurrency,
+          _selectedCurrency,
+          ['LAK', 'THB', 'USD', 'CNY', 'KRW'],
+          (value) => setState(() => _selectedCurrency = value),
+          Icons.currency_exchange_outlined,
         ),
         const SizedBox(height: 8),
         _buildInputField(
@@ -850,21 +940,56 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
           icon: Icons.monetization_on_outlined,
           keyboardType: TextInputType.number,
           validator: (value) {
-            if (value?.isEmpty ?? true) return 'ກະລຸນາໃສ່ລາຄາ';
+            if (value?.isEmpty ?? true) return S.of(context).please_enter_price;
             if (double.tryParse(value!) == null)
-              return 'ກະລຸນາໃສ່ຕົວເລກຖືກຕ້ອງ';
+              return S.of(context).please_enter_correct_number;
             return null;
           },
         ),
         const SizedBox(height: 8),
         _buildInputField(
-          label: 'ທີ່ຢູ່',
-          controller: _locationController,
-          icon: Icons.location_on_outlined,
-          validator: (value) =>
-              value?.isEmpty ?? true ? 'ກະລຸນາໃສ່ທີ່ຢູ່' : null,
+          label: S.of(context).commissionFee,
+          controller: _brokerageController,
+          icon: Icons.handshake,
+          keyboardType: TextInputType.number,
         ),
+        _buildTotalPrice(),
       ],
+    );
+  }
+
+  Widget _buildTotalPrice() {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.only(top: 8),
+      decoration: BoxDecoration(
+        color: Colors.grey[100],
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.calculate, color: Colors.green, size: 20),
+          const SizedBox(width: 8),
+          Text(
+            '${S.of(context).totalPrice}:',
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey[700],
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const Spacer(),
+          Text(
+            '${currencyFormat.format(_totalPrice)} $_selectedCurrency',
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.green,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -872,8 +997,8 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'ຂໍ້ມູນຕິດຕໍ່',
+        Text(
+          S.of(context).addressAndContact,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -882,16 +1007,26 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
         ),
         const SizedBox(height: 12),
         _buildInputField(
-          label: 'ເບີໂທລະສັບ',
+          label: S.of(context).address,
+          controller: _locationController,
+          icon: Icons.location_on_outlined,
+          validator: (value) => value?.isEmpty ?? true
+              ? S.of(context).please_enter_address
+              : null,
+        ),
+        const SizedBox(height: 8),
+        _buildInputField(
+          label: S.of(context).phone,
+          hint: '20xxxxxxxx',
           controller: _phoneController,
           icon: Icons.phone_outlined,
           keyboardType: TextInputType.phone,
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'ກະລຸນາໃສ່ເບີໂທ';
+              return S.of(context).please_enter_phone;
             }
-            if (!RegExp(r'^20\d{8}$').hasMatch(value)) {
-              return 'ເບີໂທຕ້ອງເລີ່ມດ້ວຍ 20 ແລະ ມີ 10 ຫຼັກ';
+            if (!RegExp(r'^20[2579]\d{7}').hasMatch(value)) {
+              return S.of(context).invalid_phone_number;
             }
             return null;
           },
@@ -904,8 +1039,8 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'ລາຍລະອຽດເພີ່ມເຕີມ',
+        Text(
+          S.of(context).additional_details,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -926,9 +1061,8 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
           child: TextFormField(
             controller: _descriptionController,
             decoration: InputDecoration(
-              labelText: 'ລາຍລະອຽດເພີ່ມເຕີ່ມ (ຖ້າມີ)',
-              hintText:
-                  'ອະທິບາຍລາຍລະອຽດທີ່ພັກ, ສິ່ງອຳນວຍຄວາມສະດວກ, ແລະຂໍ້ມູນອື່ນໆ...',
+              labelText: S.of(context).additional_details_optional,
+              hintText: S.of(context).description_placeholder,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide(color: Colors.grey[300]!),
@@ -957,8 +1091,8 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'ສິ່ງອຳນວຍຄວາມສະດວກ',
+        Text(
+          S.of(context).facilities,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -1013,7 +1147,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
                     const SizedBox(width: 8),
                     Flexible(
                       child: Text(
-                        amenity,
+                        _translateValue(amenity), // Display translated amenity
                         style: TextStyle(
                           color: isSelected ? Colors.white : Colors.black87,
                           fontSize: 13,
@@ -1034,6 +1168,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
 
   Widget _buildInputField({
     required String label,
+    String hint = "",
     required TextEditingController controller,
     required IconData icon,
     TextInputType? keyboardType,
@@ -1053,6 +1188,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
         controller: controller,
         decoration: InputDecoration(
           labelText: label,
+          hintText: hint,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(color: Colors.grey[300]!),
@@ -1132,6 +1268,63 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
     );
   }
 
+  // New method for translatable dropdown fields
+  Widget _buildTranslatableDropdownField(
+    String label,
+    String? value,
+    List<String> items,
+    void Function(String?) onChanged,
+    IconData icon,
+  ) {
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: InputDecorator(
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: Colors.grey[300]!),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: Colors.grey[300]!),
+          ),
+          filled: true,
+          fillColor: Colors.white,
+          prefixIcon: Icon(icon, color: _primaryColor),
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 8,
+            horizontal: 20,
+          ),
+        ),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<String>(
+            value: value,
+            isExpanded: true,
+            icon: Icon(Icons.arrow_drop_down, color: _primaryColor),
+            style: const TextStyle(color: Colors.black, fontSize: 16),
+            items: items.map((String item) {
+              return DropdownMenuItem<String>(
+                value: item, // Keep original Lao value
+                child: Text(_translateValue(item)), // Display translated text
+              );
+            }).toList(),
+            onChanged: onChanged,
+            dropdownColor: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildBottomNavigation() {
     return Container(
       width: double.infinity,
@@ -1153,30 +1346,45 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
         child: ElevatedButton(
           onPressed: _isLoading ? null : _submitForm,
           style: ElevatedButton.styleFrom(
-            backgroundColor: _primaryColor,
+            padding:
+                EdgeInsets.zero, // ต้องเพิ่มบรรทัดนี้เพื่อให้ gradient เต็มปุ่ม
+            backgroundColor: Colors.transparent, // ตั้งค่าเป็น transparent
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
             elevation: 0,
             shadowColor: Colors.transparent,
           ),
-          child: _isLoading
-              ? const CircularProgressIndicator(color: Colors.white)
-              : const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.publish, color: Colors.white, size: 20),
-                    SizedBox(width: 8),
-                    Text(
-                      'ສົ່ງຂໍ້ມູນ',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
+          child: Ink(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [AppColors.color1, AppColors.color2],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+              child: _isLoading
+                  ? const CircularProgressIndicator(color: Colors.white)
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.cloud_upload, color: Colors.white, size: 30),
+                        SizedBox(width: 12),
+                        Text(
+                          S.of(context).submit_data,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+            ),
+          ),
         ),
       ),
     );
@@ -1208,9 +1416,9 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
   Future<void> _submitForm() async {
     if (!_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('ກະລຸນາກໍ່ນຂໍ້ມູນໃຫ້ຄົບຖ້ວນ'),
-          backgroundColor: Colors.red,
+        SnackBar(
+          content: Text(S.of(context).pleaseEnterCompleteData),
+          backgroundColor: Color.fromARGB(255, 12, 105, 122),
         ),
       );
       return;
@@ -1218,9 +1426,9 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
 
     if (_selectedMainImage == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('ກະລຸນາອັບໂຫຼດຮູບຫຼັກທີ່ພັກ'),
-          backgroundColor: Colors.red,
+        SnackBar(
+          content: Text(S.of(context).please_upload_main_image),
+          backgroundColor: Color.fromARGB(255, 12, 105, 122),
         ),
       );
       return;
@@ -1228,9 +1436,9 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
 
     if (_selectedPropertyImages.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('ກະລຸນາເພີ່ມຮູບພາບທີ່ພັກຢ່າງໜ້ອຍ 1 ຮູບ'),
-          backgroundColor: Colors.red,
+        SnackBar(
+          content: Text(S.of(context).please_add_min_1_photo),
+          backgroundColor: Color.fromARGB(255, 12, 105, 122),
         ),
       );
       return;
@@ -1238,9 +1446,9 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
 
     if (_selectedStatus == 'ເຊົ່າ' && _selectedRentalPeriod == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('ກະລຸນາເລືອກລະຍະເວລາເຊົ່າ'),
-          backgroundColor: Colors.red,
+        SnackBar(
+          content: Text(S.of(context).please_select_rental_period),
+          backgroundColor: Color.fromARGB(255, 12, 105, 122),
         ),
       );
       return;
@@ -1252,32 +1460,16 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
       // Simulate network request
       await Future.delayed(const Duration(seconds: 2));
 
-      // Combine personal data and property data
-      final completeData = {
-        ...widget.personalData,
-        'title': _titleController.text,
-        'category': _selectedCategorybutton,
-        'status': _selectedStatus,
-        'rentalPeriod': _selectedRentalPeriod,
-        'roomSharing': _selectedRoomSharing,
-        'price': _priceController.text,
-        'location': _locationController.text,
-        'phone': _phoneController.text,
-        'description': _descriptionController.text,
-        'amenities': _amenities,
-        'mainImage': _selectedMainImage,
-        'propertyImages': _selectedPropertyImages,
-      };
-
-      print('Complete form data: $completeData');
-
       if (mounted) {
         _showSuccessDialog();
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('ຜິດພາດ: $e'), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text('${S.of(context).error}: $e'),
+            backgroundColor: Color.fromARGB(255, 12, 105, 122),
+          ),
         );
       }
     } finally {
@@ -1318,8 +1510,8 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
                 child: const Icon(Icons.check, size: 40, color: Colors.green),
               ),
               const SizedBox(height: 20),
-              const Text(
-                'ສົ່ງຂໍ້ມູນສຳເລັດ!',
+              Text(
+                S.of(context).submit_success,
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -1328,8 +1520,8 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 12),
-              const Text(
-                'ຂໍ້ມູນຂອງທ່ານໄດ້ຖືກສົ່ງໄປຫາທີມງານແລ້ວ\nລໍຖ້າການກວດສອບແລະອະນຸມັດ\nພວກເຮົາຈະແຈ້ງໃຫ້ທ່ານຊາບໃນໄວໆນີ້',
+              Text(
+                '${S.of(context).you_posted_data}${_translateValue(_selectedCategorybutton)}${S.of(context).submit_success}',
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.white,
@@ -1352,8 +1544,8 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
                   onPressed: () {
                     Navigator.of(context).popUntil((route) => route.isFirst);
                   },
-                  child: const Text(
-                    'ເຂົ້າໃຈແລ້ວ',
+                  child: Text(
+                    S.of(context).understood,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                 ),

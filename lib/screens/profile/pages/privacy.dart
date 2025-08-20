@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
+import 'package:homefind/widgets/Colors.dart';
 
 class PrivacyPages extends StatefulWidget {
   const PrivacyPages({super.key});
@@ -31,9 +32,9 @@ class _PrivacyPagesState extends State<PrivacyPages> {
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF57A7B1), Color(0xFF0C697A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+              colors: [AppColors.color1, AppColors.color2],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
             ),
           ),
         ),
@@ -147,7 +148,7 @@ class _PrivacyPagesState extends State<PrivacyPages> {
                 height: 28,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF0C697A),
+                  color: AppColors.color1,
                   shape: BoxShape.circle,
                 ),
                 child: Text(
@@ -164,7 +165,7 @@ class _PrivacyPagesState extends State<PrivacyPages> {
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF0C697A),
+                  color: AppColors.color1,
                 ),
               ),
             ],

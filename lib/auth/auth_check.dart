@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/auth/login.dart';
+import 'package:homefind/generated/l10n.dart';
+import 'package:homefind/widgets/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthChecker {
@@ -38,13 +40,10 @@ class AuthChecker {
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [
-                Color.fromARGB(255, 87, 167, 177),
-                Color.fromARGB(255, 12, 105, 122),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+            gradient: LinearGradient(
+              colors: [AppColors.color1, AppColors.color2],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
             ),
             borderRadius: BorderRadius.circular(20),
           ),
@@ -57,8 +56,9 @@ class AuthChecker {
                 color: Colors.red,
               ),
               const SizedBox(height: 20),
-              const Text(
-                'ທ່ານຍັງບໍ່ໄດ້ລົງທະບຽນ',
+              //  Text("ທ່ານຍັງບໍ່ໄດ້ລົງທະບຽນ"
+              Text(
+                S.of(context).not_registered_yet,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -67,8 +67,9 @@ class AuthChecker {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 10),
-              const Text(
-                'ກາລຸນາເຂົ້າສູ່ລະບົບກ່ອນໃຊ້ງານຟັງຊັ່ນນີ້',
+              //  Text("ກາລຸນາເຂົ້າສູ່ລະບົບກ່ອນໃຊ້ງານຟັງຊັ່ນນີ້"
+              Text(
+                S.of(context).please_login_first,
                 style: TextStyle(fontSize: 16, color: Colors.white70),
                 textAlign: TextAlign.center,
               ),
@@ -98,14 +99,15 @@ class AuthChecker {
                         (route) => false,
                       );
                     },
-                    child: const Text(
-                      'ເຂົ້າສູ່ລະບົບ',
+                    child: Text(
+                      // 'ເຂົ້າສູ່ລະບົບ',
+                      S.of(context).login,
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Colors.white),
+                      side: const BorderSide(color: Colors.white, width: 2),
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -118,8 +120,9 @@ class AuthChecker {
                     onPressed: () {
                       Navigator.of(context).pop(); // แค่ปิด dialog
                     },
-                    child: const Text(
-                      'ຍົກເລີກ',
+                    child: Text(
+                      // 'ຍົກເລີກ',
+                      S.of(context).cancel,
                       style: TextStyle(fontSize: 16),
                     ),
                   ),

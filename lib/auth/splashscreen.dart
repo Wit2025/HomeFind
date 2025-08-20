@@ -1,7 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/main.dart';
 import 'package:homefind/screens/main_screen.dart';
+import 'package:homefind/widgets/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -22,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-    _initializeLanguage(); // โหลดภาษาก่อน
+    _initializeLanguage();
     _setupAnimations();
   }
 
@@ -77,8 +79,8 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _checkLoginStatus() async {
-    final prefs = await SharedPreferences.getInstance();
-    final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+    // final prefs = await SharedPreferences.getInstance();
+    // final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
     Navigator.pushReplacement(
       context,
@@ -137,7 +139,7 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Widget _buildSubtitle() {
-    final subtitle = "ແອັບຊ່ວຍຄົ້ນຫາທີ່ພັກຂອງທ່ານ..";
+    final subtitle = S.of(context).app_description;
 
     return FadeTransition(
       opacity: _subtitleFadeAnimation,
@@ -168,8 +170,8 @@ class _SplashScreenState extends State<SplashScreen>
         mainAxisSize: MainAxisSize.min,
         children: [
           const Text(
-            'from',
-            style: TextStyle(color: Colors.grey, fontSize: 14),
+            'From',
+            style: TextStyle(color: Colors.white, fontSize: 14),
           ),
           const SizedBox(height: 2),
 
@@ -177,14 +179,14 @@ class _SplashScreenState extends State<SplashScreen>
             shaderCallback: (bounds) => const LinearGradient(
               colors: [
                 Colors.white,
-                Color(0xFF8EC5FC), // Light blue
+                AppColors.color1, // Light blue
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ).createShader(bounds),
             blendMode: BlendMode.srcIn,
             child: const Text(
-              '@Midi Technology Company Limited',
+              'Midi Technology Company Limited',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -200,12 +202,13 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: ValueKey(Localizations.localeOf(context).languageCode),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF00CEB0), Color(0xFF006B8B)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            colors: [AppColors.color1, AppColors.color2],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
           ),
         ),
         child: Stack(

@@ -4,6 +4,7 @@ import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/main_screen.dart';
 import 'package:homefind/auth/forget_pass.dart';
 import 'package:homefind/auth/register.dart';
+import 'package:homefind/widgets/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
@@ -156,9 +157,9 @@ class _LoginPageState extends State<LoginPage> {
                   width: double.infinity,
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [Color(0xFF00CEB0), Color(0xFF006B8B)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+                      colors: [AppColors.color1, AppColors.color2],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
                     ),
                   ),
                   child: SafeArea(
@@ -258,7 +259,7 @@ class _LoginPageState extends State<LoginPage> {
                                 fontFamily: 'NotoSansLao',
                                 fontSize: isSmallScreen ? 20 : 24,
                                 fontWeight: FontWeight.bold,
-                                color: const Color(0xFF008B8B),
+                                color: AppColors.color1,
                               ),
                             ),
                           ),
@@ -386,7 +387,7 @@ class _LoginPageState extends State<LoginPage> {
                                   S.of(context).forgot_password,
                                   style: TextStyle(
                                     fontFamily: 'NotoSansLao',
-                                    color: const Color(0xFF008B8B),
+                                    color: AppColors.color1,
                                     fontSize: 14,
                                   ),
                                 ),
@@ -398,37 +399,47 @@ class _LoginPageState extends State<LoginPage> {
                           // Login button (will navigate to OTP page)
                           SizedBox(
                             width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: _isLoading ? null : _submitForm,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF008B8B),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 16,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [AppColors.color1, AppColors.color2],
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                elevation: 0,
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                              child: _isLoading
-                                  ? const SizedBox(
-                                      height: 24,
-                                      width: 24,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 3,
-                                        color: Colors.white,
+                              child: ElevatedButton(
+                                onPressed: _isLoading ? null : _submitForm,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.transparent,
+                                  shadowColor: Colors.transparent,
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 16,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  elevation: 0,
+                                ),
+                                child: _isLoading
+                                    ? const SizedBox(
+                                        height: 24,
+                                        width: 24,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 3,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : Text(
+                                        S.of(context).login,
+                                        style: TextStyle(
+                                          fontFamily: 'NotoSansLao',
+                                          fontSize: isSmallScreen ? 16 : 18,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
-                                    )
-                                  : Text(
-                                      // 'ເຂົ້າສູ່ລະບົບ'
-                                      S.of(context).login,
-                                      style: TextStyle(
-                                        fontFamily: 'NotoSansLao',
-                                        fontSize: isSmallScreen ? 16 : 18,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
+                              ),
                             ),
                           ),
                           const SizedBox(height: 24),
@@ -537,7 +548,7 @@ class _LoginPageState extends State<LoginPage> {
                                   style: TextStyle(
                                     fontFamily: 'NotoSansLao',
                                     fontSize: isSmallScreen ? 14 : 16,
-                                    color: const Color(0xFF008B8B),
+                                    color: AppColors.color1,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),

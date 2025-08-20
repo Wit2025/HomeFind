@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/join/pages/persional_info_page.dart';
 import 'package:homefind/screens/join/pages/property_details_page.dart';
+import 'package:homefind/widgets/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class JoinPages extends StatefulWidget {
@@ -14,9 +16,10 @@ class JoinPages extends StatefulWidget {
 
 class _JoinPagesState extends State<JoinPages> {
   bool _termsAccepted = false;
-  final Color _primaryColor = const Color(0xFF0C697A);
+  final Color _primaryColor = AppColors.color1;
   final Color _secondaryColor = const Color(0xFF57A7B1);
   final Color _accentColor = const Color(0xFF4DB6AC);
+  bool _showContent = false;
 
   @override
   void initState() {
@@ -34,6 +37,10 @@ class _JoinPagesState extends State<JoinPages> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _showTermsAndConditionsPage();
       });
+    } else {
+      setState(() {
+        _showContent = true;
+      });
     }
   }
 
@@ -50,6 +57,7 @@ class _JoinPagesState extends State<JoinPages> {
             await prefs.setBool('terms_accepted', true);
             setState(() {
               _termsAccepted = true;
+              _showContent = true;
             });
           },
         ),
@@ -57,7 +65,6 @@ class _JoinPagesState extends State<JoinPages> {
     );
   }
 
-  // check user had posted
   Future<void> checkAndNavigate(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     bool isFilled = prefs.getBool('isPersonalInfoFilled') ?? false;
@@ -80,14 +87,15 @@ class _JoinPagesState extends State<JoinPages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      key: ValueKey(Localizations.localeOf(context).languageCode),
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0,
         centerTitle: true,
-        title: const Text(
-          'ເຂົ້າຮ່ວມ',
-          style: TextStyle(
+        title: Text(
+          S.of(context).join,
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
             color: Colors.white,
@@ -96,94 +104,198 @@ class _JoinPagesState extends State<JoinPages> {
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [_secondaryColor, _primaryColor],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+              colors: [AppColors.color1, AppColors.color2],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
             ),
           ),
         ),
       ),
-      body: Center(
-        child: _termsAccepted
-            ? Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
+      body: _termsAccepted && _showContent
+          ? AnimatedOpacity(
+              opacity: _showContent ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 600),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _buildActionButton(
-                      text: 'Post ເອງ',
-                      icon: Icons.add_circle_outline,
-                      onPressed: () {
-                        // AuthChecker.checkAuthAndNavigate(
-                        //   context: context,
-                        //   page: PersonalInfoPage(),
-                        // );
-                        checkAndNavigate(context);
-                      },
+                    const SizedBox(height: 20),
+                    // Welcome message
+                    Text(
+                      S.of(context).choose,
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: _primaryColor,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 30),
+                    // Post Own Card
+                    _buildOptionCard(
+                      title: S.of(context).post_own,
+                      // subtitle: 'Create your own property listing',
+                      subtitle: S.of(context).create_own_listing,
+                      icon: Icons.home_work_outlined,
+                      gradient: LinearGradient(
+                        colors: [AppColors.color1, AppColors.color2],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      onTap: () => checkAndNavigate(context),
                       isPrimary: true,
                     ),
-                    const SizedBox(height: 20),
-                    _buildActionButton(
-                      text: 'ຝາກໃຫ້ Post',
-                      icon: Icons.send_outlined,
-                      onPressed: () {
-                        widget.onGoToAddPage();
-                      },
+                    const SizedBox(height: 24),
+                    // Post For Me Card
+                    _buildOptionCard(
+                      title: S.of(context).post_for_me,
+                      // subtitle: 'Let us help you create a listing',
+                      subtitle: S.of(context).help_create_listing,
+                      icon: Icons.support_agent_outlined,
+                      gradient: LinearGradient(
+                        colors: [_secondaryColor, _accentColor],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      onTap: () => widget.onGoToAddPage(),
                       isPrimary: false,
                     ),
+                    const SizedBox(height: 20),
                   ],
                 ),
-              )
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(_primaryColor),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    'ກຳລັງໂຫລດ...',
-                    style: TextStyle(color: _primaryColor, fontSize: 16),
-                  ),
-                ],
               ),
-      ),
+            )
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: _primaryColor.withOpacity(0.1),
+                          blurRadius: 20,
+                          offset: const Offset(0, 10),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            _primaryColor,
+                          ),
+                          strokeWidth: 3,
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          S.of(context).downloading,
+                          style: TextStyle(
+                            color: _primaryColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
     );
   }
 
-  Widget _buildActionButton({
-    required String text,
+  Widget _buildOptionCard({
+    required String title,
+    required String subtitle,
     required IconData icon,
-    required VoidCallback onPressed,
+    required Gradient gradient,
+    required VoidCallback onTap,
     required bool isPrimary,
   }) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          foregroundColor: isPrimary ? Colors.white : _primaryColor,
-          backgroundColor: isPrimary ? _primaryColor : Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-            side: isPrimary
-                ? BorderSide.none
-                : BorderSide(color: _primaryColor, width: 2),
-          ),
-          elevation: 0,
-          shadowColor: Colors.transparent,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 24),
-            const SizedBox(width: 10),
-            Text(
-              text,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    return Hero(
+      tag: title,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(20),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            decoration: BoxDecoration(
+              gradient: gradient,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: gradient.colors.first.withOpacity(0.3),
+                  blurRadius: 15,
+                  offset: const Offset(0, 8),
+                ),
+              ],
             ),
-          ],
+            child: Container(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                children: [
+                  // Icon with background
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Icon(icon, size: 40, color: Colors.white),
+                  ),
+                  const SizedBox(height: 20),
+                  // Title
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 8),
+                  // Subtitle
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white.withOpacity(0.9),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  // Arrow indicator
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        // 'Get Started',
+                        S.of(context).get_started,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white.withOpacity(0.8),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Icon(
+                        Icons.arrow_forward_rounded,
+                        size: 16,
+                        color: Colors.white.withOpacity(0.8),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -191,7 +303,7 @@ class _JoinPagesState extends State<JoinPages> {
 }
 
 class TermsAndConditionsPage extends StatefulWidget {
-  final VoidCallback onAccept; // Callback function when terms are accepted
+  final VoidCallback onAccept;
   final Color primaryColor;
   final Color secondaryColor;
   final Color accentColor;
@@ -210,22 +322,18 @@ class TermsAndConditionsPage extends StatefulWidget {
 
 class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
   late ScrollController _scrollController;
-  bool _scrolledToEnd = false; // New state for tracking if scrolled to end
-  bool _isChecked = false; // New state for the checkbox
+  bool _scrolledToEnd = false;
+  bool _isChecked = false;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
-    _scrollController.addListener(
-      _onScroll,
-    ); // Add listener to detect scroll position
-    // Check if content is smaller than viewport, if so, enable accept button immediately
+    _scrollController.addListener(_onScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.position.maxScrollExtent == 0) {
         setState(() {
-          _scrolledToEnd =
-              true; // Set scrolled to end if content is not scrollable
+          _scrolledToEnd = true;
         });
       }
     });
@@ -233,24 +341,20 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
 
   @override
   void dispose() {
-    _scrollController.removeListener(
-      _onScroll,
-    ); // Remove listener to prevent memory leaks
-    _scrollController.dispose(); // Dispose the scroll controller
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
     super.dispose();
   }
 
-  // Listener function to check if the user has scrolled to the end
   void _onScroll() {
     if (_scrollController.position.pixels ==
         _scrollController.position.maxScrollExtent) {
       if (!_scrolledToEnd) {
         setState(() {
-          _scrolledToEnd = true; // User has scrolled to the end
+          _scrolledToEnd = true;
         });
       }
     } else {
-      // If user scrolls back up, disable the button again
       if (_scrolledToEnd) {
         setState(() {
           _scrolledToEnd = false;
@@ -259,29 +363,28 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
     }
   }
 
-  // Helper to determine if the accept button should be enabled
   bool get _canAcceptButtonBeEnabled => _scrolledToEnd && _isChecked;
 
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop:
-          _canAcceptButtonBeEnabled, // Allow popping only if terms are accepted and checkbox is checked
+      canPop: _canAcceptButtonBeEnabled,
       onPopInvoked: (didPop) {
         if (didPop && !_canAcceptButtonBeEnabled) {}
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
+        key: ValueKey(Localizations.localeOf(context).languageCode),
         appBar: AppBar(
-          // automaticallyImplyLeading: false,
           leading: IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           ),
           elevation: 0,
           centerTitle: true,
-          title: const Text(
-            'ເງື່ອນໄຂ ແລະ ນະໂຍບາຍການເຂົ້າຮ່ວມ',
-            style: TextStyle(
+          title: Text(
+            S.of(context).terms_and_policies,
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
               color: Colors.white,
@@ -295,13 +398,13 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
                 end: Alignment.bottomRight,
               ),
             ),
-          ), // Hide back button
+          ),
         ),
         body: Column(
           children: [
             Expanded(
               child: SingleChildScrollView(
-                controller: _scrollController, // Assign the scroll controller
+                controller: _scrollController,
                 padding: const EdgeInsets.all(24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -315,10 +418,10 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const Center(
+                    Center(
                       child: Text(
-                        'ຍິນດີຕ້ອນຮັບສູ່ແພລັດຟອມຂອງພວກເຮົາ!',
-                        style: TextStyle(
+                        S.of(context).welcome_message,
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
@@ -326,113 +429,110 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const Text(
-                      'ກະລຸນາອ່ານເງື່ອນໄຂ ແລະ ນະໂຍບາຍລຸ່ມນີ້ຢ່າງລະອຽດກ່ອນທີ່ຈະດຳເນີນການຕໍ່. ການເຂົ້າຮ່ວມແພລັດຟອມຂອງພວກເຮົາຖືວ່າທ່ານໄດ້ອ່ານ, ເຂົ້າໃຈ ແລະ ຍອມຮັບເງື່ອນໄຂທັງໝົດທີ່ລະບຸໄວ້.',
-                      style: TextStyle(fontSize: 14, height: 1.5),
+                    Text(
+                      S.of(context).read_terms_carefully,
+                      style: const TextStyle(fontSize: 14, height: 1.5),
                     ),
                     const SizedBox(height: 24),
-                    _buildSectionTitle('1. ຄໍານິຍາມ'),
+                    _buildSectionTitle('1. ${S.of(context).definitions_title}'),
                     _buildSectionContent(
-                      '1.1 "ແພລັດຟອມ" ໝາຍເຖິງ ເວັບໄຊທ໌, ແອັບພລິເຄຊັນ ຫຼື ບໍລິການໃດໆ ທີ່ພວກເຮົາຈັດຫາໃຫ້',
+                      '1.1 ${S.of(context).platform_definition}',
                     ),
                     _buildSectionContent(
-                      '1.2 "ຜູ້ໃຊ້" ໝາຍເຖິງ ບຸກຄົນໃດໆ ທີ່ເຂົ້າເຖິງ ຫຼື ນໍາໃຊ້ແພລັດຟອມຂອງພວກເຮົາ',
+                      '1.2 ${S.of(context).user_definition}',
                     ),
                     _buildSectionContent(
-                      '1.3 "ເນື້ອຫາ" ໝາຍເຖິງ ຂໍ້ຄວາມ, ຮູບພາບ, ວິດີໂອ ຫຼື ຂໍ້ມູນໃດໆ ທີ່ໂພສລົງໃນແພລັດຟອມ',
-                    ),
-                    const SizedBox(height: 16),
-                    _buildSectionTitle('2. ການຍອມຮັບເງື່ອນໄຂ'),
-                    _buildSectionContent(
-                      '2.1 ການນໍາໃຊ້ແພລັດຟອມຂອງພວກເຮົາ, ທ່ານຕົກລົງທີ່ຈະຜູກມັດຕາມເງື່ອນໄຂ ແລະ ນະໂຍບາຍເຫຼົ່ານີ້, ລວມທັງນະໂຍບາຍຄວາມເປັນສ່ວນຕົວຂອງພວກເຮົາ',
-                    ),
-                    _buildSectionContent(
-                      '2.2 ຖ້າທ່ານບໍ່ເຫັນດີກັບເງື່ອນໄຂໃດໆ, ທ່ານບໍ່ຄວນນໍາໃຊ້ແພລັດຟອມຂອງພວກເຮົາ',
+                      '1.3 ${S.of(context).content_definition}',
                     ),
                     const SizedBox(height: 16),
-                    _buildSectionTitle('3. ການນໍາໃຊ້ແພລັດຟອມ'),
-                    _buildSectionContent(
-                      '3.1 ທ່ານຕ້ອງມີອາຍຸຢ່າງໜ້ອຍ 18 ປີບໍລິບູນຈຶ່ງຈະສາມາດນໍາໃຊ້ແພລັດຟອມນີ້ໄດ້',
+                    _buildSectionTitle(
+                      '2. ${S.of(context).acceptance_of_terms_title}',
                     ),
                     _buildSectionContent(
-                      '3.2 ທ່ານຕົກລົງທີ່ຈະບໍ່ໂພສເນື້ອຫາທີ່ຜິດກົດໝາຍ, ເປັນອັນຕະລາຍ, ຂົ່ມຂູ່, ດູໝິ່ນ, ຄຸກຄາມ, ໝິ່ນປະໝາດ, ຫຍາບຄາຍ, ລາມົກອານາຈານ ຫຼື ເປັນທີ່ໜ້າລັງກຽດ',
+                      '2.1 ${S.of(context).acceptance_clause}',
                     ),
                     _buildSectionContent(
-                      '3.3 ທ່ານຕົກລົງທີ່ຈະບໍ່ນໍາໃຊ້ແພລັດຟອມເພື່ອຈຸດປະສົງທີ່ບໍ່ໄດ້ຮັບອະນຸຍາດ ຫຼື ຜິດກົດໝາຍ',
-                    ),
-                    _buildSectionContent(
-                      '3.4 ພວກເຮົາຂໍສະຫງວນສິດໃນການລຶບເນື້ອຫາໃດໆ ທີ່ພວກເຮົາເຫັນວ່າບໍ່ເໝາະສົມ ຫຼື ລະງັບບັນຊີຜູ້ໃຊ້ໃດໆ ທີ່ລະເມີດເງື່ອນໄຂເຫຼົ່ານີ້',
+                      '2.2 ${S.of(context).disagreement_clause}',
                     ),
                     const SizedBox(height: 16),
-                    _buildSectionTitle('4. ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ'),
-                    _buildSectionContent(
-                      '4.1 ພວກເຮົາໃຫ້ຄວາມສໍາຄັນກັບຄວາມເປັນສ່ວນຕົວຂອງທ່ານ. ກະລຸນາອ່ານນະໂຍບາຍຄວາມເປັນສ່ວນຕົວຂອງພວກເຮົາເພື່ອເຮັດຄວາມເຂົ້າໃຈວ່າພວກເຮົາເກັບກໍາ, ນໍາໃຊ້ ແລະ ເປີດເຜີຍຂໍ້ມູນຂອງທ່ານແນວໃດ',
+                    _buildSectionTitle(
+                      '3. ${S.of(context).platform_usage_title}',
                     ),
                     _buildSectionContent(
-                      '4.2 ການນໍາໃຊ້ແພລັດຟອມຂອງພວກເຮົາ, ທ່ານຍິນຍອມໃຫ້ພວກເຮົາເກັບກໍາ ແລະ ນໍາໃຊ້ຂໍ້ມູນຂອງທ່ານຕາມທີ່ລະບຸໄວ້ໃນນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ',
-                    ),
-                    const SizedBox(height: 16),
-                    _buildSectionTitle('5. ຊັບສິນທາງປັນຍາ'),
-                    _buildSectionContent(
-                      '5.1 ເນື້ອຫາທັງໝົດໃນແພລັດຟອມເປັນຊັບສິນຂອງພວກເຮົາ ຫຼື ຜູ້ໃຫ້ອະນຸຍາດຂອງພວກເຮົາ ແລະ ໄດ້ຮັບການຄຸ້ມຄອງໂດຍກົດໝາຍລິຂະສິດ ແລະ ເຄື່ອງໝາຍການຄ້າ',
+                      '3.1 ${S.of(context).age_requirement}',
                     ),
                     _buildSectionContent(
-                      '5.2 ທ່ານບໍ່ສາມາດຄັດລອກ, ສໍາເນົາ, ແຈກຢາຍ ຫຼື ສ້າງຜົນງານລອກລຽນແບບຈາກເນື້ອຫາໃດໆ ໂດຍບໍ່ໄດ້ຮັບອະນຸຍາດເປັນລາຍລັກອັກສອນຈາກພວກເຮົາ',
-                    ),
-                    const SizedBox(height: 16),
-                    _buildSectionTitle('6. ການຈໍາກັດຄວາມຮັບຜິດຊອບ'),
-                    _buildSectionContent(
-                      '6.1 ແພລັດຟອມຂອງພວກເຮົາໃຫ້ບໍລິການ "ຕາມສະພາບ" ແລະ "ຕາມທີ່ມີ" ໂດຍບໍ່ມີການຮັບປະກັນໃດໆ ທັງໂດຍຊັດແຈ້ງ ຫຼື ໂດຍນัย',
+                      '3.2 ${S.of(context).prohibited_content}',
                     ),
                     _buildSectionContent(
-                      '6.2 ພວກເຮົາຈະບໍ່ຮັບຜິດຊອບຕໍ່ຄວາມເສຍຫາຍໃດໆ ທີ່ເກີດຂຶ້ນຈາກການນໍາໃຊ້ ຫຼື ການບໍ່ສາມາດນໍາໃຊ້ແພລັດຟອມຂອງພວກເຮົາ',
+                      '3.3 ${S.of(context).unauthorized_use}',
+                    ),
+                    _buildSectionContent(
+                      '3.4 ${S.of(context).content_moderation}',
                     ),
                     const SizedBox(height: 16),
-                    _buildSectionTitle('7. ການປ່ຽນແປງເງື່ອນໄຂ'),
-                    _buildSectionContent(
-                      '7.1 ພວກເຮົາຂໍສະຫງວນສິດໃນການແກ້ໄຂ ຫຼື ປັບປຸງເງື່ອນໄຂ ແລະ ນະໂຍບາຍເຫຼົ່ານີ້ໄດ້ຕະຫຼອດເວລາ. ການປ່ຽນແປງຈະມີຜົນທັນທີເມື່ອມີການໂພສລົງໃນແພລັດຟອມ',
+                    _buildSectionTitle(
+                      '4. ${S.of(context).privacy_policy_title}',
                     ),
                     _buildSectionContent(
-                      '7.2 ການນໍາໃຊ້ແພລັດຟອມຕໍ່ໄປຫຼັງຈາກມີການປ່ຽນແປງ, ຖືວ່າທ່ານຍອມຮັບເງື່ອນໄຂທີ່ແກ້ໄຂແລ້ວ',
+                      '4.1 ${S.of(context).privacy_importance}',
+                    ),
+                    _buildSectionContent('4.2 ${S.of(context).data_consent}'),
+                    const SizedBox(height: 16),
+                    _buildSectionTitle(
+                      '5. ${S.of(context).intellectual_property_title}',
+                    ),
+                    _buildSectionContent(
+                      '5.1 ${S.of(context).content_ownership}',
+                    ),
+                    _buildSectionContent(
+                      '5.2 ${S.of(context).copying_prohibition}',
                     ),
                     const SizedBox(height: 16),
-                    _buildSectionTitle('8. ກົດໝາຍທີ່ນໍາໃຊ້'),
-                    _buildSectionContent(
-                      '8.1 ເງື່ອນໄຂ ແລະ ນະໂຍບາຍເຫຼົ່ານີ້ຈະຢູ່ພາຍໃຕ້ບັງຄັບ ແລະ ຕີຄວາມຕາມກົດໝາຍຂອງ ສ.ປ.ປ. ລາວ',
+                    _buildSectionTitle(
+                      '6. ${S.of(context).liability_limitation_title}',
                     ),
-                    _buildSectionContent(
-                      '8.2 ຂໍ້ພິພາດໃດໆ ທີ່ເກີດຂຶ້ນຈາກ ຫຼື ກ່ຽວຂ້ອງກັບເງື່ອນໄຂເຫຼົ່ານີ້ຈະຢູ່ພາຍໃຕ້ເຂດອໍານາດສານຂອງ ສ.ປ.ປ. ລາວ',
-                    ),
+                    _buildSectionContent('6.1 ${S.of(context).as_is_service}'),
+                    _buildSectionContent('6.2 ${S.of(context).no_liability}'),
                     const SizedBox(height: 16),
-                    _buildSectionTitle('9. ການຕິດຕໍ່ພວກເຮົາ'),
+                    _buildSectionTitle(
+                      '7. ${S.of(context).terms_changes_title}',
+                    ),
                     _buildSectionContent(
-                      '9.1 ຖ້າທ່ານມີຄໍາຖາມໃດໆ ກ່ຽວກັບເງື່ອນໄຂ ແລະ ນະໂຍບາຍເຫຼົ່ານີ້, ກະລຸນາຕິດຕໍ່ພວກເຮົາທີ່ support@example.com',
+                      '7.1 ${S.of(context).modification_rights}',
+                    ),
+                    _buildSectionContent('7.2 ${S.of(context).continued_use}'),
+                    const SizedBox(height: 16),
+                    _buildSectionTitle(
+                      '8. ${S.of(context).applicable_law_title}',
+                    ),
+                    _buildSectionContent('8.1 ${S.of(context).governing_law}'),
+                    _buildSectionContent('8.2 ${S.of(context).jurisdiction}'),
+                    const SizedBox(height: 16),
+                    _buildSectionTitle('9. ${S.of(context).contact_us_title}'),
+                    _buildSectionContent(
+                      '9.1 ${S.of(context).contact_info} support@example.com',
                     ),
                     const SizedBox(height: 24),
-                    _buildSectionTitle('ເງື່ອນໄຂເພີ່ມເຕີມ'),
-                    _buildSectionContent(
-                      'ກະລຸນາຮັບຊາບວ່າພວກເຮົາອາດຈະມີການປັບປຸງ ຫຼື ເພີ່ມເງື່ອນໄຂ ແລະ ນະໂຍບາຍເພີ່ມເຕີມເປັນບາງຄັ້ງຄາວ, ເພື່ອໃຫ້ສອດຄ່ອງກັບການປ່ຽນແປງຂອງກົດໝາຍ ຫຼື ການໃຫ້ບໍລິການຂອງພວກເຮົາ. ການປ່ຽນແປງເຫຼົ່ານີ້ຈະຖືກປະກາດໃນແພລັດຟອມ ແລະ ຈະມີຜົນບັງຄັບໃຊ້ທັນທີທີ່ທ່ານນໍາໃຊ້ບໍລິການຂອງພວກເຮົາຕໍ່ໄປຫຼັງຈາກມີການປະກາດ.',
-                    ),
+                    _buildSectionTitle(S.of(context).additional_terms_title),
+                    _buildSectionContent(S.of(context).additional_terms_notice),
                     const SizedBox(height: 16),
-                    _buildSectionContent(
-                      'ພວກເຮົາຂໍຂອບໃຈທີ່ທ່ານສະຫຼະເວລາອ່ານ ແລະ ເຮັດຄວາມເຂົ້າໃຈເງື່ອນໄຂ ແລະ ນະໂຍບາຍເຫຼົ່ານີ້. ການຍອມຮັບຂອງທ່ານຈະຊ່ວຍໃຫ້ພວກເຮົາສາມາດໃຫ້ບໍລິການທີ່ດີທີ່ສຸດແກ່ທ່ານໄດ້.',
-                    ),
+                    _buildSectionContent(S.of(context).thank_you_message),
                     const SizedBox(height: 16),
                     Center(
                       child: Text(
-                        'ຂໍໃຫ້ມີຄວາມສຸກກັບການນໍາໃຊ້ແພລັດຟອມຂອງພວກເຮົາ!',
-                        style: TextStyle(
+                        S.of(context).enjoy_platform,
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20), // Space before checkbox
-                    // Checkbox for terms acceptance
+                    const SizedBox(height: 20),
                     CheckboxListTile(
-                      title: const Text(
-                        'ຂ້ອຍໄດ້ອ່ານ ແລະ ຍອມຮັບເງື່ອນໄຂ ແລະ ນະໂຍບາຍທັງໝົດແລ້ວ',
-                        style: TextStyle(fontSize: 15),
+                      title: Text(
+                        S.of(context).acceptance_checkbox,
+                        style: const TextStyle(fontSize: 15),
                       ),
                       value: _isChecked,
                       onChanged: _scrolledToEnd
@@ -441,16 +541,15 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
                                 _isChecked = newValue ?? false;
                               });
                             }
-                          : null, // Disable checkbox if not scrolled to end
+                          : null,
                       controlAffinity: ListTileControlAffinity.leading,
                       activeColor: widget.primaryColor,
                     ),
-                    const SizedBox(height: 20), // Space after checkbox
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
             ),
-            // Accept button at the bottom
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
@@ -459,7 +558,7 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
                         widget.onAccept();
                         Navigator.of(context).pop();
                       }
-                    : null, // Button is disabled until terms are scrolled to the end and checkbox is checked
+                    : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: _canAcceptButtonBeEnabled
                       ? widget.primaryColor
@@ -470,18 +569,16 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   elevation: 3,
-                  minimumSize: const Size.fromHeight(
-                    50,
-                  ), // Make button full width
+                  minimumSize: const Size.fromHeight(50),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.check_circle_outline),
-                    SizedBox(width: 10),
+                    const Icon(Icons.check_circle_outline),
+                    const SizedBox(width: 10),
                     Text(
-                      'ຍອມຮັບ',
-                      style: TextStyle(
+                      S.of(context).accept_button,
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),

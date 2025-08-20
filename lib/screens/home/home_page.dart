@@ -1,7 +1,10 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/home/pages/productDetail.dart';
+import 'package:homefind/widgets/Colors.dart';
+import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,7 +16,9 @@ class _HomePageState extends State<HomePage> {
   int _selectedCategoryIndex = 0;
   final TextEditingController _controller = TextEditingController();
   final CarouselSliderController _controllerDot = CarouselSliderController();
+  final FocusNode _focusNode = FocusNode();
   bool _showHint = true;
+  bool _isFocused = false;
   String _selectedCategory = "ທັງຫມົດ";
   String _selectedStatus = "ເຊົ່າ";
 
@@ -21,6 +26,19 @@ class _HomePageState extends State<HomePage> {
   String? _selectedPropertyType = "ທັງໝົດ";
   String? _selectedTime = "ທັງໝົດ";
   String? _selectedPrice = "ທັງໝົດ";
+  List<Map<String, String>> _searchProperties(String query) {
+    if (query.isEmpty) {
+      return filteredPropertyList;
+    }
+
+    final lowerCaseQuery = query.toLowerCase();
+
+    return filteredPropertyList.where((property) {
+      return property['title']!.toLowerCase().contains(lowerCaseQuery) ||
+          property['location']!.toLowerCase().contains(lowerCaseQuery) ||
+          property['category']!.toLowerCase().contains(lowerCaseQuery);
+    }).toList();
+  }
 
   @override
   void initState() {
@@ -30,11 +48,17 @@ class _HomePageState extends State<HomePage> {
         _showHint = _controller.text.isEmpty;
       });
     });
+    _focusNode.addListener(() {
+      setState(() {
+        _isFocused = _focusNode.hasFocus;
+      });
+    });
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -166,8 +190,8 @@ class _HomePageState extends State<HomePage> {
     },
   ];
 
-  // Categories data
-  final List<Map<String, dynamic>> categories = [
+  // Categories data with translation helper
+  List<Map<String, dynamic>> get categories => [
     {'title': 'ທັງຫມົດ', 'icon': Icons.apps},
     {'title': 'ເຮືອນ', 'icon': Icons.home},
     {'title': 'ຫ້ອງແຖວ', 'icon': Icons.home_work},
@@ -179,6 +203,84 @@ class _HomePageState extends State<HomePage> {
     {'title': 'ຕິດຕັ້ງແວ່ນ', 'icon': Icons.window},
     {'title': 'ເຟີນີເຈີ້', 'icon': Icons.chair},
   ];
+
+  // Translation helper methods
+  String _translateCategory(String category) {
+    switch (category) {
+      case 'ທັງຫມົດ':
+        return S.of(context).all;
+      case 'ເຮືອນ':
+        return S.of(context).house;
+      case 'ຫ້ອງແຖວ':
+        return S.of(context).townhouse;
+      case 'ອາພາດເມັ້ນ':
+        return S.of(context).apartment;
+      case 'ດີນ':
+        return S.of(context).land;
+      case 'ແຊທີ່ພັກ':
+        return S.of(context).accommodation_zone;
+      case 'ຕິດຕັ້ງແອ':
+        return S.of(context).install_air;
+      case 'ແກ່ເຄື່ອງ':
+        return S.of(context).moving_goods;
+      case 'ຕິດຕັ້ງແວ່ນ':
+        return S.of(context).install_glass;
+      case 'ເຟີນີເຈີ້':
+        return S.of(context).furniture;
+      default:
+        return category;
+    }
+  }
+
+  String _translateStatus(String status) {
+    switch (status) {
+      case 'ເຊົ່າ':
+        return S.of(context).rent;
+      case 'ຂາຍ':
+        return S.of(context).sale;
+      default:
+        return status;
+    }
+  }
+
+  String _translateRoomSharing(String roomSharing) {
+    switch (roomSharing) {
+      case 'ທັງໝົດ':
+        return S.of(context).all;
+      case 'ແຊຫ້ອງ':
+        return S.of(context).share_room;
+      case 'ບໍ່ແຊຫ້ອງ':
+        return S.of(context).no_share_room;
+      default:
+        return roomSharing;
+    }
+  }
+
+  String _translateTime(String time) {
+    switch (time) {
+      case 'ທັງໝົດ':
+        return S.of(context).all;
+      case 'ລ່າສຸດ':
+        return S.of(context).latest;
+      case 'ດົນສຸດ':
+        return S.of(context).oldest;
+      default:
+        return time;
+    }
+  }
+
+  String _translatePrice(String price) {
+    switch (price) {
+      case 'ທັງໝົດ':
+        return S.of(context).all;
+      case 'ຖືກສຸດ':
+        return S.of(context).cheapest;
+      case 'ແພງສຸດ':
+        return S.of(context).most_expensive;
+      default:
+        return price;
+    }
+  }
 
   // Enhanced filtering logic
   List<Map<String, String>> get filteredPropertyList {
@@ -243,6 +345,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: ValueKey(Localizations.localeOf(context).languageCode),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
@@ -266,10 +369,7 @@ class _HomePageState extends State<HomePage> {
       width: double.infinity,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            const Color.fromARGB(255, 87, 167, 177),
-            const Color.fromARGB(255, 12, 105, 122),
-          ],
+          colors: [AppColors.color1, AppColors.color2],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
         ),
@@ -292,7 +392,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildHeaderTitle() {
     return Text(
-      'ຄົ້ນຫາບ້ານຫຼັງຕໍ່ໄປຂອງທ່ານກັບພວກເຮົາ',
+      S.of(context).find_next_home,
       style: TextStyle(
         color: Colors.white,
         fontSize: 18,
@@ -314,7 +414,7 @@ class _HomePageState extends State<HomePage> {
             child: Stack(
               alignment: Alignment.centerLeft,
               children: [
-                if (_showHint)
+                if (_showHint && !_isFocused) // แก้ไขเงื่อนไขนี้
                   Padding(
                     padding: const EdgeInsets.only(left: 12),
                     child: IgnorePointer(
@@ -322,7 +422,7 @@ class _HomePageState extends State<HomePage> {
                       child: AnimatedTextKit(
                         animatedTexts: [
                           TypewriterAnimatedText(
-                            'ຄົ້ນຫາຊື່, ທີ່ຢູ່...',
+                            S.of(context).search_name_address,
                             textStyle: TextStyle(color: Colors.grey),
                             speed: Duration(milliseconds: 100),
                             cursor: '',
@@ -335,21 +435,62 @@ class _HomePageState extends State<HomePage> {
                   ),
                 TextField(
                   controller: _controller,
+                  focusNode: _focusNode, // เพิ่มบรรทัดนี้
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: '',
+                    // เพิ่ม padding ขวาเมื่อมี focus หรือมีข้อความ
+                    contentPadding: EdgeInsets.only(
+                      left: 12,
+                      right: (_isFocused || _controller.text.isNotEmpty)
+                          ? 40
+                          : 12, // แก้ไขเงื่อนไขนี้
+                      top: 12,
+                      bottom: 12,
+                    ),
                   ),
                   style: TextStyle(color: Colors.black),
                 ),
+                // แสดงปุ่มล้างเมื่อมี focus หรือมีข้อความ
+                if (_isFocused ||
+                    _controller.text.isNotEmpty) // แก้ไขเงื่อนไขนี้
+                  Positioned(
+                    right: 8,
+                    child: GestureDetector(
+                      onTap: () {
+                        if (_controller.text.isNotEmpty) {
+                          _controller.clear();
+                          setState(() {
+                            _showHint = true;
+                          });
+                        } else {
+                          // ถ้าไม่มีข้อความ ให้ unfocus
+                          _focusNode.unfocus();
+                        }
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(4),
+                        child: Icon(
+                          _controller.text.isNotEmpty
+                              ? Icons.clear
+                              : Icons.close,
+                          color: Colors.grey,
+                          size: 20,
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              // สามารถเพิ่ม logic การค้นหาที่นี่
+            },
             child: Container(
               padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 87, 167, 177),
+                color: AppColors.color1,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(Icons.search, color: Colors.white),
@@ -365,7 +506,7 @@ class _HomePageState extends State<HomePage> {
       child: AnimatedTextKit(
         animatedTexts: [
           TypewriterAnimatedText(
-            'ເຮືອນ, ຫ້ອງແຖວ, ອະພາດເມັ້ນ, ດີນ, ວິວລ່າ, ແຊ່ຫ້ອງ...',
+            S.of(context).property_types,
             textStyle: TextStyle(color: Colors.white, fontSize: 16),
             speed: Duration(milliseconds: 100),
           ),
@@ -376,15 +517,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // Categories section widget
   Widget _buildCategoriesSection() {
     return Transform.translate(
       offset: const Offset(0.0, -50.0),
       child: Column(
         children: [
-          // Container สำหรับปุ่มหมวดหมู่
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 26),
+            margin: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
@@ -402,7 +541,6 @@ class _HomePageState extends State<HomePage> {
               child: SizedBox(
                 height: 80, // ความสูงคงที่
                 child: ListView.builder(
-                  // controller: _categoryScrollController, // Add this if you want smooth scrolling
                   scrollDirection: Axis.horizontal,
                   itemCount: categories.length,
                   itemBuilder: (context, index) {
@@ -452,7 +590,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // ALSO UPDATE the _buildCategoryButton method's onTap:
   Widget _buildCategoryButton(
     String title,
     IconData icon,
@@ -470,7 +607,7 @@ class _HomePageState extends State<HomePage> {
       child: Semantics(
         button: true,
         selected: isSelected,
-        label: 'ໝວດໝູ່ $title',
+        label: '${S.of(context).category} ${_translateCategory(title)}',
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -503,7 +640,7 @@ class _HomePageState extends State<HomePage> {
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
               child: Text(
-                title,
+                _translateCategory(title),
                 textAlign: TextAlign.center,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -524,18 +661,24 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildListingsHeader() {
+    // คำนวณจำนวนรายการที่แสดงจริง (รวมการค้นหาด้วย)
+    final displayList = _controller.text.isEmpty
+        ? filteredPropertyList
+        : _searchProperties(_controller.text);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          _selectedCategory == "ທັງຫມົດ" ? 'ທັງໝົດ' : _selectedCategory,
+          _translateCategory(_selectedCategory),
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ),
-        // SizedBox(height: 12),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('ຄົ້ນພົບ ${filteredPropertyList.length} ລາຍການ'),
+            Text(
+              '${S.of(context).found} ${displayList.length} ${S.of(context).listing}',
+            ),
             _buildStatusToggle(),
             _buildFilterButton(),
           ],
@@ -575,7 +718,7 @@ class _HomePageState extends State<HomePage> {
         padding: EdgeInsets.symmetric(horizontal: 12),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: isSelected ? Colors.teal.shade200 : Colors.grey.shade100,
+          color: isSelected ? Colors.teal.shade100 : Colors.grey.shade100,
           borderRadius: BorderRadius.circular(4),
         ),
         child: AnimatedDefaultTextStyle(
@@ -585,7 +728,7 @@ class _HomePageState extends State<HomePage> {
             color: isSelected ? Colors.blue : Colors.grey.shade700,
             fontWeight: FontWeight.bold,
           ),
-          child: Text(status),
+          child: Text(_translateStatus(status)),
         ),
       ),
     );
@@ -620,15 +763,22 @@ class _HomePageState extends State<HomePage> {
     List<Widget> chips = [];
 
     if (_selectedPropertyType != null && _selectedPropertyType != 'ທັງໝົດ') {
-      chips.add(_buildFilterChip(_selectedPropertyType!, Colors.teal));
+      chips.add(
+        _buildFilterChip(
+          _translateRoomSharing(_selectedPropertyType!),
+          Colors.teal,
+        ),
+      );
     }
 
     if (_selectedTime != null && _selectedTime != 'ທັງໝົດ') {
-      chips.add(_buildFilterChip(_selectedTime!, Colors.blue));
+      chips.add(_buildFilterChip(_translateTime(_selectedTime!), Colors.blue));
     }
 
     if (_selectedPrice != null && _selectedPrice != 'ທັງໝົດ') {
-      chips.add(_buildFilterChip(_selectedPrice!, Colors.orange));
+      chips.add(
+        _buildFilterChip(_translatePrice(_selectedPrice!), Colors.orange),
+      );
     }
 
     return chips;
@@ -660,7 +810,7 @@ class _HomePageState extends State<HomePage> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'ຄັດກອງ',
+            S.of(context).filter,
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
           ),
           SizedBox(width: 2),
@@ -675,21 +825,24 @@ class _HomePageState extends State<HomePage> {
     if (filteredPropertyList.isEmpty) {
       return _buildEmptyState();
     }
+    final displayList = _controller.text.isEmpty
+        ? filteredPropertyList
+        : _searchProperties(_controller.text);
 
     return GridView.builder(
       shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: filteredPropertyList.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: displayList.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
         childAspectRatio: 0.8,
       ),
       itemBuilder: (context, index) {
-        final item = filteredPropertyList[index];
+        final item = displayList[index];
         return Transform.translate(
-          offset: Offset(0, -30),
+          offset: const Offset(0, -30),
           child: _buildPropertyCard(
             item['title']!,
             item['location']!,
@@ -727,7 +880,7 @@ class _HomePageState extends State<HomePage> {
 
           // No data text
           Text(
-            'ບໍ່ມີຂໍ້ມູນ',
+            S.of(context).no_data,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w500,
@@ -845,7 +998,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             SizedBox(height: 8),
                             Text(
-                              'Image not found',
+                              S.of(context).no_image,
                               style: TextStyle(
                                 color: Colors.grey.shade600,
                                 fontSize: 12,
@@ -869,7 +1022,7 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
-                  category,
+                  _translateCategory(category),
                   style: TextStyle(
                     fontSize: 10,
                     color: Colors.black,
@@ -892,6 +1045,7 @@ class _HomePageState extends State<HomePage> {
     String views,
     String status,
   ) {
+    final formattedPrice = NumberFormat("#,##0.00", "en_US").format(price);
     return Expanded(
       flex: 3,
       child: Padding(
@@ -911,7 +1065,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Text(
-                  status,
+                  _translateStatus(status),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: status == 'ຂາຍ' ? Colors.red : Colors.green,
@@ -952,7 +1106,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Expanded(
                   child: Text(
-                    '₭ ${price.toStringAsFixed(0)}',
+                    '₭ $formattedPrice',
                     style: TextStyle(
                       color: Colors.blue,
                       fontSize: 12,
@@ -1011,7 +1165,7 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'ແຊທີ່ພັກ',
+                            S.of(context).accommodation_zone,
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           TextButton(
@@ -1029,36 +1183,36 @@ class _HomePageState extends State<HomePage> {
                               Navigator.of(context).pop();
                             },
                             child: Text(
-                              'ຣີເຊັດ',
+                              S.of(context).reset,
                               style: TextStyle(color: Colors.blue),
                             ),
                           ),
                         ],
                       ),
                       _buildRadioGroup(
-                        'ແຊທີ່ພັກ',
+                        S.of(context).accommodation_zone,
                         ['ທັງໝົດ', 'ແຊຫ້ອງ', 'ບໍ່ແຊຫ້ອງ'],
                         selectedPlace,
                         (val) => setState(() => selectedPlace = val),
                       ),
                       Divider(),
                       Text(
-                        'ເວລາ',
+                        S.of(context).time,
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       _buildRadioGroup(
-                        'ເວລາ',
+                        S.of(context).time,
                         ['ທັງໝົດ', 'ລ່າສຸດ', 'ດົນສຸດ'],
                         selectedTime,
                         (val) => setState(() => selectedTime = val),
                       ),
                       Divider(),
                       Text(
-                        'ລາຄາ',
+                        S.of(context).price,
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       _buildRadioGroup(
-                        'ລາຄາ',
+                        S.of(context).price,
                         ['ທັງໝົດ', 'ຖືກສຸດ', 'ແພງສຸດ'],
                         selectedPrice,
                         (val) => setState(() => selectedPrice = val),
@@ -1069,7 +1223,7 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           ElevatedButton(
                             onPressed: () => Navigator.of(context).pop(),
-                            child: Text('ຍົກເລີກ'),
+                            child: Text(S.of(context).cancel),
                           ),
                           const SizedBox(width: 6),
                           ElevatedButton(
@@ -1084,7 +1238,7 @@ class _HomePageState extends State<HomePage> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.teal.shade200,
                             ),
-                            child: Text('ຕົກລົງ'),
+                            child: Text(S.of(context).understood),
                           ),
                         ],
                       ),
@@ -1141,7 +1295,7 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'ເວລາ',
+                              S.of(context).time,
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             TextButton(
@@ -1158,25 +1312,25 @@ class _HomePageState extends State<HomePage> {
                                 Navigator.of(context).pop();
                               },
                               child: Text(
-                                'ຣີເຊັດ',
+                                S.of(context).reset,
                                 style: TextStyle(color: Colors.blue),
                               ),
                             ),
                           ],
                         ),
                         _buildRadioGroup(
-                          'ເວລາ',
+                          S.of(context).time,
                           ['ທັງໝົດ', 'ລ່າສຸດ', 'ດົນສຸດ'],
                           selectedTime,
                           (val) => setState(() => selectedTime = val),
                         ),
                         Divider(),
                         Text(
-                          'ລາຄາ',
+                          S.of(context).price,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         _buildRadioGroup(
-                          'ລາຄາ',
+                          S.of(context).price,
                           ['ທັງໝົດ', 'ຖືກສຸດ', 'ແພງສຸດ'],
                           selectedPrice,
                           (val) => setState(() => selectedPrice = val),
@@ -1187,7 +1341,7 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             ElevatedButton(
                               onPressed: () => Navigator.of(context).pop(),
-                              child: Text('ຍົກເລີກ'),
+                              child: Text(S.of(context).cancel),
                             ),
                             const SizedBox(width: 6),
                             ElevatedButton(
@@ -1203,7 +1357,7 @@ class _HomePageState extends State<HomePage> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.teal.shade200,
                               ),
-                              child: Text('ຕົກລົງ'),
+                              child: Text(S.of(context).understood),
                             ),
                           ],
                         ),
@@ -1227,8 +1381,18 @@ class _HomePageState extends State<HomePage> {
   ) {
     return Column(
       children: options.map((option) {
+        String displayText = option;
+        // Translate the display text based on the group
+        if (groupName == S.of(context).accommodation_zone) {
+          displayText = _translateRoomSharing(option);
+        } else if (groupName == S.of(context).time) {
+          displayText = _translateTime(option);
+        } else if (groupName == S.of(context).price) {
+          displayText = _translatePrice(option);
+        }
+
         return RadioListTile<String>(
-          title: Text(option),
+          title: Text(displayText),
           value: option,
           groupValue: selectedValue,
           onChanged: (value) {
