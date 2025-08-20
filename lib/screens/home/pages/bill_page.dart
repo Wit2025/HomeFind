@@ -1,673 +1,433 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:homefind/generated/l10n.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+import 'package:homefind/widgets/Colors.dart';
+import 'package:intl/intl.dart';
 
+class DashedDivider extends StatelessWidget {
+  final Color color;
+  final double height;
+  final double dashWidth;
+  final double dashSpace;
+
+  const DashedDivider({
+    Key? key,
+    this.color = Colors.grey,
+    this.height = 1.0,
+    this.dashWidth = 5.0,
+    this.dashSpace = 3.0,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final boxWidth = constraints.constrainWidth();
+          final dashCount = (boxWidth / (dashWidth + dashSpace)).floor();
+          return Flex(
+            direction: Axis.horizontal,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.generate(dashCount, (_) {
+              return SizedBox(
+                width: dashWidth,
+                height: height,
+                child: DecoratedBox(decoration: BoxDecoration(color: color)),
+              );
+            }),
+          );
+        },
+      ),
+    );
+  }
+}
+
+/// Simple bill/receipt item
+class BillItem {
+  final String pro_name;
+  final String category;
+  final int qty;
+  final double unitPrice;
+
+  const BillItem({
+    required this.pro_name,
+    required this.category,
+    required this.qty,
+    required this.unitPrice,
+  });
+
+  double get lineTotal => qty * unitPrice;
+}
+
+/// Modern, animated Bill Page for a successful booking/checkout
 class BillPage extends StatefulWidget {
   final String bookingId;
-  final String name;
+  final String customerName;
+  final String pro_name;
   final String category;
-  final String amount;
-  final DateTime bookingDate;
+  final List<BillItem> items;
+  final String currency; // e.g. "LAK", "THB", "USD"
+  final DateTime createdAt;
+  final double taxRate; // e.g. 0.07 for 7%
 
-  const BillPage({
+  BillPage({
     super.key,
     required this.bookingId,
-    required this.name,
+    required this.customerName,
+    required this.pro_name,
     required this.category,
-    required this.amount,
-    required this.bookingDate,
-  });
+    required this.items,
+    this.currency = 'LAK',
+    DateTime? createdAt,
+    this.taxRate = 0.0,
+  }) : createdAt = createdAt ?? DateTime.now();
 
   @override
   State<BillPage> createState() => _BillPageState();
 }
 
-class _BillPageState extends State<BillPage> {
-  bool _isDownloading = false;
+class _BillPageState extends State<BillPage>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _scale;
+  late final NumberFormat _money;
 
-  void _downloadBill() async {
-    setState(() {
-      _isDownloading = true;
-    });
-
-    // Simulate download delay
-    await Future.delayed(Duration(seconds: 2));
-
-    setState(() {
-      _isDownloading = false;
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Center(
-          child: Text(
-            //'ດາວໂຫລດບິນສຳເລັດແລ້ວ'
-            S.of(context).download_receipt_success,
-          ),
-        ),
-        backgroundColor: Color(0xFF0C697A),
-      ),
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
     );
-  }
+    _scale = CurvedAnimation(parent: _controller, curve: Curves.easeOutBack);
+    _controller.forward();
 
-  void _copyBookingId() {
-    Clipboard.setData(ClipboardData(text: widget.bookingId));
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Center(
-          child: Text(
-            //'ຄັດລອກລະຫັດການຈອງແລ້ວ'
-            S.of(context).booking_code_copied,
-          ),
-        ),
-        backgroundColor: Color(0xFF0C697A),
-        duration: Duration(seconds: 2),
-      ),
-    );
-  }
-
-  String _formatDate(DateTime date) {
-    return "${date.day}/${date.month}/${date.year}";
-  }
-
-  String _formatTime(DateTime date) {
-    return "${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}";
+    // Change locale if you want Lao/Thai grouping rules, e.g. 'lo_LA' or 'th_TH'
+    _money = NumberFormat('#,##0.00', 'en_US');
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  double get _subTotal =>
+      widget.items.fold(0.0, (sum, it) => sum + it.lineTotal);
+  double get _tax => _subTotal * widget.taxRate;
+  double get _grandTotal => _subTotal + _tax;
+
+  @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       key: ValueKey(Localizations.localeOf(context).languageCode),
-      backgroundColor: Colors.white,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text(
-          // 'ບິນການຈອງ'
-          S.of(context).booking_receipt,
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color.fromARGB(255, 87, 167, 177),
-                Color.fromARGB(255, 12, 105, 122),
-              ],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-            ),
-          ),
-        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        foregroundColor: Colors.white,
+        title: const Text('Booking Bill'),
         centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.share, color: Colors.white),
-            onPressed: () {
-              // Share functionality
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Center(
-                    child: Text(
-                      // 'ແບ່ງປັນບິນ'
-                      S.of(context).share_receipt,
-                    ),
-                  ),
-                  backgroundColor: Color(0xFF0C697A),
-                ),
-              );
-            },
-          ),
-        ],
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          children: [
-            // Success Status
-            Container(
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 10,
-                    offset: Offset(0, 2),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [AppColors.color1, AppColors.color2],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(height: 16),
+
+              // Big success icon with bounce-in animation
+              ScaleTransition(
+                scale: _scale,
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withOpacity(0.15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.15),
+                        blurRadius: 24,
+                        offset: const Offset(0, 10),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.teal.shade50,
-                      shape: BoxShape.circle,
-                    ),
+                  child: const CircleAvatar(
+                    radius: 44,
+                    backgroundColor: Colors.white,
                     child: Icon(
-                      Icons.check_circle,
-                      color: Colors.teal,
-                      size: 80,
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  Text(
-                    // 'ການຈອງສຳເລັດແລ້ວ'
-                    S.of(context).booking_successful,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+                      Icons.check_rounded,
+                      size: 48,
                       color: Colors.teal,
                     ),
                   ),
-                  SizedBox(height: 8),
-                  Text(
-                    // 'ຂໍ້ມູນການຈອງຂອງທ່ານໄດ້ຖືກບັນທຶກແລ້ວ'
-                    S.of(context).booking_data_saved,
-                    style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+                ),
               ),
-            ),
 
-            SizedBox(height: 20),
-
-            // Booking Details Card
-            Container(
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 10,
-                    offset: Offset(0, 2),
-                  ),
-                ],
+              const SizedBox(height: 12),
+              Text(
+                'Booking Successful!',
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.receipt_long, color: Colors.teal, size: 24),
-                      SizedBox(width: 12),
-                      Text(
-                        // 'ລາຍລະອຽດການຈອງ'
-                        S.of(context).booking_details,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey[800],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
+              const SizedBox(height: 4),
+              Text(
+                'Thank you ${widget.customerName}',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: Colors.white70,
+                ),
+              ),
 
-                  // Booking ID
-                  _buildDetailRow(
-                    // 'ລະຫັດການຈອງ'
-                    S.of(context).booking_code,
-                    widget.bookingId,
-                    showCopy: true,
-                  ),
-                  _buildDetailRow(
-                    // 'ຊື່'
-                    S.of(context).name,
-                    widget.name,
-                  ),
-                  _buildDetailRow(
-                    // 'ປະເພດ'
-                    S.of(context).bookingType,
-                    widget.category,
-                  ),
+              const SizedBox(height: 16),
 
-                  _buildDetailRow(
-                    // 'ວັນທີ່ຈອງ'
-                    S.of(context).booking_date,
-                    _formatDate(widget.bookingDate),
+              // Glass card
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
                   ),
-
-                  _buildDetailRow(
-                    // 'ເວລາຈອງ'
-                    S.of(context).booking_time,
-                    _formatTime(widget.bookingDate),
-                  ),
-
-                  _buildDetailRow(
-                    // 'ສະຖານະ'
-                    S.of(context).status,
-                    // 'ຢືນຢັນແລ້ວ'
-                    S.of(context).confirmed,
-                    isStatus: true,
-                  ),
-
-                  Divider(height: 30, thickness: 1),
-
-                  // Amount Section
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        // 'ຄ່າຈອງທັງໝົດ'
-                        S.of(context).total_booking_price,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey[800],
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.teal.shade50,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: Colors.teal.shade200),
-                        ),
-                        child: Text(
-                          '₭ ${widget.amount} ${S.of(context).kip}',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.teal.shade700,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  SizedBox(height: 5),
-                  Divider(height: 30, thickness: 1),
-                  SizedBox(height: 5),
-
-                  // QR Code Section
-                  Center(
+                  child: _FrostedCard(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          height: 280,
-                          width: 230,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                Colors.blue.shade50.withOpacity(0.8),
-                                Colors.purple.shade50.withOpacity(0.8),
-                                Colors.pink.shade50.withOpacity(0.8),
-                              ],
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.15),
-                                blurRadius: 15,
-                                offset: Offset(0, 5),
-                              ),
-                            ],
+                        const SizedBox(height: 8),
+                        _titleRow('Booking ID', widget.bookingId),
+                        const SizedBox(height: 6),
+                        _titleRow('Customer', widget.customerName),
+                        const SizedBox(height: 6),
+                        _titleRow(
+                          'Date',
+                          DateFormat(
+                            'yyyy-MM-dd HH:mm',
+                          ).format(widget.createdAt),
+                        ),
+                        const DashedDivider(color: Colors.grey, height: 1.5),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Items',
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w700,
                           ),
-                          child: Stack(
-                            children: [
-                              // Background watermark text
-                              Positioned.fill(
-                                child: Opacity(
-                                  opacity: 0.1,
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
+                        ),
+                        const SizedBox(height: 8),
+
+                        if (widget.items.isEmpty)
+                          Text('No items', style: theme.textTheme.bodyMedium)
+                        else
+                          ListView.separated(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: widget.items.length,
+                            separatorBuilder: (_, __) => const DashedDivider(
+                              color: Colors.grey,
+                              height: 1.5,
+                            ),
+                            itemBuilder: (context, i) {
+                              final it = widget.items[i];
+                              return Row(
+                                children: [
+                                  Expanded(
                                     child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        for (int i = 0; i < 8; i++)
-                                          Expanded(
-                                            child: Row(
-                                              children: [
-                                                for (int j = 0; j < 3; j++)
-                                                  Expanded(
-                                                    child: Center(
-                                                      child: Text(
-                                                        'HOME FIND',
-                                                        style: TextStyle(
-                                                          fontSize: 8,
-                                                          color:
-                                                              Colors.grey[600],
-                                                          fontWeight:
-                                                              FontWeight.w300,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                              ],
-                                            ),
-                                          ),
+                                        // Text(
+                                        //   it.category,
+                                        //   style: theme.textTheme.bodyLarge
+                                        //       ?.copyWith(
+                                        //         fontWeight: FontWeight.w600,
+                                        //       ),
+                                        // ),
+                                        Text(
+                                          it.pro_name,
+                                          style: theme.textTheme.bodyLarge
+                                              ?.copyWith(
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                        ),
+                                        const SizedBox(height: 2),
+                                        Text(
+                                          'x${it.qty} × ${_money.format(it.unitPrice)} ${widget.currency}',
+                                          style: theme.textTheme.bodySmall
+                                              ?.copyWith(
+                                                color: Colors.grey[600],
+                                              ),
+                                        ),
                                       ],
                                     ),
                                   ),
-                                ),
-                              ),
-
-                              // Main content
-                              Padding(
-                                padding: EdgeInsets.all(20),
-                                child: Column(
-                                  children: [
-                                    // Header with logo
-                                    Row(
-                                      children: [
-                                        Container(
-                                          width: 24,
-                                          height: 24,
-                                          decoration: BoxDecoration(
-                                            color: const Color(0xFF005E6B),
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: Icon(
-                                            Icons.check,
-                                            color: Colors.white,
-                                            size: 16,
-                                          ),
-                                        ),
-                                        SizedBox(width: 8),
-                                        Text(
-                                          'Home Find',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.grey[700],
-                                          ),
-                                        ),
-                                        Spacer(),
-                                        Container(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 8,
-                                            vertical: 4,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            color: const Color(0xFF005E6B),
-                                            borderRadius: BorderRadius.circular(
-                                              12,
-                                            ),
-                                            border: Border.all(
-                                              color: Colors.grey.shade300,
-                                            ),
-                                          ),
-                                          child: Text(
-                                            'Verified',
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                  Text(
+                                    _money.format(it.lineTotal),
+                                    style: theme.textTheme.bodyLarge?.copyWith(
+                                      fontWeight: FontWeight.w700,
                                     ),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    widget.currency,
+                                    style: theme.textTheme.bodyMedium,
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
 
-                                    SizedBox(height: 15),
+                        const SizedBox(height: 12),
+                        const DashedDivider(color: Colors.grey, height: 1.5),
 
-                                    // QR Code
-                                    Container(
-                                      height: 180,
-                                      width: 180,
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(12),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black.withOpacity(
-                                              0.1,
-                                            ),
-                                            blurRadius: 5,
-                                            offset: Offset(0, 2),
-                                          ),
-                                        ],
-                                      ),
-                                      child: QrImageView(
-                                        data: widget.bookingId,
-                                        version: QrVersions.auto,
-                                        size: 160.0,
-                                        backgroundColor: Colors.white,
-                                        foregroundColor: const Color(
-                                          0xFF005E6B,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                        _amountRow(
+                          'Subtotal',
+                          _money.format(_subTotal),
+                          widget.currency,
+                        ),
+                        if (widget.taxRate > 0)
+                          _amountRow(
+                            'Tax (${(widget.taxRate * 100).toStringAsFixed(0)}%)',
+                            _money.format(_tax),
+                            widget.currency,
+                          ),
+                        const SizedBox(height: 6),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Grand Total',
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.w800,
                               ),
-                            ],
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  _money.format(_grandTotal),
+                                  style: theme.textTheme.titleLarge?.copyWith(
+                                    fontWeight: FontWeight.w900,
+                                    color: Colors.teal[700],
+                                  ),
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  widget.currency,
+                                  style: theme.textTheme.titleMedium?.copyWith(
+                                    color: Colors.teal[700],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 30),
+                        const DashedDivider(color: Colors.grey, height: 1.5),
+                        const SizedBox(height: 30),
+                        Center(
+                          child: const Text(
+                            'Thank You',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
-            ),
-
-            SizedBox(height: 20),
-
-            // Payment Receipt Card
-            // if (widget.receiptImage != null) ...[
-            //   Container(
-            //     padding: EdgeInsets.all(20),
-            //     decoration: BoxDecoration(
-            //       color: Colors.white,
-            //       borderRadius: BorderRadius.circular(16),
-            //       boxShadow: [
-            //         BoxShadow(
-            //           color: Colors.black.withOpacity(0.1),
-            //           blurRadius: 10,
-            //           offset: Offset(0, 2),
-            //         ),
-            //       ],
-            //     ),
-            //     child: Column(
-            //       crossAxisAlignment: CrossAxisAlignment.start,
-            //       children: [
-            //         Row(
-            //           children: [
-            //             Icon(
-            //               Icons.image,
-            //               color: Colors.blue,
-            //               size: 24,
-            //             ),
-            //             SizedBox(width: 12),
-            //             Text(
-            //               'ສຳເນົາການໂອນເງິນ',
-            //               style: TextStyle(
-            //                 fontSize: 20,
-            //                 fontWeight: FontWeight.bold,
-            //                 color: Colors.grey[800],
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //         SizedBox(height: 16),
-            //         Container(
-            //           height: 200,
-            //           width: double.infinity,
-            //           decoration: BoxDecoration(
-            //             borderRadius: BorderRadius.circular(12),
-            //             border: Border.all(color: Colors.grey.shade300),
-            //             image: DecorationImage(
-            //               image: FileImage(widget.receiptImage!),
-            //               fit: BoxFit.cover,
-            //             ),
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            //   SizedBox(height: 20),
-            // ],
-
-            // Action Buttons
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton.icon(
-                    onPressed: _isDownloading ? null : _downloadBill,
-                    icon: _isDownloading
-                        ? SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.white,
-                              ),
-                            ),
-                          )
-                        : Icon(Icons.download, color: Colors.white),
-                    label: Text(
-                      // _isDownloading ? 'ກຳລັງດາວໂຫລດ...' : 'ດາວໂຫລດບິນ',
-                      _isDownloading
-                          ? S.of(context).downloading
-                          : S.of(context).download_receipt,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF005E6B),
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 3,
-                    ),
-                  ),
                 ),
-                SizedBox(width: 12),
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: () {
-                      // Print functionality
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Center(
-                            child: Text(
-                              // 'ພິມບິນ'
-                              S.of(context).print_receipt,
-                            ),
+              ),
+
+              // Bottom buttons
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          side: const BorderSide(color: Colors.white70),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
                           ),
-                          backgroundColor: Color(0xFF0C697A),
                         ),
-                      );
-                    },
-                    icon: Icon(Icons.print, color: Colors.black),
-                    label: Text(
-                      // 'ພິມບິນ'
-                      S.of(context).print_receipt,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(Icons.home_rounded),
+                        label: const Text('Back Home'),
                       ),
                     ),
-                    style: OutlinedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                      side: BorderSide(color: Colors.teal, width: 2),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.teal,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          elevation: 2,
+                        ),
+                        onPressed: () {
+                          // In a real app, implement share or download receipt here
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Receipt saved.'),
+                              backgroundColor: AppColors.color1,
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.download_rounded),
+                        label: const Text('Save Receipt'),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-
-            SizedBox(height: 30),
-
-            // Footer Note
-            Container(
-              padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.amber.shade50,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.amber.shade200),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.info_outline, color: Colors.blueGrey, size: 20),
-                  SizedBox(width: 12),
-                  Text(
-                    // 'ກະລຸນາເກັບຮັກສາບິນນີ້ໄວ້ເປັນຫຼັກຖານການຈອງ'
-                    S.of(context).keep_receipt_notice,
-                    style: TextStyle(
-                      color: Colors.blueGrey,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildDetailRow(
-    String label,
-    String value, {
-    bool showCopy = false,
-    bool isStatus = false,
-  }) {
+  Widget _titleRow(String title, String value) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
+        Flexible(
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Text(value, overflow: TextOverflow.ellipsis),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _amountRow(String label, String amount, String currency) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.symmetric(vertical: 2),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: TextStyle(fontSize: 16, color: Colors.grey[600])),
+          Text(label),
           Row(
             children: [
-              if (isStatus)
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.teal.shade100,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.teal.shade200),
-                  ),
-                  child: Text(
-                    value,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.teal.shade900,
-                    ),
-                  ),
-                )
-              else
-                Text(
-                  value,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.grey[800],
-                  ),
-                ),
-              if (showCopy) ...[
-                SizedBox(width: 8),
-                GestureDetector(
-                  onTap: _copyBookingId,
-                  child: Icon(Icons.copy, size: 18, color: Colors.teal),
-                ),
-              ],
+              Text(amount, style: const TextStyle(fontWeight: FontWeight.w700)),
+              const SizedBox(width: 6),
+              Text(currency),
             ],
           ),
         ],
@@ -675,3 +435,47 @@ class _BillPageState extends State<BillPage> {
     );
   }
 }
+
+/// A reusable frosted-glass effect card
+class _FrostedCard extends StatelessWidget {
+  final Widget child;
+  const _FrostedCard({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.85),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 24,
+            offset: const Offset(0, 12),
+          ),
+        ],
+        border: Border.all(color: Colors.white.withOpacity(0.7)),
+      ),
+      padding: const EdgeInsets.all(16),
+      child: child,
+    );
+  }
+}
+
+// ------------------ DEMO USAGE ------------------
+// Example: Navigate to BillPage after booking success
+// Navigator.push(
+//   context,
+//   MaterialPageRoute(
+//     builder: (_) => BillPage(
+//       bookingId: 'BK-2025-0001',
+//       customerName: 'Phengvar Lee',
+//       currency: 'LAK',
+//       taxRate: 0.07,
+//       items: const [
+//         BillItem(name: 'Deluxe Room (1 night)', qty: 1, unitPrice: 850000),
+//         BillItem(name: 'Airport Pickup', qty: 1, unitPrice: 120000),
+//       ],
+//     ),
+//   ),
+// );

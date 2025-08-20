@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:homefind/auth/auth_check.dart';
 import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/home/pages/booking_page.dart';
+import 'package:homefind/widgets/Colors.dart';
+import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Productdetails extends StatefulWidget {
@@ -71,6 +73,44 @@ class _ProductdetailsState extends State<Productdetails>
     );
   }
 
+  String _translateCategory(String category) {
+    switch (category) {
+      case 'ທັງຫມົດ':
+        return S.of(context).all;
+      case 'ເຮືອນ':
+        return S.of(context).house;
+      case 'ຫ້ອງແຖວ':
+        return S.of(context).townhouse;
+      case 'ອາພາດເມັ້ນ':
+        return S.of(context).apartment;
+      case 'ດີນ':
+        return S.of(context).land;
+      case 'ແຊທີ່ພັກ':
+        return S.of(context).accommodation_zone;
+      case 'ຕິດຕັ້ງແອ':
+        return S.of(context).install_air;
+      case 'ແກ່ເຄື່ອງ':
+        return S.of(context).moving_goods;
+      case 'ຕິດຕັ້ງແວ່ນ':
+        return S.of(context).install_glass;
+      case 'ເຟີນີເຈີ້':
+        return S.of(context).furniture;
+      default:
+        return category;
+    }
+  }
+
+  String _translateStatus(String status) {
+    switch (status) {
+      case 'ເຊົ່າ':
+        return S.of(context).rent;
+      case 'ຂາຍ':
+        return S.of(context).sale;
+      default:
+        return status;
+    }
+  }
+
   // Auto-scroll thumbnails to keep active thumbnail visible
   void _scrollThumbnailToIndex(int index) {
     if (_thumbnailScrollController.hasClients) {
@@ -112,6 +152,14 @@ class _ProductdetailsState extends State<Productdetails>
   @override
   Widget build(BuildContext context) {
     final hotelImages = getHotelImages();
+    final formattedOriginalPrice = NumberFormat(
+      "#,##0.00",
+      "en_US",
+    ).format(widget.price);
+    final formattedDiscountPrice = NumberFormat(
+      "#,##0.00",
+      "en_US",
+    ).format(widget.price * 0.95);
 
     return Scaffold(
       key: ValueKey(Localizations.localeOf(context).languageCode),
@@ -183,12 +231,12 @@ class _ProductdetailsState extends State<Productdetails>
                       height: 100,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
                           colors: [
-                            Colors.black.withOpacity(0.6),
+                            AppColors.color1.withOpacity(0.6),
                             Colors.transparent,
                           ],
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
                         ),
                       ),
                     ),
@@ -402,7 +450,7 @@ class _ProductdetailsState extends State<Productdetails>
                                   ),
                                 ),
                                 child: Text(
-                                  widget.status,
+                                  _translateStatus(widget.status),
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.green.shade700,
@@ -428,7 +476,7 @@ class _ProductdetailsState extends State<Productdetails>
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text(
-                                  widget.category,
+                                  _translateCategory(widget.category),
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.blue.shade700,
@@ -611,7 +659,7 @@ class _ProductdetailsState extends State<Productdetails>
                     Row(
                       children: [
                         Text(
-                          "₭ ${widget.price.toStringAsFixed(0)}",
+                          "₭ $formattedOriginalPrice",
                           style: TextStyle(
                             decoration: TextDecoration.lineThrough,
                             color: Colors.grey[500],
@@ -652,7 +700,7 @@ class _ProductdetailsState extends State<Productdetails>
                             ),
                           ),
                           TextSpan(
-                            text: (widget.price * 0.95).toStringAsFixed(0),
+                            text: formattedDiscountPrice,
                             style: TextStyle(
                               color: Colors.blue.shade700,
                               fontSize: 28,
@@ -669,9 +717,9 @@ class _ProductdetailsState extends State<Productdetails>
               Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Colors.teal, Colors.teal.shade600],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+                    colors: [AppColors.color1, AppColors.color2],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
                   ),
                   borderRadius: BorderRadius.circular(25),
                   boxShadow: [
@@ -687,10 +735,10 @@ class _ProductdetailsState extends State<Productdetails>
                     AuthChecker.checkAuthAndNavigate(
                       context: context,
                       page: BookingPage(
-                        name: widget.title,
+                        pro_name: widget.title,
                         category: widget.category,
                       ),
-                      showLoginPrompt: true, // ใช้ dialog ที่มีอยู่แล้ว
+                      showLoginPrompt: true,
                     );
                   },
                   style: ElevatedButton.styleFrom(

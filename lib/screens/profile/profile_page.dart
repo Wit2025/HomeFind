@@ -11,6 +11,7 @@ import 'package:homefind/screens/profile/pages/privacy.dart';
 import 'package:homefind/screens/profile/pages/history_transaction.dart';
 import 'package:homefind/screens/profile/pages/point.dart';
 import 'package:homefind/screens/profile/pages/withdraw.dart';
+import 'package:homefind/widgets/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -38,10 +39,10 @@ class _ProfilePageState extends State<ProfilePage> {
             content: Container(
               padding: const EdgeInsets.all(25),
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Color(0xFF00CEB0), Color(0xFF006B8B)],
+                gradient: LinearGradient(
+                  colors: [AppColors.color1, AppColors.color2],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
                 ),
                 borderRadius: BorderRadius.circular(25),
                 boxShadow: [
@@ -149,7 +150,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             S.of(context).cancel,
                             style: TextStyle(
                               fontFamily: 'NotoSansLao',
-                              color: Color(0xFF006B8B),
+                              color: AppColors.color1,
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),
@@ -213,15 +214,6 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                               (Route<dynamic> route) => false,
                             );
-
-                            // Show logout confirmation
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                backgroundColor: Color(0xFF006B8B),
-                                content: Text(S.of(context).logoutSuccess),
-                                duration: Duration(seconds: 2),
-                              ),
-                            );
                           },
                           child: Text(
                             S.of(context).logout,
@@ -248,15 +240,13 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 87, 167, 177),
-              Color.fromARGB(255, 12, 105, 122),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            colors: [AppColors.color1, AppColors.color2],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
           ),
         ),
         child: SingleChildScrollView(
@@ -304,7 +294,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       context, // ต้องส่ง context
                                       Icons.arrow_upward,
                                       S.of(context).income, // เอาคำแปลมาเลย
-                                      '3,214 ${S.of(context).kip}',
+                                      '₭ 3,214',
                                       Colors.green,
                                     ),
 
@@ -325,7 +315,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       context,
                                       Icons.arrow_downward,
                                       S.of(context).fee,
-                                      '1,550 ${S.of(context).kip}',
+                                      '₭ 1,550',
                                       Colors.red,
                                     ),
                                   ],
@@ -372,12 +362,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           158,
                                           158,
                                         ),
-                                        iconColor: Color.fromARGB(
-                                          255,
-                                          87,
-                                          167,
-                                          177,
-                                        ),
+                                        iconColor: AppColors.color1,
                                         labelColor: Colors.black,
                                         onTap: () {
                                           Navigator.push(
@@ -399,12 +384,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           158,
                                           158,
                                         ),
-                                        iconColor: Color.fromARGB(
-                                          255,
-                                          87,
-                                          167,
-                                          177,
-                                        ),
+                                        iconColor: AppColors.color1,
                                         labelColor: Colors.black,
                                         onTap: () {
                                           Navigator.push(
@@ -426,12 +406,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           158,
                                           158,
                                         ),
-                                        iconColor: Color.fromARGB(
-                                          255,
-                                          87,
-                                          167,
-                                          177,
-                                        ),
+                                        iconColor: AppColors.color1,
                                         labelColor: Colors.black,
                                         onTap: () {
                                           Navigator.push(
@@ -453,12 +428,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           158,
                                           158,
                                         ),
-                                        iconColor: Color.fromARGB(
-                                          255,
-                                          87,
-                                          167,
-                                          177,
-                                        ),
+                                        iconColor: AppColors.color1,
                                         labelColor: Colors.black,
                                         onTap: () {
                                           // Add invite friends functionality
@@ -485,7 +455,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             context: context,
                             title: S.of(context).personalInfo,
                             icon: Icons.person,
-                            iconColor: Color.fromARGB(255, 87, 167, 177),
+                            iconColor: AppColors.color1,
                             textColor: Colors.black87,
                             onTap: () {
                               Navigator.push(
@@ -500,7 +470,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             context: context,
                             title: S.of(context).changePassword,
                             icon: Icons.lock,
-                            iconColor: Color.fromARGB(255, 87, 167, 177),
+                            iconColor: AppColors.color1,
                             textColor: Colors.black87,
                             onTap: () {
                               Navigator.push(
@@ -515,7 +485,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             context: context,
                             title: S.of(context).language,
                             icon: Icons.language,
-                            iconColor: Color.fromARGB(255, 87, 167, 177),
+                            iconColor: AppColors.color1,
                             textColor: Colors.black87,
                             onTap: () {
                               Navigator.push(
@@ -530,7 +500,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             context: context,
                             title: S.of(context).bookingHistory,
                             icon: Icons.history,
-                            iconColor: Color.fromARGB(255, 87, 167, 177),
+                            iconColor: AppColors.color1,
                             textColor: Colors.black87,
                             onTap: () {
                               Navigator.push(
@@ -545,7 +515,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             context: context,
                             title: S.of(context).termsPolicies,
                             icon: Icons.receipt,
-                            iconColor: Color.fromARGB(255, 87, 167, 177),
+                            iconColor: AppColors.color1,
                             textColor: Colors.black87,
                             onTap: () {
                               Navigator.push(
@@ -560,7 +530,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             context: context,
                             title: S.of(context).help,
                             icon: Icons.help,
-                            iconColor: Color.fromARGB(255, 87, 167, 177),
+                            iconColor: AppColors.color1,
                             textColor: Colors.black87,
                             onTap: () {
                               Navigator.push(
@@ -576,7 +546,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             title: S.of(context).logout,
                             icon: Icons.logout,
                             iconColor: Colors.red,
-                            textColor: Colors.black87,
+                            textColor: Colors.red,
                             onTap: () => logout(context),
                           ),
                         ],
@@ -586,20 +556,20 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
               Positioned(
-                top: 65,
+                top: 85,
                 left: 0,
                 right: 0,
                 child: Column(
                   children: [
                     Container(
-                      width: 150,
-                      height: 150,
+                      width: 120,
+                      height: 120,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(color: Colors.white, width: 2.0),
                       ),
                       child: const CircleAvatar(
-                        radius: 80,
+                        radius: 50,
                         backgroundImage: AssetImage('assets/images/house.jpg'),
                         backgroundColor: Colors.white,
                       ),

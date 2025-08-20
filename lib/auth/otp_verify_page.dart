@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/main_screen.dart';
+import 'package:homefind/widgets/Colors.dart' show AppColors;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OTPVerifyPage extends StatefulWidget {
@@ -35,10 +37,10 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
     _currentOtp = widget.generatedOtp;
     _startCountdown();
     // For testing - shows OTP in console and as a snackbar
-    _showTestOtp();
+    _showTestOtp(context);
   }
 
-  void _showTestOtp() {
+  void _showTestOtp(BuildContext context) {
     // Show as a floating notification at the top of the screen
     WidgetsBinding.instance.addPostFrameCallback((_) {
       showDialog(
@@ -74,7 +76,8 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
                         const Icon(Icons.sms, color: Colors.blue, size: 20),
                         const SizedBox(width: 8),
                         Text(
-                          'SMS Message',
+                          // 'SMS Message',
+                          S.of(context).sms_message,
                           style: TextStyle(
                             fontFamily: 'NotoSansLao',
                             fontWeight: FontWeight.bold,
@@ -83,7 +86,8 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
                         ),
                         const Spacer(),
                         Text(
-                          'Now',
+                          // 'Now',
+                          S.of(context).now,
                           style: TextStyle(
                             fontFamily: 'NotoSansLao',
                             fontSize: 12,
@@ -94,7 +98,8 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'ລະຫັດຢືນຢັນຂອງທ່ານ: $_currentOtp',
+                      // 'ລະຫັດຢືນຢັນຂອງທ່ານ: $_currentOtp',
+                      '${S.of(context).your_verification_code}: $_currentOtp',
                       style: TextStyle(
                         fontFamily: 'NotoSansLao',
                         fontSize: 16,
@@ -103,7 +108,8 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'ຫ້າມໃຫ້ບອກລະຫັດນີ້ໃຫ້ຜູ້ອື່ນ',
+                      // 'ຫ້າມໃຫ້ບອກລະຫັດນີ້ໃຫ້ຜູ້ອື່ນ',
+                      S.of(context).do_not_share_code,
                       style: TextStyle(
                         fontFamily: 'NotoSansLao',
                         fontSize: 12,
@@ -143,7 +149,7 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
   }
 
   // Also update the _resendOtp method to show the same style notification:
-  void _resendOtp() {
+  void _resendOtp(BuildContext context) {
     final newOtp = _generateNewOtp();
     setState(() {
       _resendCountdown = 60;
@@ -186,7 +192,9 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
                       const Icon(Icons.sms, color: Colors.blue, size: 20),
                       const SizedBox(width: 8),
                       Text(
-                        'SMS Message',
+                        // 'SMS Message',
+                        // 'SMS Message',
+                        S.of(context).sms_message,
                         style: TextStyle(
                           fontFamily: 'NotoSansLao',
                           fontWeight: FontWeight.bold,
@@ -195,7 +203,8 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
                       ),
                       const Spacer(),
                       Text(
-                        'Now',
+                        // 'Now',
+                        S.of(context).now,
                         style: TextStyle(
                           fontFamily: 'NotoSansLao',
                           fontSize: 12,
@@ -206,7 +215,8 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'ລະຫັດຢືນຢັນໃຫມ່ຂອງທ່ານ: $newOtp',
+                    // 'ລະຫັດຢືນຢັນໃຫມ່ຂອງທ່ານ: $newOtp',
+                    '${S.of(context).your_new_verification_code}: $newOtp',
                     style: TextStyle(
                       fontFamily: 'NotoSansLao',
                       fontSize: 16,
@@ -215,7 +225,8 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'ລະຫັດນີ້ຈະໝົດອາຍຸໃນ 5 ນາທີ',
+                    // 'ລະຫັດນີ້ຈະໝົດອາຍຸໃນ 5 ນາທີ',
+                    S.of(context).code_expires_5_minutes,
                     style: TextStyle(
                       fontFamily: 'NotoSansLao',
                       fontSize: 12,
@@ -234,7 +245,8 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
   void _verifyOtp() async {
     final enteredOtp = _otpController.text;
     if (enteredOtp.isEmpty || enteredOtp.length != 6) {
-      setState(() => _errorText = 'ກະລຸນາປ້ອນ OTP 6 ຕົວເລກ');
+      // setState(() => _errorText = 'ກະລຸນາປ້ອນ OTP 6 ຕົວເລກ');
+      setState(() => _errorText = S.of(context).enter_6_digit_otp);
       return;
     }
 
@@ -275,16 +287,10 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
                   children: [
                     // Background container
                     Container(
-                      // width: double.infinity,
-                      // padding: const EdgeInsets.fromLTRB(20, 60, 20, 20),
                       padding: const EdgeInsets.all(32),
                       decoration: BoxDecoration(
-                        // color: Colors.white,
-                        gradient: const LinearGradient(
-                          colors: [
-                            Color.fromARGB(255, 87, 167, 177),
-                            Color.fromARGB(255, 12, 105, 122),
-                          ],
+                        gradient: LinearGradient(
+                          colors: [AppColors.color1, AppColors.color2],
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
                         ),
@@ -300,8 +306,9 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Text(
-                            'ສຳເລັດ!',
+                          Text(
+                            // 'ສຳເລັດ!',
+                            '${S.of(context).completed}!',
                             style: TextStyle(
                               fontFamily: 'NotoSansLao',
                               fontSize: 24,
@@ -310,8 +317,9 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
                             ),
                           ),
                           const SizedBox(height: 15),
-                          const Text(
-                            'ທ່ານໄດ້ຢືນຢັນ OTP ສຳເລັດ',
+                          Text(
+                            // 'ທ່ານໄດ້ຢືນຢັນ OTP ສຳເລັດ',
+                            S.of(context).otp_verified_successfully,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontFamily: 'NotoSansLao',
@@ -343,8 +351,9 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
                                   (route) => false,
                                 );
                               },
-                              child: const Text(
-                                'ໄປທີ່ໜ້າຫຼັກ',
+                              child: Text(
+                                // 'ໄປທີ່ໜ້າຫຼັກ',
+                                S.of(context).go_to_homepage,
                                 style: TextStyle(
                                   fontFamily: 'NotoSansLao',
                                   fontSize: 16,
@@ -390,7 +399,10 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
         );
       } else {
         HapticFeedback.lightImpact();
-        setState(() => _errorText = '❌ OTP ບໍ່ຖືກຕ້ອງ, ກະລຸນາລອງໃໝ່');
+        // setState(() => _errorText = '❌ OTP ບໍ່ຖືກຕ້ອງ, ກະລຸນາລອງໃໝ່');
+        setState(
+          () => _errorText = '❌ ${S.of(context).otp_incorrect_try_again}',
+        );
       }
     });
   }
@@ -401,6 +413,7 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
     final isSmallScreen = size.height < 700;
 
     return Scaffold(
+      key: ValueKey(Localizations.localeOf(context).languageCode),
       body: Column(
         children: [
           // Header Section
@@ -408,9 +421,9 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
             height: isSmallScreen ? size.height * 0.25 : size.height * 0.3,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFF00CEB0), Color(0xFF006B8B)],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+                colors: [AppColors.color1, AppColors.color2],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
               ),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(30),
@@ -438,7 +451,8 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'ຢືນຢັນ OTP',
+                        // 'ຢືນຢັນ OTP',
+                        S.of(context).verify_otp,
                         style: TextStyle(
                           fontFamily: 'NotoSansLao',
                           fontSize: isSmallScreen ? 28 : 32,
@@ -448,7 +462,8 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'ກະລຸນາປ້ອນລະຫັດຢືນຢັນ',
+                        // 'ກະລຸນາປ້ອນລະຫັດຢືນຢັນ',
+                        S.of(context).please_enter_verification_code,
                         style: TextStyle(
                           fontFamily: 'NotoSansLao',
                           fontSize: isSmallScreen ? 16 : 18,
@@ -485,8 +500,9 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
                           Text.rich(
                             TextSpan(
                               children: [
-                                const TextSpan(
-                                  text: 'ສົ່ງລະຫັດ OTP ໄປຫາ ',
+                                TextSpan(
+                                  // text: 'ສົ່ງລະຫັດ OTP ໄປຫາ ',
+                                  text: S.of(context).send_otp_to,
                                   style: TextStyle(
                                     fontFamily: 'NotoSansLao',
                                     fontSize: 16,
@@ -557,7 +573,8 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
                                       color: Colors.white,
                                     )
                                   : Text(
-                                      'ຢືນຢັນ',
+                                      // 'ຢືນຢັນ',
+                                      S.of(context).confirm,
                                       style: TextStyle(
                                         fontFamily: 'NotoSansLao',
                                         fontSize: 18,
@@ -570,11 +587,15 @@ class _OTPVerifyPageState extends State<OTPVerifyPage> {
                           const SizedBox(height: 20),
 
                           TextButton(
-                            onPressed: _resendCountdown > 0 ? null : _resendOtp,
+                            onPressed: _resendCountdown > 0
+                                ? null
+                                : () => _resendOtp(context),
                             child: Text(
                               _resendCountdown > 0
-                                  ? 'ສົ່ງ OTP ອີກຄັ້ງ ($_resendCountdown ວິນາທີ)'
-                                  : 'ສົ່ງ OTP ອີກຄັ້ງ',
+                                  // ? 'ສົ່ງ OTP ອີກຄັ້ງ ($_resendCountdown ວິນາທີ)'
+                                  // : 'ສົ່ງ OTP ອີກຄັ້ງ',
+                                  ? '${S.of(context).resend_otp} ($_resendCountdown ${S.of(context).seconds})'
+                                  : S.of(context).resend_otp,
                               style: TextStyle(
                                 fontFamily: 'NotoSansLao',
                                 color: _resendCountdown > 0

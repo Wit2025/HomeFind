@@ -2,12 +2,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/home/pages/bill_page.dart';
+import 'package:homefind/widgets/Colors.dart';
 import 'package:image_picker/image_picker.dart';
 
 class BookingPage extends StatefulWidget {
-  final String name;
+  final String pro_name;
   final String category;
-  BookingPage({required this.name, required this.category, super.key});
+  BookingPage({required this.pro_name, required this.category, super.key});
 
   @override
   State<BookingPage> createState() => _BookingPageState();
@@ -75,16 +76,19 @@ class _BookingPageState extends State<BookingPage> {
                             child: Container(
                               padding: EdgeInsets.all(2),
                               decoration: BoxDecoration(
-                                color: Colors.blue.shade50,
+                                color: AppColors.color1.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(12),
-                                border: Border.all(color: Colors.blue.shade200),
+                                border: Border.all(
+                                  color: AppColors.color1,
+                                  width: 2,
+                                ),
                               ),
                               child: Column(
                                 children: [
                                   Icon(
                                     Icons.photo,
                                     size: 30,
-                                    color: Colors.blue,
+                                    color: AppColors.color1,
                                   ),
                                   Text(
                                     // 'ແກລເລີຣີ'
@@ -115,10 +119,11 @@ class _BookingPageState extends State<BookingPage> {
                             child: Container(
                               padding: EdgeInsets.all(2),
                               decoration: BoxDecoration(
-                                color: Colors.green.shade50,
+                                color: AppColors.color2.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  color: Colors.green.shade200,
+                                  color: AppColors.color2,
+                                  width: 2,
                                 ),
                               ),
                               child: Column(
@@ -126,7 +131,7 @@ class _BookingPageState extends State<BookingPage> {
                                   Icon(
                                     Icons.camera_alt,
                                     size: 30,
-                                    color: Colors.green,
+                                    color: AppColors.color2,
                                   ),
                                   Text(
                                     // 'ກ້ອງຖ່າຍ'
@@ -167,10 +172,7 @@ class _BookingPageState extends State<BookingPage> {
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [
-                Color.fromARGB(255, 87, 167, 177),
-                Color.fromARGB(255, 12, 105, 122),
-              ],
+              colors: [AppColors.color1, AppColors.color2],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),
@@ -243,7 +245,7 @@ class _BookingPageState extends State<BookingPage> {
                     ),
                     child: Text(
                       // "ຄ່າຈອງ: ₭ 50,000 ກິບ",
-                      "${S.of(context).price} ₭ 50,000 ${S.of(context).kip}",
+                      "${S.of(context).price} ₭ 50,000",
                       style: TextStyle(
                         color: Colors.blueAccent,
                         fontSize: 20,
@@ -457,11 +459,8 @@ class _BookingPageState extends State<BookingPage> {
                           child: Container(
                             padding: EdgeInsets.all(32),
                             decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [
-                                  Color.fromARGB(255, 87, 167, 177),
-                                  Color.fromARGB(255, 12, 105, 122),
-                                ],
+                              gradient: LinearGradient(
+                                colors: [AppColors.color1, AppColors.color2],
                                 begin: Alignment.centerLeft,
                                 end: Alignment.centerRight,
                               ),
@@ -481,14 +480,7 @@ class _BookingPageState extends State<BookingPage> {
                                   width: 60,
                                   height: 60,
                                   decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Colors.teal.shade400,
-                                        Colors.teal.shade600,
-                                        // Colors.blue.shade400,
-                                        // Colors.yellow.shade600,
-                                      ],
-                                    ),
+                                    color: AppColors.color1,
                                     shape: BoxShape.circle,
                                   ),
                                   child: CircularProgressIndicator(
@@ -500,7 +492,6 @@ class _BookingPageState extends State<BookingPage> {
                                 ),
                                 SizedBox(height: 24),
                                 Text(
-                                  // 'ກຳລັງດຳເນີນການ...',
                                   S.of(context).processing,
                                   style: TextStyle(
                                     fontSize: 18,
@@ -510,7 +501,6 @@ class _BookingPageState extends State<BookingPage> {
                                 ),
                                 SizedBox(height: 8),
                                 Text(
-                                  // 'ກະລຸນາລໍຖ້າ',
                                   S.of(context).please_wait,
                                   style: TextStyle(
                                     fontSize: 14,
@@ -523,29 +513,29 @@ class _BookingPageState extends State<BookingPage> {
                         ),
                       );
 
-                      // Simulate processing
                       await Future.delayed(Duration(seconds: 2));
-
-                      Navigator.pop(context); // Close loading
-
-                      // Navigate with MODERN celebration
+                      Navigator.pop(context); // Close load
                       Navigator.pushReplacement(
                         context,
                         PageRouteBuilder(
                           pageBuilder:
-                              (
-                                context,
-                                animation,
-                                secondaryAnimation,
-                              ) => BillPage(
-                                bookingId:
-                                    "BK${DateTime.now().millisecondsSinceEpoch}",
-                                name: widget.name,
-                                category: widget.category,
-                                amount: "50,000 ",
-                                bookingDate: DateTime.now(),
-                                // receiptImage: _image,
-                              ),
+                              (context, animation, secondaryAnimation) =>
+                                  BillPage(
+                                    pro_name: widget.pro_name,
+                                    category: widget.category,
+                                    bookingId: 'BK-2025-0001',
+                                    customerName: 'Phengvar Lee',
+                                    currency: '₭',
+                                    taxRate: 0.07,
+                                    items: [
+                                      BillItem(
+                                        pro_name: widget.pro_name,
+                                        category: widget.category,
+                                        qty: 1,
+                                        unitPrice: 850000,
+                                      ),
+                                    ],
+                                  ),
                           transitionsBuilder:
                               (context, animation, secondaryAnimation, child) {
                                 return SlideTransition(
@@ -568,20 +558,41 @@ class _BookingPageState extends State<BookingPage> {
                     }
                   : null,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal,
+                padding: EdgeInsets.zero,
+                backgroundColor: Colors.transparent,
                 disabledBackgroundColor: Colors.grey[300],
                 elevation: _image != null ? 5 : 0,
+                minimumSize: Size(double.infinity, 50),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(20),
                 ),
+                shadowColor: Colors.transparent,
               ),
-              child: Text(
-                // 'ຢືນຢັນການຈອງ',
-                S.of(context).confirm_booking,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: _image != null ? Colors.white : Colors.grey[600],
+              child: Container(
+                width: double.infinity,
+                height: 50,
+                decoration: _image != null
+                    ? BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [AppColors.color1, AppColors.color2],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      )
+                    : null,
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    child: Text(
+                      S.of(context).confirm_booking,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: _image != null ? Colors.white : Colors.grey[600],
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),

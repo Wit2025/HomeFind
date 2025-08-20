@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
+import 'package:homefind/widgets/Colors.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
@@ -45,10 +46,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
         return Wrap(
           children: [
             ListTile(
-              leading: const Icon(
-                Icons.photo_library,
-                color: Color(0xFF0D9488),
-              ),
+              leading: const Icon(Icons.photo_library, color: AppColors.color1),
               title: Text(S.of(context).chooseFromGallery),
               onTap: () {
                 Navigator.pop(context);
@@ -56,7 +54,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.camera_alt, color: Color(0xFF0D9488)),
+              leading: const Icon(Icons.camera_alt, color: AppColors.color1),
               title: Text(S.of(context).takePhoto),
               onTap: () {
                 Navigator.pop(context);
@@ -80,12 +78,9 @@ class _MyAccountPageState extends State<MyAccountPage> {
           flexibleSpace: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [
-                  Color.fromARGB(255, 87, 167, 177),
-                  Color.fromARGB(255, 12, 105, 122),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+                colors: [AppColors.color1, AppColors.color2],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
               ),
             ),
           ),
@@ -130,10 +125,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: const Color(0xFFE0F2F1),
-                      border: Border.all(
-                        color: const Color(0xFF0D9488),
-                        width: 2,
-                      ),
+                      border: Border.all(color: AppColors.color1, width: 2),
                       image: _profileImage != null
                           ? DecorationImage(
                               image: FileImage(_profileImage!),
@@ -146,14 +138,14 @@ class _MyAccountPageState extends State<MyAccountPage> {
                           const Icon(
                             Icons.person,
                             size: 50,
-                            color: Color(0xFF0D9488),
+                            color: AppColors.color1,
                           )
                         : null,
                   ),
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF0D9488),
+                      color: AppColors.color1,
                       shape: BoxShape.circle,
                       border: Border.all(color: Colors.white, width: 2),
                     ),
@@ -172,7 +164,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF0D9488),
+                color: Colors.black,
               ),
             ),
             const SizedBox(height: 30),
@@ -222,17 +214,37 @@ class _MyAccountPageState extends State<MyAccountPage> {
               child: ElevatedButton(
                 onPressed: () => showEditProfileForm(context),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0D9488),
+                  padding: EdgeInsets.zero, // ต้องเพิ่มบรรทัดนี้
+                  backgroundColor:
+                      Colors.transparent, // เปลี่ยนเป็น transparent
                   foregroundColor: Colors.white,
-                  minimumSize: const Size(double.infinity, 50),
+                  minimumSize: Size(double.infinity, 50), // เก็บขนาดเดิม
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                   elevation: 0,
                 ),
-                child: Text(
-                  S.of(context).editData,
-                  style: TextStyle(fontSize: 16),
+                child: Ink(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        AppColors.color1,
+                        AppColors.color2,
+                      ], // ใช้สีจาก AppColors
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Container(
+                    width: double.infinity, // เต็มความกว้าง
+                    height: 50, // ความสูงตาม minimumSize
+                    alignment: Alignment.center,
+                    child: Text(
+                      S.of(context).editData,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -252,7 +264,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       child: Row(
         children: [
-          Icon(icon, color: const Color(0xFF0D9488), size: 24),
+          Icon(icon, color: AppColors.color1, size: 24),
           const SizedBox(width: 15),
           Expanded(
             child: Column(
@@ -376,15 +388,36 @@ class _MyAccountPageState extends State<MyAccountPage> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF0D9488),
-                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    padding: EdgeInsets.zero, // ต้องเพิ่มบรรทัดนี้
+                    backgroundColor:
+                        Colors.transparent, // เปลี่ยนเป็น transparent
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: Text(
-                    S.of(context).save,
-                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  child: Ink(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          AppColors.color1,
+                          AppColors.color2,
+                        ], // ใช้สีจาก AppColors
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 15,
+                      ), // เก็บ padding เดิม
+                      child: Center(
+                        child: Text(
+                          S.of(context).save,
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),

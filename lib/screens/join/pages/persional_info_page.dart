@@ -1,7 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/join/pages/property_details_page.dart';
+import 'package:homefind/service/local_storageService.dart';
+import 'package:homefind/widgets/Colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
@@ -15,8 +18,8 @@ class PersonalInfoPage extends StatefulWidget {
 }
 
 class _PersonalInfoPageState extends State<PersonalInfoPage> {
-  final _primaryColor = const Color.fromARGB(255, 87, 167, 177);
-  final _darkPrimaryColor = const Color.fromARGB(255, 12, 105, 122);
+  final _primaryColor = AppColors.color1;
+  final _darkPrimaryColor = AppColors.color2;
   final _formKey = GlobalKey<FormState>();
 
   // Controllers
@@ -35,6 +38,20 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   File? _selectedPersonalImage; // Add personal photo
   bool _isLoading = false;
 
+  // Document type mapping for display
+  Map<String, String> get documentTypeDisplayMap {
+    return {
+      'ບັດປະຈຳຕົວ': S.of(context).idCard,
+      'ໜັງສືຜ່ານແດນ': S.of(context).passport,
+      'ສຳມະໂນຄົວ': S.of(context).familyBook,
+    };
+  }
+
+  // Get display text for document type
+  String getDocumentTypeDisplayText(String laoValue) {
+    return documentTypeDisplayMap[laoValue] ?? laoValue;
+  }
+
   @override
   void dispose() {
     _ownerNameController.dispose();
@@ -45,18 +62,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     _cityController.dispose();
     _documentNumberController.dispose();
     super.dispose();
-  }
-
-  // save to local storage
-  //   Future<void> savePersonalInfoStatus() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   await prefs.setBool('isPersonalInfoFilled', true);
-  // }
-  Future<void> savePersonalData(Map<String, String> data) async {
-    final prefs = await SharedPreferences.getInstance();
-    String jsonString = jsonEncode(data);
-    await prefs.setString('personalData', jsonString);
-    await prefs.setBool('isPersonalInfoFilled', true);
   }
 
   // show personalInfo
@@ -70,32 +75,77 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   @override
   void initState() {
     super.initState();
-    loadPersonalData().then((data) {
-      if (data != null) {
-        _ownerNameController.text = data['ownerName'] ?? '';
-        _ownerSurnameController.text = data['ownerSurname'] ?? '';
-        _ownerdobController.text = data['ownerdob'] ?? '';
-        _villageController.text = data['village'] ?? '';
-        _districtController.text = data['district'] ?? '';
-        _cityController.text = data['city'] ?? '';
-        _selectedDocumentType = data['documentType'] ?? '';
-        _documentNumberController.text = data['documentNumber'] ?? '';
-        _selectedDocumentImage = data['documentImage'] ?? '';
-        setState(() {});
-      }
-    });
+    _loadSavedData();
   }
-  
+
+  Future<void> _loadSavedData() async {
+    try {
+      final data = await LocalStorageService.loadPersonalData();
+
+      if (data['ownerName']?.isNotEmpty ?? false) {
+        // Load text fields
+        _ownerNameController.text = data['ownerName']!;
+        _ownerSurnameController.text = data['ownerSurname']!;
+        _ownerdobController.text = data['ownerdob']!;
+        _villageController.text = data['village']!;
+        _districtController.text = data['district']!;
+        _cityController.text = data['city']!;
+        _selectedDocumentType = data['documentType']!;
+        _documentNumberController.text = data['documentNumber']!;
+
+        // Load images from base64 strings
+        if (data['documentImage']?.isNotEmpty ?? false) {
+          _selectedDocumentImage = base64ToFile(
+            data['documentImage'],
+            'document.jpg',
+          );
+        }
+
+        if (data['personalImage']?.isNotEmpty ?? false) {
+          _selectedPersonalImage = base64ToFile(
+            data['personalImage'],
+            'personal.jpg',
+          );
+        }
+
+        // Update UI
+        if (mounted) setState(() {});
+      }
+    } catch (e) {
+      debugPrint('${S.of(context).errorLoadingSavedData}: $e');
+    }
+  }
+
   // convert file to base64 string
+  File? base64ToFile(String? base64String, String filename) {
+    if (base64String == null || base64String.isEmpty) return null;
+    try {
+      final bytes = base64Decode(base64String);
+      final tempDir = Directory.systemTemp;
+      final file = File('${tempDir.path}/$filename');
+      file.writeAsBytesSync(bytes);
+      return file;
+    } catch (e) {
+      debugPrint('${S.of(context).errorConvertingBase64ToFile}: $e');
+      return null;
+    }
+  }
+
   String fileToBase64(File? file) {
-  if (file == null) return '';
-  final bytes = file.readAsBytesSync();
-  return base64Encode(bytes);
-}
+    if (file == null) return '';
+    try {
+      final bytes = file.readAsBytesSync();
+      return base64Encode(bytes);
+    } catch (e) {
+      debugPrint('${S.of(context).errorConvertingFileToBase64}: $e');
+      return '';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: ValueKey(Localizations.localeOf(context).languageCode),
       backgroundColor: Colors.grey[50],
       appBar: _buildAppBar(),
       body: Column(
@@ -137,8 +187,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
         onPressed: () => Navigator.pop(context),
       ),
-      title: const Text(
-        'ຂໍ້ມູນສ່ວນຕົວ',
+      title: Text(
+        // 'ຂໍ້ມູນສ່ວນຕົວ',
+        S.of(context).personalInfo,
         style: TextStyle(
           fontWeight: FontWeight.w600,
           fontSize: 20,
@@ -249,9 +300,10 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                 ),
               ),
               const SizedBox(width: 12),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'ຂໍ້ມູນສ່ວນຕົວ',
+                  // 'ຂໍ້ມູນສ່ວນຕົວ',
+                  S.of(context).personalInfo,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -263,7 +315,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            'ກະລຸນາປ້ອນຂໍ້ມູນສ່ວນຕົວຂອງທ່ານໃຫ້ຄົບຖ້ວນ ເພື່ອການຢັ້ງຢືນຕົວຕົນ',
+            // 'ກະລຸນາປ້ອນຂໍ້ມູນສ່ວນຕົວຂອງທ່ານໃຫ້ຄົບຖ້ວນ ເພື່ອການຢັ້ງຢືນຕົວຕົນ',
+            S.of(context).please_enter_personal_info,
             style: TextStyle(
               fontSize: 14,
               color: Colors.grey[600],
@@ -279,8 +332,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'ອັບໂຫຼດຮູບຖ່າຍ',
+        Text(
+          // 'ອັບໂຫຼດຮູບຖ່າຍ',
+          S.of(context).upload_photo,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -321,7 +375,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         const SizedBox(height: 12),
         Center(
           child: Text(
-            'ອັບໂຫຼດຮູບຖ່າຍຂອງທ່ານໃນປັດຈຸບັນ',
+            // 'ອັບໂຫຼດຮູບຖ່າຍຂອງທ່ານໃນປັດຈຸບັນ',
+            S.of(context).upload_current_photo,
             style: TextStyle(fontSize: 12, color: Colors.grey[600]),
             textAlign: TextAlign.center,
           ),
@@ -337,7 +392,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         Icon(Icons.image, size: 50, color: _primaryColor),
         const SizedBox(height: 8),
         Text(
-          'ແຕະເພື່ອອັບໂຫຼດຮູບ',
+          // 'ແຕະເພື່ອອັບໂຫຼດຮູບ',
+          S.of(context).tap_to_upload,
           style: TextStyle(
             color: _primaryColor,
             fontWeight: FontWeight.w600,
@@ -353,29 +409,22 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(8),
-          child: SizedBox(
-            width: double.infinity,
-            height: double.infinity,
-            child: Image.file(_selectedPersonalImage!, fit: BoxFit.cover),
-          ),
+          child: _selectedPersonalImage != null
+              ? Image.file(
+                  _selectedPersonalImage!,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
+                )
+              : Container(color: Colors.grey[200]),
         ),
-
-        // Remove button
         if (_selectedPersonalImage != null)
           Positioned(
             top: 0,
             right: 0,
-            child: Container(
-              height: 35,
-              width: 35,
-              decoration: const BoxDecoration(
-                color: Colors.red,
-                shape: BoxShape.circle,
-              ),
-              child: IconButton(
-                onPressed: _removePersonalImage,
-                icon: const Icon(Icons.close, color: Colors.white, size: 18),
-              ),
+            child: IconButton(
+              onPressed: _removePersonalImage,
+              icon: Icon(Icons.close, color: Colors.red),
             ),
           ),
       ],
@@ -386,8 +435,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'ຮູບເອກະສານ',
+        Text(
+          // 'ຮູບເອກະສານ',
+          S.of(context).document_photo,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -428,7 +478,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         const SizedBox(height: 12),
         Center(
           child: Text(
-            'ອັບໂຫຼດຮູບເອກະສານທີ່ສະແດງຕົວຕົນ',
+            // 'ອັບໂຫຼດຮູບເອກະສານທີ່ສະແດງຕົວຕົນ',
+            S.of(context).upload_id_document,
             style: TextStyle(fontSize: 12, color: Colors.grey[600]),
             textAlign: TextAlign.center,
           ),
@@ -444,7 +495,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         Icon(Icons.credit_card_outlined, size: 40, color: _primaryColor),
         const SizedBox(height: 8),
         Text(
-          'ອັບໂຫຼດຮູບເອກະສານ',
+          // 'ອັບໂຫຼດຮູບເອກະສານ',
+          S.of(context).upload_document,
           style: TextStyle(
             color: _primaryColor,
             fontWeight: FontWeight.w600,
@@ -453,7 +505,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         ),
         const SizedBox(height: 4),
         Text(
-          'ແຕະເພື່ອອັບໂຫຼດຮູບເອກະສານ',
+          // 'ແຕະເພື່ອອັບໂຫຼດຮູບເອກະສານ',
+          S.of(context).tap_to_upload_document,
           style: TextStyle(color: Colors.grey[600], fontSize: 12),
         ),
       ],
@@ -465,47 +518,24 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(14),
-          child: Image.file(
-            _selectedDocumentImage!,
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
+          child: _selectedDocumentImage != null
+              ? Image.file(
+                  _selectedDocumentImage!,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
+                )
+              : Container(color: Colors.grey[200]),
         ),
-        // Edit button
-        // Positioned(
-        //   bottom: 0,
-        //   right: 0,
-        //   child: Container(
-        //     height: 35,
-        //     width: 35,
-        //     decoration: BoxDecoration(
-        //       color: Colors.black.withOpacity(0.7),
-        //       shape: BoxShape.circle,
-        //     ),
-        //     child: IconButton(
-        //       onPressed: _pickDocumentImage,
-        //       icon: const Icon(Icons.edit, color: Colors.white, size: 20),
-        //     ),
-        //   ),
-        // ),
-        // Remove button
-        Positioned(
-          top: 0,
-          right: 0,
-          child: Container(
-            height: 35,
-            width: 35,
-            decoration: const BoxDecoration(
-              color: Colors.red,
-              shape: BoxShape.circle,
-            ),
+        if (_selectedDocumentImage != null)
+          Positioned(
+            top: 0,
+            right: 0,
             child: IconButton(
               onPressed: _removeDocumentImage,
-              icon: const Icon(Icons.close, color: Colors.white, size: 20),
+              icon: Icon(Icons.close, color: Colors.red),
             ),
           ),
-        ),
       ],
     );
   }
@@ -514,8 +544,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'ຂໍ້ມູນສ່ວນຕົວ',
+        Text(
+          // 'ຂໍ້ມູນສ່ວນຕົວ',
+          S.of(context).personalInfo,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -524,22 +555,31 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         ),
         const SizedBox(height: 12),
         _buildInputField(
-          label: 'ຊື່',
+          // label: 'ຊື່',
+          label: S.of(context).name,
           controller: _ownerNameController,
           icon: Icons.person_outline,
-          validator: (value) => value?.isEmpty ?? true ? 'ກະລຸນາປ້ອນຊື່' : null,
+          // validator: (value) => value?.isEmpty ?? true ? ກະລຸນາປ້ອນຊື່ : null,
+          validator: (value) => value?.isEmpty ?? true
+              ? S.of(context).please_enter_first_name
+              : null,
         ),
         const SizedBox(height: 8),
         _buildInputField(
-          label: 'ນາມສະກຸນ',
+          // label: 'ນາມສະກຸນ',
+          label: S.of(context).last_name,
           controller: _ownerSurnameController,
           icon: Icons.person_outline,
           validator: (value) =>
-              value?.isEmpty ?? true ? 'ກະລຸນາປ້ອນນາມສະກຸນ' : null,
+              // value?.isEmpty ?? true ? ກະລຸນາປ້ອນນາມສະກຸນ : null,
+              value?.isEmpty ?? true
+              ? S.of(context).please_enter_last_name
+              : null,
         ),
         const SizedBox(height: 8),
         _buildInputField(
-          label: 'ວັນ,ເດືອນ,ປີເກີດ',
+          // label: 'ວັນ,ເດືອນ,ປີເກີດ',
+          label: S.of(context).birth_date,
           controller: _ownerdobController,
           icon: Icons.calendar_today,
           readOnly: true,
@@ -558,32 +598,47 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
             }
           },
           validator: (value) =>
-              value?.isEmpty ?? true ? 'ກະລຸນາປ້ອນວັນ,ເດືອນ,ປີເກີດ' : null,
+              // value?.isEmpty ?? true ? 'ກະລຸນາປ້ອນວັນ,ເດືອນ,ປີເກີດ' : null,
+              value?.isEmpty ?? true
+              ? S.of(context).please_enter_birth_date
+              : null,
         ),
 
         const SizedBox(height: 8),
         _buildInputField(
-          label: 'ບ້ານ',
+          // label: 'ບ້ານ',
+          label: S.of(context).village,
           controller: _villageController,
           icon: Icons.home_outlined,
           validator: (value) =>
-              value?.isEmpty ?? true ? 'ກະລຸນາປ້ອນຊື່ບ້ານ' : null,
+              // value?.isEmpty ?? true ? 'ກະລຸນາປ້ອນຊື່ບ້ານ' : null,
+              value?.isEmpty ?? true
+              ? S.of(context).please_enter_village
+              : null,
         ),
         const SizedBox(height: 8),
         _buildInputField(
-          label: 'ເມືອງ',
+          // label: 'ເມືອງ',
+          label: S.of(context).district,
           controller: _districtController,
           icon: Icons.location_city_outlined,
           validator: (value) =>
-              value?.isEmpty ?? true ? 'ກະລຸນາປ້ອນຊື່ເມືອງ' : null,
+              // value?.isEmpty ?? true ? 'ກະລຸນາປ້ອນຊື່ເມືອງ' : null,
+              value?.isEmpty ?? true
+              ? S.of(context).please_enter_district
+              : null,
         ),
         const SizedBox(height: 8),
         _buildInputField(
-          label: 'ແຂວງ',
+          // label: 'ແຂວງ',
+          label: S.of(context).province,
           controller: _cityController,
           icon: Icons.map_outlined,
           validator: (value) =>
-              value?.isEmpty ?? true ? 'ກະລຸນາປ້ອນຊື່ແຂວງ' : null,
+              // value?.isEmpty ?? true ? 'ກະລຸນາປ້ອນຊື່ແຂວງ' : null,
+              value?.isEmpty ?? true
+              ? S.of(context).please_enter_province
+              : null,
         ),
       ],
     );
@@ -593,8 +648,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'ເອກະສານຢັ້ງຢືນຕົວຕົນ',
+        Text(
+          // 'ເອກະສານຢັ້ງຢືນຕົວຕົນ',
+          S.of(context).id_document,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -603,7 +659,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         ),
         const SizedBox(height: 12),
         _buildDropdownField(
-          'ປະເພດເອກະສານ',
+          // 'ປະເພດເອກະສານ',
+          S.of(context).document_type,
           _selectedDocumentType,
           ['ບັດປະຈຳຕົວ', 'ໜັງສືຜ່ານແດນ', 'ສຳມະໂນຄົວ'],
           (value) => setState(() => _selectedDocumentType = value),
@@ -611,11 +668,16 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         ),
         const SizedBox(height: 8),
         _buildInputField(
-          label: 'ເລກທີເອກະສານ',
+          label: S
+              .of(context)
+              .document_number_label(
+                documentTypeDisplayMap[_selectedDocumentType] ?? '',
+              ),
           controller: _documentNumberController,
           icon: Icons.numbers_outlined,
-          validator: (value) =>
-              value?.isEmpty ?? true ? 'ກະລຸນາໃສ່ເລກທີເອກະສານ' : null,
+          validator: (value) => value?.isEmpty ?? true
+              ? S.of(context).please_enter_document_number
+              : null,
         ),
       ],
     );
@@ -715,7 +777,10 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
             icon: Icon(Icons.arrow_drop_down, color: _primaryColor),
             style: const TextStyle(color: Colors.black, fontSize: 16),
             items: items.map((String item) {
-              return DropdownMenuItem<String>(value: item, child: Text(item));
+              return DropdownMenuItem<String>(
+                value: item,
+                child: Text(getDocumentTypeDisplayText(item)),
+              );
             }).toList(),
             onChanged: onChanged,
             dropdownColor: Colors.white,
@@ -745,34 +810,49 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         child: ElevatedButton(
           onPressed: _isLoading ? null : _validateAndNext,
           style: ElevatedButton.styleFrom(
-            backgroundColor: _primaryColor,
+            padding:
+                EdgeInsets.zero, // ต้องเพิ่มบรรทัดนี้เพื่อให้ gradient เต็มปุ่ม
+            backgroundColor: Colors.transparent, // ตั้งค่าเป็น transparent
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
             elevation: 0,
             shadowColor: Colors.transparent,
           ),
-          child: _isLoading
-              ? const CircularProgressIndicator(color: Colors.white)
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'ຖັດໄປ',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
+          child: Ink(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [AppColors.color1, AppColors.color2],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+              child: _isLoading
+                  ? const CircularProgressIndicator(color: Colors.white)
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          S.of(context).next,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        const Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 8),
-                    const Icon(
-                      Icons.arrow_forward,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                  ],
-                ),
+            ),
+          ),
         ),
       ),
     );
@@ -796,8 +876,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('ຜິດພາດໃນການເລືອກຮູບ: $e'),
-          backgroundColor: Colors.red,
+          // content: Text('ຜິດພາດໃນການເລືອກຮູບ: $e'),
+          content: Text('${S.of(context).image_selection_error}: $e'),
+          backgroundColor: Color.fromARGB(255, 12, 105, 122),
         ),
       );
     }
@@ -827,8 +908,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('ຜິດພາດໃນການເລືອກຮູບ: $e'),
-          backgroundColor: Colors.red,
+          content: Text('${S.of(context).image_selection_error}: $e'),
+          backgroundColor: Color.fromARGB(255, 12, 105, 122),
         ),
       );
     }
@@ -841,34 +922,25 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   }
 
   Future<void> _validateAndNext() async {
-    Map<String, String> personalData = {
-      'ownerName': _ownerNameController.text,
-      'ownerSurname': _ownerSurnameController.text,
-      'ownerdob': _ownerdobController.text,
-      'village': _villageController.text,
-      'district': _districtController.text,
-      'city': _cityController.text,
-      'documentType': _selectedDocumentType!,
-      'documentNumber': _documentNumberController.text,
-      'documentImage': fileToBase64(_selectedDocumentImage),
-    };
-    // await savePersonalInfoStatus();
-    await savePersonalData(personalData);
     if (!_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('ກະລຸນາກໍ່ນຂໍ້ມູນໃຫ້ຄົບຖ້ວນ'),
-          backgroundColor: Colors.red,
+        // const SnackBar(content: Text('ກະລຸນາກໍ່ນຂໍ້ມູນໃຫ້ຄົບຖ້ວນ')),
+        SnackBar(
+          content: Text(S.of(context).please_complete_info),
+          backgroundColor: Color.fromARGB(255, 12, 105, 122),
         ),
       );
       return;
     }
 
     if (_selectedDocumentImage == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('ກະລຸນາອັບໂຫຼດຮູບເອກະສານ'),
-          backgroundColor: Colors.red,
+      ScaffoldMessenger.of(
+        context,
+        // ).showSnackBar(const SnackBar(content: Text('ກະລຸນາອັບໂຫຼດຮູບເອກະສານ')));
+      ).showSnackBar(
+        SnackBar(
+          content: Text(S.of(context).please_upload_document),
+          backgroundColor: Color.fromARGB(255, 12, 105, 122),
         ),
       );
       return;
@@ -876,9 +948,10 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
 
     if (_selectedPersonalImage == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('ກະລຸນາອັບໂຫຼດຮູບຖ່າຍສ່ວນຕົວ'),
-          backgroundColor: Colors.red,
+        // const SnackBar(content: Text('ກະລຸນາອັບໂຫຼດຮູບຖ່າຍສ່ວນຕົວ')),
+        SnackBar(
+          content: Text(S.of(context).please_upload_personal_photo),
+          backgroundColor: Color.fromARGB(255, 12, 105, 122),
         ),
       );
       return;
@@ -886,30 +959,39 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
 
     setState(() => _isLoading = true);
 
-    // Simulate loading
-    await Future.delayed(const Duration(seconds: 1));
+    try {
+      final personalData = {
+        'ownerName': _ownerNameController.text,
+        'ownerSurname': _ownerSurnameController.text,
+        'ownerdob': _ownerdobController.text,
+        'village': _villageController.text,
+        'district': _districtController.text,
+        'city': _cityController.text,
+        'documentType': _selectedDocumentType!,
+        'documentNumber': _documentNumberController.text,
+        'documentImage': fileToBase64(_selectedDocumentImage),
+        'personalImage': fileToBase64(
+          _selectedPersonalImage,
+        ), // Make sure this is included
+      };
 
-    setState(() => _isLoading = false);
+      await LocalStorageService.savePersonalData(personalData);
 
-    // Navigate to property details page
-    // You need to import PropertyDetailsPage or create the navigation here
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => PropertyDetailsPage(
-          personalData: {
-            'ownerName': _ownerNameController.text,
-            'ownerSurname': _ownerSurnameController.text,
-            'ownerdob': _ownerdobController.text,
-            'village': _villageController.text,
-            'district': _districtController.text,
-            'city': _cityController.text,
-            'documentType': _selectedDocumentType,
-            'documentNumber': _documentNumberController.text,
-            'documentImage': _selectedDocumentImage,
-          },
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PropertyDetailsPage(personalData: personalData),
         ),
-      ),
-    );
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: ${e.toString()}'),
+          backgroundColor: Color.fromARGB(255, 12, 105, 122),
+        ),
+      );
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 }

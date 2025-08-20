@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
+import 'package:homefind/widgets/Colors.dart';
 
 // Notification Tab constants
 class NotificationTabs {
@@ -31,9 +32,9 @@ class NotificationsBody extends StatefulWidget {
 }
 
 class _NotificationsBodyState extends State<NotificationsBody> {
-  final _primaryColor = const Color.fromARGB(255, 87, 167, 177);
+  final _primaryColor = AppColors.color1;
   // ignore: unused_field
-  final _darkPrimaryColor = const Color.fromARGB(255, 12, 105, 122);
+  final _darkPrimaryColor = AppColors.color2;
   final _scrollController = ScrollController();
 
   String _selectedTab = NotificationTabs.unread; // ใช้ constant แทน
@@ -125,9 +126,7 @@ class _NotificationsBodyState extends State<NotificationsBody> {
 
   List<NotificationItem> get _filteredNotifications {
     return _notifications.where((notification) {
-      return _selectedTab ==
-              NotificationTabs
-                  .unread // ใช้ constant แทน
+      return _selectedTab == NotificationTabs.unread
           ? !notification.isRead
           : notification.isRead;
     }).toList();
@@ -160,7 +159,7 @@ class _NotificationsBodyState extends State<NotificationsBody> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          S.of(context).notifications, // ต้องเพิ่มใน l10n
+          S.of(context).notifications,
           style: TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 20,
@@ -172,12 +171,9 @@ class _NotificationsBodyState extends State<NotificationsBody> {
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [
-                Color.fromARGB(255, 87, 167, 177),
-                Color.fromARGB(255, 12, 105, 122),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+              colors: [AppColors.color1, AppColors.color2],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
             ),
           ),
         ),
@@ -188,7 +184,7 @@ class _NotificationsBodyState extends State<NotificationsBody> {
             TextButton(
               onPressed: _markAllAsRead,
               child: Text(
-                S.of(context).markAllAsRead, // ต้องเพิ่มใน l10n
+                S.of(context).markAllAsRead,
                 style: TextStyle(color: Colors.white),
               ),
             ),
@@ -229,12 +225,8 @@ class _NotificationsBodyState extends State<NotificationsBody> {
                     ? Center(
                         child: Text(
                           _selectedTab == NotificationTabs.unread
-                              ? S
-                                    .of(context)
-                                    .noUnreadNotifications // ต้องเพิ่มใน l10n
-                              : S
-                                    .of(context)
-                                    .noReadNotifications, // ต้องเพิ่มใน l10n
+                              ? S.of(context).noUnreadNotifications
+                              : S.of(context).noReadNotifications,
                           style: TextStyle(color: Colors.grey[600]),
                         ),
                       )

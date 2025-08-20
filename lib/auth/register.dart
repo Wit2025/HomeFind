@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:homefind/auth/otp_verify_page.dart';
-import 'dart:math';
 import 'package:homefind/auth/login.dart';
+import 'package:homefind/auth/otp_verify_page.dart';
+import 'package:homefind/screens/main_screen.dart';
+import 'dart:math';
 import 'package:homefind/service/Auth_Service.dart';
 import 'package:homefind/generated/l10n.dart';
+import 'package:homefind/widgets/Colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -88,7 +91,7 @@ class _SignUpPageState extends State<Register> {
         if (mounted) {
           setState(() => _isLoading = false);
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(errorMessage), backgroundColor: Colors.red),
+            SnackBar(content: Text(errorMessage), backgroundColor: Colors.teal),
           );
         }
       }
@@ -111,11 +114,13 @@ class _SignUpPageState extends State<Register> {
     // Implement Google Sign-In functionality here
     setState(() => _isLoading = true);
     await Future.delayed(const Duration(seconds: 2));
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', true);
 
     if (mounted) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const LoginPage()),
+        MaterialPageRoute(builder: (context) => MainScreen()),
       );
     }
   }
@@ -134,11 +139,11 @@ class _SignUpPageState extends State<Register> {
             Container(
               height: isSmallScreen ? size.height * 0.25 : size.height * 0.3,
               width: double.infinity,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Color(0xFF00CEB0), Color(0xFF006B8B)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+                  colors: [AppColors.color1, AppColors.color2],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
                 ),
               ),
               child: SafeArea(
@@ -240,7 +245,7 @@ class _SignUpPageState extends State<Register> {
                                 'NotoSansLao', // Added Noto Sans Lao font
                             fontSize: isSmallScreen ? 20 : 24,
                             fontWeight: FontWeight.bold,
-                            color: const Color(0xFF008B8B),
+                            color: AppColors.color1,
                           ),
                         ),
                       ),
@@ -425,37 +430,45 @@ class _SignUpPageState extends State<Register> {
                       // Register button
                       SizedBox(
                         width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: _isLoading ? null : _submitForm,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF008B8B),
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                8,
-                              ), // Square corners
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [AppColors.color1, AppColors.color2],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
                             ),
-                            elevation: 0,
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                          child: _isLoading
-                              ? const SizedBox(
-                                  height: 24,
-                                  width: 24,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 3,
-                                    color: Colors.white,
+                          child: ElevatedButton(
+                            onPressed: _isLoading ? null : _submitForm,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              shadowColor: Colors.transparent,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              elevation: 0,
+                            ),
+                            child: _isLoading
+                                ? const SizedBox(
+                                    height: 24,
+                                    width: 24,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 3,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : Text(
+                                    S.of(context).register,
+                                    style: TextStyle(
+                                      fontFamily: 'NotoSansLao',
+                                      fontSize: isSmallScreen ? 16 : 18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
-                                )
-                              : Text(
-                                  // 'ລົງທະບຽນ',
-                                  S.of(context).register,
-                                  style: TextStyle(
-                                    fontFamily: 'NotoSansLao',
-                                    fontSize: isSmallScreen ? 16 : 18,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -541,7 +554,7 @@ class _SignUpPageState extends State<Register> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const LoginPage(),
+                                  builder: (context) => LoginPage(),
                                 ),
                               );
                             },
@@ -555,7 +568,7 @@ class _SignUpPageState extends State<Register> {
                               style: TextStyle(
                                 fontFamily: 'NotoSansLao',
                                 fontSize: isSmallScreen ? 14 : 16,
-                                color: const Color(0xFF008B8B),
+                                color: AppColors.color1,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

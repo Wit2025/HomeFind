@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/main.dart';
+import 'package:homefind/widgets/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LanguegePage extends StatefulWidget {
@@ -63,9 +64,9 @@ class _LanguagePageState extends State<LanguegePage> {
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF1A7A85), Color(0xFF0C697A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+              colors: [AppColors.color1, AppColors.color2],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
             ),
             boxShadow: [
               BoxShadow(
@@ -126,6 +127,18 @@ class _LanguagePageState extends State<LanguegePage> {
                       languageName: '한국어 (Korean)',
                       flagAsset: 'assets/images/ko.png',
                     ),
+                    _buildDivider(),
+                    _buildLanguageTile(
+                      languageCode: 'hi',
+                      languageName: 'हिंदी (Hindi)',
+                      flagAsset: 'assets/images/in.png',
+                    ),
+                    _buildDivider(),
+                    _buildLanguageTile(
+                      languageCode: 'ja',
+                      languageName: '日本語 (Japanese)',
+                      flagAsset: 'assets/images/ja.png',
+                    ),
                   ],
                 ),
               ),
@@ -164,7 +177,7 @@ class _LanguagePageState extends State<LanguegePage> {
             _saveLanguageAndUpdate(value); // บันทึกและอัปเดตทันที
           }
         },
-        activeColor: Color(0xFF0C697A),
+        activeColor: AppColors.color1,
       ),
       onTap: () {
         _saveLanguageAndUpdate(languageCode); // บันทึกและอัปเดตทันที

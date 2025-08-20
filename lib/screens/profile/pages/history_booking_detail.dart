@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:homefind/screens/home/pages/bill_page.dart';
 import 'package:homefind/generated/l10n.dart';
+import 'package:homefind/widgets/Colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 // Status และ Type constants
@@ -198,7 +198,7 @@ class _BookingDetailPageState extends State<BookingDetailPage>
 
     return Scaffold(
       key: ValueKey(Localizations.localeOf(context).languageCode),
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -255,12 +255,12 @@ class _BookingDetailPageState extends State<BookingDetailPage>
                       height: 100,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
                           colors: [
-                            Colors.black.withOpacity(0.6),
+                            AppColors.color1.withOpacity(0.6),
                             Colors.transparent,
                           ],
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
                         ),
                       ),
                     ),
@@ -586,7 +586,8 @@ class _BookingDetailPageState extends State<BookingDetailPage>
                               ),
                               SizedBox(height: 10),
                               Text(
-                                'The breakfast buffet was amazing and very worth it! The location is perfect and the staff was incredibly helpful throughout our stay.',
+                                // 'The breakfast buffet was amazing and very worth it! The location is perfect and the staff was incredibly helpful throughout our stay.',
+                                S.of(context).breakfast_review,
                                 style: TextStyle(
                                   fontSize: 15,
                                   color: Colors.grey[700],
@@ -659,12 +660,9 @@ class _BookingDetailPageState extends State<BookingDetailPage>
               Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [
-                      Color.fromARGB(255, 87, 167, 177),
-                      Color.fromARGB(255, 12, 105, 122),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+                    colors: [AppColors.color1, AppColors.color2],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
                   ),
                   borderRadius: BorderRadius.circular(25),
                   boxShadow: [
@@ -677,20 +675,21 @@ class _BookingDetailPageState extends State<BookingDetailPage>
                 ),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => BillPage(
-                          bookingId: widget.booking['id'] ?? 'B123456',
-                          name: widget.booking['title'] ?? 'ສຸດທິພົນ',
-                          category: _getTypeDisplayText(
-                            type,
-                          ), // ใช้ function แปลงภาษา
-                          amount: widget.booking['price'] ?? '1500000',
-                          bookingDate: DateTime.now(),
-                        ),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => BillPage(
+                    //       bookingId: widget.booking['id'] ?? 'B123456',
+                    //       customerName: widget.booking['title'] ?? 'ສຸດທິພົນ',
+                    //       pro_name: widget.booking['title'] ?? 'ສຸດທິພົນ',
+                    //       category: _getTypeDisplayText(
+                    //         type,
+                    //       ), // ใช้ function แปลงภาษา
+                    //       currency: widget.booking['price'] ?? '1500000',
+                    //       createdAt: DateTime.now(),
+                    //     ),
+                    //   ),
+                    // );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.transparent,

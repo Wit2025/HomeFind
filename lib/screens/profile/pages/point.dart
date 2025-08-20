@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
+import 'package:homefind/widgets/Colors.dart';
 
 class PointPages extends StatefulWidget {
   const PointPages({super.key});
@@ -59,9 +60,9 @@ class _PointPagesState extends State<PointPages> {
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF57A7B1), Color(0xFF0C697A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+              colors: [AppColors.color1, AppColors.color2],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
             ),
           ),
         ),
@@ -89,10 +90,10 @@ class _PointPagesState extends State<PointPages> {
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF57A7B1), Color(0xFF0C697A)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+        gradient: LinearGradient(
+          colors: [AppColors.color1, AppColors.color2],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
         ),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
@@ -177,14 +178,14 @@ class _PointPagesState extends State<PointPages> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         children: [
-          const Icon(Icons.history, color: Color(0xFF006B8B), size: 24),
+          const Icon(Icons.history, color: Colors.black, size: 24),
           const SizedBox(width: 8),
           Text(
             S.of(context).scoreHistory,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF006B8B),
+              color: Colors.black,
             ),
           ),
           const Spacer(),
@@ -193,7 +194,7 @@ class _PointPagesState extends State<PointPages> {
               // TODO: Show all history
             },
             style: TextButton.styleFrom(
-              foregroundColor: const Color(0xFF00CEB0),
+              foregroundColor: Colors.black,
               padding: EdgeInsets.zero,
             ),
             child: Text(
@@ -252,7 +253,7 @@ class _PointPagesState extends State<PointPages> {
                   color: const Color(0xFFE8F7F5),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(icon, color: const Color(0xFF00CEB0), size: 24),
+                child: Icon(icon, color: AppColors.color1, size: 24),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -282,7 +283,7 @@ class _PointPagesState extends State<PointPages> {
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF00CEB0),
+                      color: Colors.black,
                     ),
                   ),
                   const SizedBox(height: 4),

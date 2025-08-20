@@ -6,6 +6,7 @@ import 'package:homefind/screens/add/add_page.dart';
 import 'package:homefind/screens/join/join_page.dart';
 import 'package:homefind/screens/notification/notification_page.dart';
 import 'package:homefind/screens/profile/profile_page.dart';
+import 'package:homefind/widgets/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainScreen extends StatefulWidget {
@@ -83,6 +84,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: ValueKey(Localizations.localeOf(context).languageCode),
       body: _pages[_currentIndex],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
@@ -101,7 +103,7 @@ class _MainScreenState extends State<MainScreen> {
           onTap: _handlePageChange,
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.white,
-          selectedItemColor: Colors.teal,
+          selectedItemColor: AppColors.color1,
           unselectedItemColor: Colors.grey,
           elevation: 0,
           items: [
@@ -117,7 +119,14 @@ class _MainScreenState extends State<MainScreen> {
               icon: Container(
                 padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.teal,
+                  color: _currentIndex == 2 ? AppColors.color1 : null,
+                  gradient: _currentIndex == 2
+                      ? null
+                      : LinearGradient(
+                          colors: [AppColors.color1, AppColors.color2],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(Icons.add, color: Colors.white, size: 27),

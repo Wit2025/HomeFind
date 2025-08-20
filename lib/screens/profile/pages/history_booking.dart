@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/profile/pages/history_booking_detail.dart';
+import 'package:homefind/widgets/Colors.dart';
 
 class HistoryBookingPages extends StatefulWidget {
   const HistoryBookingPages({super.key});
@@ -15,11 +16,11 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'id': 'B45678787876',
       'title': 'ອະພາດເມັນ',
       'date': '10 ກໍລະກົດ 2025',
-      'location': 'ນະຄອນຫຼວງ ເວຽງຈັນ',
+      'location': 'ນະຄອນຫຼວງ ວຽງຈັນ',
       'image': 'assets/images/house.jpg',
       'price': '50,000',
-      'status': 'ສຳເລັດ', // Key remains in Lao
-      'type': 'ຂາຍ', // Key remains in Lao
+      'status': 'ສຳເລັດ',
+      'type': 'ຂາຍ',
     },
     {
       'id': 'B46768787876',
@@ -28,8 +29,8 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'location': 'ໄຊຍະບູລີ',
       'image': 'assets/images/house.jpg',
       'price': '50,000',
-      'status': 'ລໍຖ້າຢືນຢັນ', // Key remains in Lao
-      'type': 'ຂາຍ', // Key remains in Lao
+      'status': 'ລໍຖ້າຢືນຢັນ',
+      'type': 'ຂາຍ',
     },
     {
       'id': 'B456670976',
@@ -38,8 +39,8 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'location': 'ເຊກອງ',
       'image': 'assets/images/house.jpg',
       'price': '50,000',
-      'status': 'ຍົກເລີກ', // Key remains in Lao
-      'type': 'ເຊົ່າ', // Key remains in Lao
+      'status': 'ຍົກເລີກ',
+      'type': 'ເຊົ່າ',
     },
     {
       'id': 'B4567887876',
@@ -48,8 +49,8 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'location': 'ຫຼວງພະບາງ',
       'image': 'assets/images/house.jpg',
       'price': '75,000',
-      'status': 'ສຳເລັດ', // Key remains in Lao
-      'type': 'ຂາຍ', // Key remains in Lao
+      'status': 'ສຳເລັດ',
+      'type': 'ຂາຍ',
     },
     {
       'id': 'B4567098876',
@@ -58,18 +59,18 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'location': 'ຈຳປາສັກ',
       'image': 'assets/images/house.jpg',
       'price': '60,000',
-      'status': 'ລໍຖ້າຢືນຢັນ', // Key remains in Lao
-      'type': 'ເຊົ່າ', // Key remains in Lao
+      'status': 'ລໍຖ້າຢືນຢັນ',
+      'type': 'ເຊົ່າ',
     },
     {
       'id': 'B567787876',
       'title': 'ອະພາດເມັນ',
       'date': '10 ກໍລະກົດ 2025',
-      'location': 'ນະຄອນຫຼວງ ເວຽງຈັນ',
+      'location': 'ນະຄອນຫຼວງ ວຽງຈັນ',
       'image': 'assets/images/house.jpg',
       'price': '50,000',
-      'status': 'ສຳເລັດ', // Key remains in Lao
-      'type': 'ຂາຍ', // Key remains in Lao
+      'status': 'ສຳເລັດ',
+      'type': 'ຂາຍ',
     },
     {
       'id': 'B09876676',
@@ -78,8 +79,8 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'location': 'ໄຊຍະບູລີ',
       'image': 'assets/images/house.jpg',
       'price': '50,000',
-      'status': 'ລໍຖ້າຢືນຢັນ', // Key remains in Lao
-      'type': 'ເຊົ່າ', // Key remains in Lao
+      'status': 'ລໍຖ້າຢືນຢັນ',
+      'type': 'ເຊົ່າ',
     },
     {
       'id': 'B455678876576',
@@ -88,8 +89,8 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'location': 'ເຊກອງ',
       'image': 'assets/images/house.jpg',
       'price': '50,000',
-      'status': 'ຍົກເລີກ', // Key remains in Lao
-      'type': 'ຂາຍ', // Key remains in Lao
+      'status': 'ຍົກເລີກ',
+      'type': 'ຂາຍ',
     },
     {
       'id': 'B4509876776',
@@ -98,8 +99,8 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'location': 'ຫຼວງພະບາງ',
       'image': 'assets/images/house.jpg',
       'price': '75,000',
-      'status': 'ສຳເລັດ', // Key remains in Lao
-      'type': 'ເຊົ່າ', // Key remains in Lao
+      'status': 'ສຳເລັດ',
+      'type': 'ເຊົ່າ',
     },
     {
       'id': 'B4567230966',
@@ -108,18 +109,18 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'location': 'ຈຳປາສັກ',
       'image': 'assets/images/house.jpg',
       'price': '60,000',
-      'status': 'ລໍຖ້າຢືນຢັນ', // Key remains in Lao
-      'type': 'ຂາຍ', // Key remains in Lao
+      'status': 'ລໍຖ້າຢືນຢັນ',
+      'type': 'ຂາຍ',
     },
     {
       'id': 'B45679787876',
       'title': 'ອະພາດເມັນ',
       'date': '10 ກໍລະກົດ 2025',
-      'location': 'ນະຄອນຫຼວງ ເວຽງຈັນ',
+      'location': 'ນະຄອນຫຼວງ ວຽງຈັນ',
       'image': 'assets/images/house.jpg',
       'price': '50,000',
-      'status': 'ສຳເລັດ', // Key remains in Lao
-      'type': 'ເຊົ່າ', // Key remains in Lao
+      'status': 'ສຳເລັດ',
+      'type': 'ເຊົ່າ',
     },
     {
       'id': 'B49823456876',
@@ -128,8 +129,8 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'location': 'ໄຊຍະບູລີ',
       'image': 'assets/images/house.jpg',
       'price': '50,000',
-      'status': 'ລໍຖ້າຢືນຢັນ', // Key remains in Lao
-      'type': 'ຂາຍ', // Key remains in Lao
+      'status': 'ລໍຖ້າຢືນຢັນ',
+      'type': 'ຂາຍ',
     },
     {
       'id': 'B4556798787876',
@@ -148,8 +149,8 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'location': 'ຫຼວງພະບາງ',
       'image': 'assets/images/house.jpg',
       'price': '75,000',
-      'status': 'ສຳເລັດ', // Key remains in Lao
-      'type': 'ຂາຍ', // Key remains in Lao
+      'status': 'ສຳເລັດ',
+      'type': 'ຂາຍ',
     },
     {
       'id': 'B458765677876',
@@ -158,8 +159,8 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       'location': 'ຈຳປາສັກ',
       'image': 'assets/images/house.jpg',
       'price': '60,000',
-      'status': 'ລໍຖ້າຢືນຢັນ', // Key remains in Lao
-      'type': 'ເຊົ່າ', // Key remains in Lao
+      'status': 'ລໍຖ້າຢືນຢັນ',
+      'type': 'ເຊົ່າ',
     },
   ];
 
@@ -204,7 +205,6 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
     }
   }
 
-  // Helper method to get localized status text
   String _getLocalizedStatus(String status, S l10n) {
     switch (status) {
       case 'ສຳເລັດ':
@@ -240,12 +240,9 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [
-                Color.fromARGB(255, 87, 167, 177),
-                Color.fromARGB(255, 12, 105, 122),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+              colors: [AppColors.color1, AppColors.color2],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
             ),
           ),
         ),
@@ -288,11 +285,11 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
                     constraints: const BoxConstraints(minWidth: 50),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: Colors.teal,
+                      color: AppColors.color1,
                       border: Border.all(
                         color: _selectedTypeFilter == null
                             ? Colors.grey
-                            : Colors.teal,
+                            : AppColors.color1,
                         width: 0.6,
                       ),
                     ),
@@ -511,7 +508,7 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            '${booking['price'] ?? ''} ${l10n.kip}',
+                                            '₭ ${booking['price'] ?? ''}',
                                             style: const TextStyle(
                                               fontSize: 13,
                                               fontWeight: FontWeight.bold,
@@ -593,15 +590,19 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
         constraints: const BoxConstraints(minWidth: 50),
         decoration: isSelected
             ? BoxDecoration(
-                color: Colors.teal,
+                color: AppColors.color1,
                 borderRadius: BorderRadius.circular(20),
               )
             : null,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 6),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
+              if (isSelected) ...[
+                Icon(Icons.check, color: Colors.white, size: 16),
+                const SizedBox(width: 6),
+              ],
               Text(
                 label,
                 textAlign: TextAlign.center,

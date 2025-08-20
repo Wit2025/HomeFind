@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
+import 'package:homefind/widgets/Colors.dart';
 
 class ChangePasswordPages extends StatefulWidget {
   const ChangePasswordPages({super.key});
@@ -37,9 +38,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPages> {
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF1A7A85), Color(0xFF0C697A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+              colors: [AppColors.color1, AppColors.color2],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
             ),
             boxShadow: [
               BoxShadow(
@@ -131,26 +132,44 @@ class _ChangePasswordPageState extends State<ChangePasswordPages> {
                         },
                       ),
                       const SizedBox(height: 30),
-                      ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            // Add your change password logic here
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF0C697A),
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [AppColors.color1, AppColors.color2],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
                           ),
-                          elevation: 2,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(0, 2),
+                              blurRadius: 2,
+                            ),
+                          ],
                         ),
-                        child: Text(
-                          S.of(context).changePassword,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              // Add your change password logic here
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            elevation: 0,
+                          ),
+                          child: Text(
+                            S.of(context).changePassword,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),

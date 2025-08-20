@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
+import 'package:homefind/widgets/Colors.dart';
+import 'package:flutter/services.dart';
 
 // Transaction model class
 class Transaction {
@@ -27,9 +29,9 @@ class Transaction {
 
 // Status constants - ใช้เป็น internal value
 class TransactionStatus {
-  static const String completed = 'completed';
-  static const String pending = 'pending';
-  static const String cancelled = 'cancelled';
+  static const String completed = 'ສຳເລັດ';
+  static const String pending = 'ລໍຖ້າດຳຢືນຢັນ';
+  static const String cancelled = 'ຍົກເລີກ';
 }
 
 class HistoryTransaction extends StatefulWidget {
@@ -46,7 +48,7 @@ class _HistoryTransactionState extends State<HistoryTransaction> {
       date: '2023-10-15 14:30',
       amount: 150.00,
       account: '•••• 4327',
-      status: TransactionStatus.completed, // ใช้ constant
+      status: TransactionStatus.completed,
       type: 'withdrawal',
       fee: 5.00,
       method: 'ບັນຊີທະນາຄານ',
@@ -94,7 +96,6 @@ class _HistoryTransactionState extends State<HistoryTransaction> {
   ];
 
   String? _selectedFilter;
-
   List<Transaction> get _filteredTransactions {
     if (_selectedFilter == null) return _allTransactions;
     return _allTransactions.where((t) => t.status == _selectedFilter).toList();
@@ -156,9 +157,9 @@ class _HistoryTransactionState extends State<HistoryTransaction> {
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF57A7B1), Color(0xFF0C697A)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+              colors: [AppColors.color1, AppColors.color2],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
             ),
           ),
         ),
@@ -194,7 +195,7 @@ class _HistoryTransactionState extends State<HistoryTransaction> {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            _buildFilterButton(S.of(context).all, null), // ต้องเพิ่มใน l10n
+            _buildFilterButton(S.of(context).all, null),
             const SizedBox(width: 8),
             _buildFilterButton(
               S.of(context).completed,
@@ -222,23 +223,25 @@ class _HistoryTransactionState extends State<HistoryTransaction> {
       label: Text(
         label,
         style: TextStyle(
-          color: isSelected ? Colors.white : const Color(0xFF0C697A),
+          color: isSelected ? Colors.white : Colors.black,
           fontWeight: FontWeight.bold,
         ),
       ),
       selected: isSelected,
       onSelected: (selected) {
-        setState(() {
-          _selectedFilter = selected ? status : null;
-        });
+        if (!isSelected) {
+          setState(() {
+            _selectedFilter = status;
+          });
+        }
       },
       backgroundColor: Colors.white,
-      selectedColor: const Color(0xFF0C697A),
+      selectedColor: AppColors.color1,
       side: BorderSide(
         color: isSelected ? Colors.transparent : Colors.grey[300]!,
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 5),
     );
   }
 
@@ -281,10 +284,8 @@ class _HistoryTransactionState extends State<HistoryTransaction> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
-                  transaction.method == 'E-Wallet'
-                      ? Icons.account_balance_wallet
-                      : Icons.account_balance,
-                  color: const Color(0xFF00CEB0),
+                  Icons.account_balance,
+                  color: AppColors.color1,
                   size: 24,
                 ),
               ),
@@ -296,7 +297,7 @@ class _HistoryTransactionState extends State<HistoryTransaction> {
                     Row(
                       children: [
                         Text(
-                          '-${transaction.amount.toStringAsFixed(2)} ${S.of(context).kip}',
+                          '-₭ ${transaction.amount.toStringAsFixed(2)}',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -385,175 +386,27 @@ class TransactionDetailDialog extends StatelessWidget {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      elevation: 0,
-      child: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    S.of(context).withdrawalDetails,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey[800],
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.close, color: Colors.grey),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-
-              // Divider
-              Container(
-                height: 1,
-                color: Colors.grey[200],
-                margin: const EdgeInsets.symmetric(vertical: 8),
-              ),
-
-              // Transaction Icon
-              Center(
-                child: Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE8F7F5),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    transaction.method == 'E-Wallet'
-                        ? Icons.account_balance_wallet
-                        : Icons.account_balance,
-                    color: const Color(0xFF00CEB0),
-                    size: 40,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              // Amount
-              Center(
-                child: Text(
-                  '-${transaction.amount.toStringAsFixed(2)} ${S.of(context).kip}',
-                  style: const TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF0C697A),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              Center(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: _getStatusColor(transaction.status).withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: _getStatusColor(transaction.status),
-                      width: 1,
-                    ),
-                  ),
-                  child: Text(
-                    _getStatusDisplayText(
-                      transaction.status,
-                      context,
-                    ), // ใช้ function แปลงเป็นข้อความ
-                    style: TextStyle(
-                      color: _getStatusColor(transaction.status),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 24),
-
-              // Details
-              _buildDetailRow(S.of(context).withdrawMethod, transaction.method),
-              _buildDetailRow(
-                S.of(context).destinationAccount,
-                transaction.account,
-              ),
-              _buildDetailRow(
-                S.of(context).fee,
-                '${transaction.fee.toStringAsFixed(2)} ${S.of(context).kip}',
-              ),
-              _buildDetailRow(S.of(context).transactionId, transaction.id),
-              _buildDetailRow(S.of(context).date, transaction.date),
-
-              const SizedBox(height: 24),
-
-              // Close button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF0C697A),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                  ),
-                  child: Text(
-                    S.of(context).close,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  String _getMethodDisplayText(String method, BuildContext context) {
+    switch (method) {
+      case 'ບັນຊີທະນາຄານ':
+        return S.of(context).bank;
+      default:
+        return method;
+    }
   }
 
-  Widget _buildDetailRow(String label, String value) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Column(
         children: [
-          SizedBox(
-            width: 120,
-            child: Text(
-              label,
-              style: TextStyle(color: Colors.grey[600], fontSize: 14),
-            ),
-          ),
-          const SizedBox(width: 16),
+          _buildHeader(context),
           Expanded(
-            child: Text(
-              value,
-              style: const TextStyle(
-                color: Colors.black87,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                children: [_buildTransactionIcon(), _buildContent(context)],
               ),
             ),
           ),
@@ -561,4 +414,304 @@ class TransactionDetailDialog extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildHeader(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [AppColors.color1, AppColors.color2],
+        ),
+        borderRadius: BorderRadius.zero,
+      ),
+      child: Stack(
+        children: [
+          // Background pattern
+          Positioned.fill(child: CustomPaint(painter: DotPatternPainter())),
+
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // Title in center
+                Text(
+                  S.of(context).withdrawalDetails,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+                // Close button on the left
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                    onPressed: () {
+                      HapticFeedback.lightImpact();
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.white,
+                      size: 24,
+                    ),
+                    style: IconButton.styleFrom(
+                      backgroundColor: Colors.white.withOpacity(0.1),
+                      shape: const CircleBorder(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTransactionIcon() {
+    return Transform.translate(
+      offset: const Offset(0, -35),
+      child: Container(
+        width: 70,
+        height: 70,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [AppColors.color1, AppColors.color1.withOpacity(0.8)],
+          ),
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.color1.withOpacity(0.3),
+              blurRadius: 20,
+              offset: const Offset(0, 10),
+            ),
+          ],
+        ),
+        child: Icon(Icons.account_balance, color: Colors.white, size: 40),
+      ),
+    );
+  }
+
+  Widget _buildContent(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+      child: Column(
+        children: [
+          // Amount Section
+          _buildAmountSection(context),
+          const SizedBox(height: 32),
+
+          // Details Section
+          _buildDetailsSection(context),
+          const SizedBox(height: 32),
+
+          // Close button
+          _buildCloseButton(context),
+          const SizedBox(height: 32), // เพิ่ม space ท้าย
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAmountSection(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          '- ₭ ${transaction.amount.toStringAsFixed(2)}',
+          style: const TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF0C697A),
+            letterSpacing: -0.5,
+          ),
+        ),
+        const SizedBox(height: 16),
+
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+            color: _getStatusColor(transaction.status).withOpacity(0.1),
+            borderRadius: BorderRadius.circular(50),
+            border: Border.all(
+              color: _getStatusColor(transaction.status).withOpacity(0.3),
+              width: 1.5,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: _getStatusColor(transaction.status).withOpacity(0.1),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Text(
+            _getStatusDisplayText(transaction.status, context),
+            style: TextStyle(
+              color: _getStatusColor(transaction.status),
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+              letterSpacing: 0.3,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDetailsSection(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8FAFC),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.02),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          _buildDetailRow(
+            S.of(context).withdrawMethod,
+            _getMethodDisplayText(transaction.method, context), // เพิ่ม context
+          ),
+          _buildDetailRow(
+            S.of(context).destinationAccount,
+            transaction.account,
+          ),
+          _buildDetailRow(
+            S.of(context).fee,
+            '₭ ${transaction.fee.toStringAsFixed(2)}',
+          ),
+          _buildDetailRow(S.of(context).transactionId, transaction.id),
+          _buildDetailRow(S.of(context).date, transaction.date, isLast: true),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDetailRow(String label, String value, {bool isLast = false}) {
+    return Container(
+      padding: EdgeInsets.only(bottom: isLast ? 0 : 16),
+      margin: EdgeInsets.only(bottom: isLast ? 0 : 16),
+      decoration: BoxDecoration(
+        border: isLast
+            ? null
+            : const Border(
+                bottom: BorderSide(color: Color(0xFFE2E8F0), width: 1),
+              ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 120,
+            child: Text(
+              label,
+              style: const TextStyle(
+                color: Color(0xFF64748B),
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Text(
+              value,
+              style: const TextStyle(
+                color: Color(0xFF1E293B),
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCloseButton(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: () {
+          HapticFeedback.lightImpact();
+          Navigator.pop(context);
+        },
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.zero,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          shadowColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+        child: Ink(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [AppColors.color1, AppColors.color2],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.color1.withOpacity(0.3),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: Center(
+              child: Text(
+                S.of(context).close,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.5,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// Custom Painter for dot pattern background
+class DotPatternPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.white.withOpacity(0.08)
+      ..style = PaintingStyle.fill;
+
+    const spacing = 20.0;
+
+    for (double x = 0; x < size.width; x += spacing) {
+      for (double y = 0; y < size.height; y += spacing) {
+        canvas.drawCircle(Offset(x, y), 1, paint);
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
