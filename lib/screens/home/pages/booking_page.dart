@@ -6,9 +6,9 @@ import 'package:homefind/widgets/Colors.dart';
 import 'package:image_picker/image_picker.dart';
 
 class BookingPage extends StatefulWidget {
-  final String pro_name;
+  final String proname;
   final String category;
-  BookingPage({required this.pro_name, required this.category, super.key});
+  BookingPage({required this.proname, required this.category, super.key});
 
   @override
   State<BookingPage> createState() => _BookingPageState();
@@ -521,20 +521,11 @@ class _BookingPageState extends State<BookingPage> {
                           pageBuilder:
                               (context, animation, secondaryAnimation) =>
                                   BillPage(
-                                    pro_name: widget.pro_name,
-                                    category: widget.category,
                                     bookingId: 'BK-2025-0001',
                                     customerName: 'Phengvar Lee',
-                                    currency: '₭',
-                                    taxRate: 0.07,
-                                    items: [
-                                      BillItem(
-                                        pro_name: widget.pro_name,
-                                        category: widget.category,
-                                        qty: 1,
-                                        unitPrice: 850000,
-                                      ),
-                                    ],
+                                    proname: widget.proname,
+                                    bookingFee: 50000,
+                                    currency: 'LAK',
                                   ),
                           transitionsBuilder:
                               (context, animation, secondaryAnimation, child) {

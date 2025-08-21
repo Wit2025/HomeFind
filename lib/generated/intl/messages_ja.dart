@@ -262,7 +262,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "パスワード忘れ・アカウントロック",
     ),
     "forgot_password": MessageLookupByLibrary.simpleMessage("パスワードをお忘れですか？"),
-    "found": MessageLookupByLibrary.simpleMessage("見つかりました"),
+    "found": MessageLookupByLibrary.simpleMessage("見"),
     "frequentQuestions": MessageLookupByLibrary.simpleMessage("よくある質問"),
     "frequentQuestionsCount": m2,
     "full_16_images": MessageLookupByLibrary.simpleMessage("最大16枚の画像に到達しました"),
