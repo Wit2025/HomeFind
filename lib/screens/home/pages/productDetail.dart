@@ -443,17 +443,29 @@ class _ProductdetailsState extends State<Productdetails>
                                   vertical: 8,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: Colors.green.shade100,
+                                  color:
+                                      _translateStatus(widget.status) ==
+                                          S.of(context).sale
+                                      ? Colors.red.shade100
+                                      : Colors.green.shade100,
                                   borderRadius: BorderRadius.circular(20),
                                   border: Border.all(
-                                    color: Colors.green.shade300,
+                                    color:
+                                        _translateStatus(widget.status) ==
+                                            S.of(context).sale
+                                        ? Colors.red.shade300
+                                        : Colors.green.shade300,
                                   ),
                                 ),
                                 child: Text(
                                   _translateStatus(widget.status),
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: Colors.green.shade700,
+                                    color:
+                                        _translateStatus(widget.status) ==
+                                            S.of(context).sale
+                                        ? Colors.red
+                                        : Colors.green,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -735,7 +747,7 @@ class _ProductdetailsState extends State<Productdetails>
                     AuthChecker.checkAuthAndNavigate(
                       context: context,
                       page: BookingPage(
-                        pro_name: widget.title,
+                        proname: widget.title,
                         category: widget.category,
                       ),
                       showLoginPrompt: true,
