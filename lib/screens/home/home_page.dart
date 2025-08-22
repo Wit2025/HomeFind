@@ -987,8 +987,8 @@ class _HomePageState extends State<HomePage> {
                           image: image,
                           category: category,
                           status: status,
-                          rental: rental, // ส่ง rental parameter
-                          currency: currency, // ส่ง currency parameter
+                          currency: currency,
+                          rental: rental,
                         ),
                       ),
                     );

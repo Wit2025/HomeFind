@@ -17,8 +17,8 @@ class Productdetails extends StatefulWidget {
   final String image;
   final String category;
   final String status;
-  final String? rental;
   final String? currency;
+  final String? rental;
 
   Productdetails({
     required this.title,
@@ -40,6 +40,8 @@ class Productdetails extends StatefulWidget {
 
 class _ProductdetailsState extends State<Productdetails>
     with TickerProviderStateMixin {
+  double bookingFee = 50000;
+
   int currentImageIndex = 0;
   bool isLiked = false;
   final CarouselSliderController _controller = CarouselSliderController();
@@ -47,6 +49,8 @@ class _ProductdetailsState extends State<Productdetails>
   Timer? autoPlayTimer;
   late AnimationController _animationController;
   late Animation<double> _slideAnimation;
+
+  final format = NumberFormat("#,##0.00", "en_US");
 
   @override
   void initState() {
@@ -156,14 +160,6 @@ class _ProductdetailsState extends State<Productdetails>
   @override
   Widget build(BuildContext context) {
     final hotelImages = getHotelImages();
-    final formattedOriginalPrice = NumberFormat(
-      "#,##0.00",
-      "en_US",
-    ).format(widget.price);
-    final formattedDiscountPrice = NumberFormat(
-      "#,##0.00",
-      "en_US",
-    ).format(widget.price * 0.95);
 
     return Scaffold(
       key: ValueKey(Localizations.localeOf(context).languageCode),
@@ -619,7 +615,6 @@ class _ProductdetailsState extends State<Productdetails>
                               ),
                               SizedBox(height: 10),
                               Text(
-                                // 'The breakfast buffet was amazing and very worth it! The location is perfect and the staff was incredibly helpful throughout our stay.The breakfast buffet was amazing and very worth it! The location is perfect and the staff was incredibly helpful throughout our stay',
                                 S.of(context).breakfast_review,
                                 style: TextStyle(
                                   fontSize: 15,
@@ -627,6 +622,41 @@ class _ProductdetailsState extends State<Productdetails>
                                   height: 1.5,
                                 ),
                               ),
+                              const SizedBox(height: 20),
+
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'ລາຄາ   ',
+                                      style: TextStyle(
+                                        color: Colors.blue.shade700,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: format.format(widget.price),
+                                      style: TextStyle(
+                                        color: Colors.blue.shade700,
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          ' ${widget.currency} ${widget.rental ?? ''}',
+                                      style: TextStyle(
+                                        color: Colors.blue.shade700,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              const SizedBox(height: 20),
                             ],
                           ),
                         ],
@@ -643,85 +673,24 @@ class _ProductdetailsState extends State<Productdetails>
       ),
 
       // Enhanced bottom navigation bar
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.fromLTRB(20, 16, 20, 20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 20,
-              offset: Offset(0, -5),
-            ),
-          ],
-        ),
-        child: SafeArea(
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          "₭ $formattedOriginalPrice",
-                          style: TextStyle(
-                            decoration: TextDecoration.lineThrough,
-                            color: Colors.grey[500],
-                            fontSize: 16,
-                          ),
-                        ),
-                        SizedBox(width: 8),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.red.shade100,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            S.of(context).discount_5_percent,
-                            style: TextStyle(
-                              color: Colors.red.shade700,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 4),
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: '₭ ',
-                            style: TextStyle(
-                              color: Colors.blue.shade700,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          TextSpan(
-                            text: formattedDiscountPrice,
-                            style: TextStyle(
-                              color: Colors.blue.shade700,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+      bottomNavigationBar: SafeArea(
+        child: Container(
+          padding: EdgeInsets.fromLTRB(20, 16, 20, 20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 20,
+                offset: Offset(0, -5),
               ),
-              SizedBox(width: 16),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
               Container(
+                width: 350,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [AppColors.color1, AppColors.color2],
@@ -742,8 +711,10 @@ class _ProductdetailsState extends State<Productdetails>
                     AuthChecker.checkAuthAndNavigate(
                       context: context,
                       page: BookingPage(
-                        proname: widget.title,
-                        category: widget.category,
+                        title: widget.title,
+                        price: widget.price,
+                        currency: widget.currency,
+                        rental: widget.rental,
                       ),
                       showLoginPrompt: true,
                     );
