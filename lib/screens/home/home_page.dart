@@ -238,6 +238,17 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  String _translateRental(String rental) {
+    switch (rental) {
+      case 'ຕໍ່ປີ':
+        return S.of(context).per_m;
+      case 'ຕໍ່ເດືອນ':
+        return S.of(context).per_y;
+      default:
+        return rental;
+    }
+  }
+
   String _translateRoomSharing(String roomSharing) {
     switch (roomSharing) {
       case 'ທັງໝົດ':
@@ -1058,7 +1069,7 @@ class _HomePageState extends State<HomePage> {
     String? rental,
     String? currency,
   ) {
-    final formattedPrice = NumberFormat("#,##0", "en_US").format(price);
+    final formattedPrice = NumberFormat("#,##0.00", "en_US").format(price);
     return Expanded(
       flex: 3,
       child: Padding(
@@ -1111,6 +1122,17 @@ class _HomePageState extends State<HomePage> {
                     style: TextStyle(fontSize: 10, color: Colors.black),
                   ),
                 ),
+                SizedBox(width: 5),
+                Row(
+                  children: [
+                    Icon(Icons.visibility, size: 12, color: Colors.grey),
+                    SizedBox(width: 2),
+                    Text(
+                      views,
+                      style: TextStyle(fontSize: 10, color: Colors.grey),
+                    ),
+                  ],
+                ),
               ],
             ),
             Spacer(),
@@ -1132,18 +1154,19 @@ class _HomePageState extends State<HomePage> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              // แสดง rental เฉพาะเมื่อเป็นการเช่า และมีค่า rental
                               if (status == 'ເຊົ່າ' &&
                                   rental != null &&
-                                  rental.isNotEmpty)
+                                  rental.isNotEmpty) ...[
+                                WidgetSpan(child: SizedBox(width: 5)),
                                 TextSpan(
-                                  text: ' $rental',
+                                  text: _translateRental(rental),
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.black,
                                     fontWeight: FontWeight.normal,
                                   ),
                                 ),
+                              ],
                             ],
                           ),
                           maxLines: 2,
@@ -1152,17 +1175,6 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-                ),
-                SizedBox(width: 5),
-                Row(
-                  children: [
-                    Icon(Icons.visibility, size: 12, color: Colors.grey),
-                    SizedBox(width: 2),
-                    Text(
-                      views,
-                      style: TextStyle(fontSize: 10, color: Colors.grey),
-                    ),
-                  ],
                 ),
               ],
             ),

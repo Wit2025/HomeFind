@@ -446,6 +446,9 @@
   "addressAndContact": "주소 및 연락처",
   "perYear": "연별",
   "swimmingPool": "수영장",
+  "per_m": "/월",
+  "per_y": "/년",
+  "booking_fee": "예약 수수료",
 
 
   "find_next_home": "저희와 함께 당신의 다음 집을 찾아보세요",

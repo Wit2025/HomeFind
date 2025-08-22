@@ -119,6 +119,17 @@ class _ProductdetailsState extends State<Productdetails>
     }
   }
 
+  String _translateRental(String rental) {
+    switch (rental) {
+      case 'ຕໍ່ປີ':
+        return S.of(context).per_y;
+      case 'ຕໍ່ເດືອນ':
+        return S.of(context).per_m;
+      default:
+        return rental;
+    }
+  }
+
   // Auto-scroll thumbnails to keep active thumbnail visible
   void _scrollThumbnailToIndex(int index) {
     if (_thumbnailScrollController.hasClients) {
@@ -624,36 +635,50 @@ class _ProductdetailsState extends State<Productdetails>
                               ),
                               const SizedBox(height: 20),
 
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: 'ລາຄາ   ',
-                                      style: TextStyle(
-                                        color: Colors.blue.shade700,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                              Row(
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: S.of(context).price,
+                                          style: TextStyle(
+                                            color: Colors.blue.shade700,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        WidgetSpan(child: SizedBox(width: 5)),
+                                        TextSpan(
+                                          text: format.format(widget.price),
+                                          style: TextStyle(
+                                            color: Colors.blue.shade700,
+                                            fontSize: 28,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+
+                                        TextSpan(
+                                          text: ' ${widget.currency}',
+                                          style: TextStyle(
+                                            color: Colors.blue.shade700,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        WidgetSpan(child: SizedBox(width: 5)),
+                                      ],
                                     ),
-                                    TextSpan(
-                                      text: format.format(widget.price),
-                                      style: TextStyle(
-                                        color: Colors.blue.shade700,
-                                        fontSize: 28,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                  ),
+                                  Text(
+                                    _translateRental(widget.rental ?? ''),
+                                    style: TextStyle(
+                                      color: Colors.blue.shade700,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
                                     ),
-                                    TextSpan(
-                                      text:
-                                          ' ${widget.currency} ${widget.rental ?? ''}',
-                                      style: TextStyle(
-                                        color: Colors.blue.shade700,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
 
                               const SizedBox(height: 20),

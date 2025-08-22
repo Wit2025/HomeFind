@@ -155,6 +155,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "booking_date": MessageLookupByLibrary.simpleMessage("ວັນທີຈອງ"),
     "booking_details": MessageLookupByLibrary.simpleMessage("ລາຍລະອຽດການຈອງ"),
+    "booking_fee": MessageLookupByLibrary.simpleMessage("ຄ່າຈອງ"),
     "booking_receipt": MessageLookupByLibrary.simpleMessage("ບິນການຈອງ"),
     "booking_successful": MessageLookupByLibrary.simpleMessage(
       "ການຈອງສຳເລັດແລ້ວ",
@@ -487,7 +488,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "pending": MessageLookupByLibrary.simpleMessage("ລໍຖ້າ"),
     "perYear": MessageLookupByLibrary.simpleMessage("ເປັນປີ"),
+    "per_m": MessageLookupByLibrary.simpleMessage("/ເດືອນ"),
     "per_month": MessageLookupByLibrary.simpleMessage("ເປັນເດືອນ"),
+    "per_y": MessageLookupByLibrary.simpleMessage("/ປີ"),
     "personalInfo": MessageLookupByLibrary.simpleMessage("ຂໍ້ມູນສ່ວນຕົວ"),
     "personalInformation": MessageLookupByLibrary.simpleMessage(
       "ຂໍ້ມູນສ່ວນຕົວ",

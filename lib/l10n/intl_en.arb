@@ -447,6 +447,9 @@
   "addressAndContact": "Address and Contact Information",
   "perYear": "Per Year",
   "swimmingPool": "Swimming Pool",
+  "per_y": "/Year",
+  "per_m": "/Month",
+  "booking_fee": "Booking Fee",
 
 
   "find_next_home": "Find your next home with us",

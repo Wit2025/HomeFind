@@ -420,6 +420,9 @@
   "addressAndContact": "住所・連絡先情報",
   "perYear": "年額",
   "swimmingPool": "プール",
+  "per_m": "/月",
+  "per_y": "/年",
+  "booking_fee": "予約料金",
 
   "find_next_home": "私たちと一緒に次の住まいを見つけましょう",
   "search_name_address": "名前、住所で検索...",

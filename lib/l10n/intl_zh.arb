@@ -446,6 +446,9 @@
   "addressAndContact": "地址和联系方式",
   "perYear": "每年",
   "swimmingPool": "游泳池",
+  "per_m": "/月",
+  "per_y": "/年",
+  "booking_fee": "预订费",
 
 
   "find_next_home": "与我们一起寻找您的下一个家",

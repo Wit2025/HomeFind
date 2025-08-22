@@ -172,17 +172,34 @@ class _BookingPageState extends State<BookingPage> {
     }
   }
 
+  String _translateRental(String rental) {
+    switch (rental) {
+      case 'ຕໍ່ປີ':
+        return S.of(context).per_y;
+      case 'ຕໍ່ເດືອນ':
+        return S.of(context).per_m;
+      default:
+        return rental;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: ValueKey(Localizations.localeOf(context).languageCode),
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
-          '${format.format(widget.price)} ${widget.currency} ${widget.rental ?? ''}',
-          style: TextStyle(color: Colors.white,
-          fontSize: 22,
-          ),
+        title: Row(
+          children: [
+            Text(
+              '${format.format(widget.price)} ${widget.currency}',
+              style: TextStyle(color: Colors.white, fontSize: 22),
+            ),
+            Text(
+              _translateRental(widget.rental ?? ''),
+              style: TextStyle(color: Colors.white, fontSize: 22),
+            ),
+          ],
         ),
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -261,7 +278,7 @@ class _BookingPageState extends State<BookingPage> {
                     ),
                     child: Text(
                       // "ຄ່າຈອງ: ₭ 50,000 ກິບ",
-                      "${S.of(context).price} ₭ 50,000",
+                      "${S.of(context).booking_fee} ₭ 50,000",
                       style: TextStyle(
                         color: Colors.blueAccent,
                         fontSize: 20,
