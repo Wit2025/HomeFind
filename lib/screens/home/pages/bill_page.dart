@@ -221,7 +221,7 @@ class _BillPageState extends State<BillPage>
                   child: ClipPath(
                     clipper: PositionedOvalClipper(positionY: 0.85, radius: 16),
                     child: Container(
-                      height: MediaQuery.of(context).size.height * 0.55,
+                      // height: MediaQuery.of(context).size.height * 0.60,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
@@ -250,9 +250,12 @@ class _BillPageState extends State<BillPage>
                               ),
                             ),
                             const SizedBox(height: 6),
-                            const DashedDivider(color: Colors.grey, height: 1.5),
+                            const DashedDivider(
+                              color: Colors.grey,
+                              height: 1.5,
+                            ),
                             const SizedBox(height: 12),
-                      
+
                             /// --- Service Details ---
                             Row(
                               children: [
@@ -282,11 +285,14 @@ class _BillPageState extends State<BillPage>
                                 'dd/MM/yyyy HH:mm',
                               ).format(widget.createdAt),
                             ),
-                      
+
                             const SizedBox(height: 12),
-                            const DashedDivider(color: Colors.grey, height: 1.5),
+                            const DashedDivider(
+                              color: Colors.grey,
+                              height: 1.5,
+                            ),
                             const SizedBox(height: 8),
-                      
+
                             /// --- Payment Summary ---
                             Row(
                               children: [
@@ -317,16 +323,19 @@ class _BillPageState extends State<BillPage>
                               _money.format(0),
                               widget.currency,
                             ),
-                      
+
                             // _amountRow(
                             //   'Payment Method',
                             //   widget.paymentMethod,
                             //   '',
                             // ), // << เพิ่มตรงนี้
                             const SizedBox(height: 12),
-                            const DashedDivider(color: Colors.grey, height: 1.5),
+                            const DashedDivider(
+                              color: Colors.grey,
+                              height: 1.5,
+                            ),
                             const SizedBox(height: 12),
-                      
+
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -340,10 +349,11 @@ class _BillPageState extends State<BillPage>
                                   children: [
                                     Text(
                                       _money.format(50000),
-                                      style: theme.textTheme.titleLarge?.copyWith(
-                                        fontWeight: FontWeight.w900,
-                                        color: Colors.teal[700],
-                                      ),
+                                      style: theme.textTheme.titleLarge
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.w900,
+                                            color: Colors.teal[700],
+                                          ),
                                     ),
                                     const SizedBox(width: 6),
                                     Text(
@@ -355,8 +365,8 @@ class _BillPageState extends State<BillPage>
                                 ),
                               ],
                             ),
-                      
-                            const SizedBox(height: 35),
+
+                            const SizedBox(height: 64),
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 16.0,
@@ -376,6 +386,7 @@ class _BillPageState extends State<BillPage>
                                 ),
                               ),
                             ),
+                            const SizedBox(height: 16),
                           ],
                         ),
                       ),
@@ -500,386 +511,3 @@ class _FrostedCard extends StatelessWidget {
     );
   }
 }
-
-
-// import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart'; // Add this import
-// import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-// import 'package:barcode_widget/barcode_widget.dart';
-
-// class BillPage extends StatelessWidget {
-//   Future<void> _scanBarcode(BuildContext context) async {
-//     try {
-//       final barcode = await FlutterBarcodeScanner.scanBarcode(
-//         '#FF000000', // Scanner line color
-//         'Cancel', // Cancel button text
-//         true, // Show flash option
-//         ScanMode.BARCODE,
-//       );
-
-//       if (barcode == '-1') {
-//         // User canceled
-//         return;
-//       }
-
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         SnackBar(
-//           content: Text(barcode == 'CDR45HGJF' 
-//               ? 'Valid receipt scanned!' 
-//               : 'Scanned: $barcode'),
-//           backgroundColor: barcode == 'CDR45HGJF' ? Colors.green : Colors.blue,
-//         ),
-//       );
-//     } on PlatformException catch (e) { // Now properly typed
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         SnackBar(
-//           content: Text('Failed to scan: ${e.message}'),
-//           backgroundColor: Colors.red,
-//         ),
-//       );
-//     } catch (e) {
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         SnackBar(
-//           content: Text('Error: $e'),
-//           backgroundColor: Colors.red,
-//         ),
-//       );
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Order Receipt'),
-//       ),
-//       body: SingleChildScrollView(
-//         padding: EdgeInsets.all(20),
-//         child: Column(
-//           children: [
-//             // Product Image
-//             Container(
-//               width: 200,
-//               height: 200,
-//               decoration: BoxDecoration(
-//                 image: DecorationImage(
-//                   image: NetworkImage('https://via.placeholder.com/200'),
-//                   fit: BoxFit.cover,
-//                 ),
-//                 borderRadius: BorderRadius.circular(10),
-//               ),
-//             ),
-//             SizedBox(height: 20),
-
-//             // Barcode Section
-//             Card(
-//               elevation: 3,
-//               shape: RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.circular(10),
-//               ),
-//               child: Padding(
-//                 padding: EdgeInsets.all(16),
-//                 child: Column(
-//                   children: [
-//                     Text('ORDER BARCODE', 
-//                         style: TextStyle(
-//                           fontWeight: FontWeight.bold,
-//                           fontSize: 16,
-//                         )),
-//                     SizedBox(height: 15),
-//                     GestureDetector(
-//                       onTap: () => _scanBarcode(context),
-//                       child: BarcodeWidget(
-//                         barcode: Barcode.code128(),
-//                         data: 'CDR45HGJF',
-//                         width: 250,
-//                         height: 100,
-//                         color: Colors.black,
-//                         backgroundColor: Colors.transparent,
-//                       ),
-//                     ),
-//                     SizedBox(height: 15),
-//                     Text('CDR45HGJF', 
-//                         style: TextStyle(
-//                           letterSpacing: 2,
-//                           fontSize: 16,
-//                         )),
-//                     SizedBox(height: 10),
-//                     ElevatedButton.icon(
-//                       icon: Icon(Icons.qr_code_scanner, size: 20),
-//                       label: Text('Scan Barcode'),
-//                       style: ElevatedButton.styleFrom(
-//                         // primary: Colors.blue[700],
-//                         backgroundColor: Colors.blue.shade700,
-//                         shape: RoundedRectangleBorder(
-//                           borderRadius: BorderRadius.circular(20),
-//                         ),
-//                       ),
-//                       onPressed: () => _scanBarcode(context),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ),
-//             // Product Photo
-//             _buildProductImage(),
-//             SizedBox(height: 20),
-            
-//             // Coffee Item
-//             _buildCoffeeItem(),
-//             SizedBox(height: 24),
-            
-//             // Barcode with scan functionality
-//             // _buildBarcode(context),
-//             // SizedBox(height: 24),
-            
-//             // Order Details
-//             _buildOrderDetails(),
-//             SizedBox(height: 24),
-            
-//             // Payment Summary
-//             _buildPaymentSummary(),
-//             SizedBox(height: 32),
-            
-//             // Download Button
-//             _buildDownloadButton(context),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget _buildProductImage() {
-//     return Center(
-//       child: Container(
-//         width: 200,
-//         height: 200,
-//         decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(12),
-//           color: Colors.grey[200],
-//           image: DecorationImage(
-//             image: NetworkImage('https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=500&auto=format&fit=crop&q=60'),
-//             fit: BoxFit.cover,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget _buildBarcode(BuildContext context) {
-//   return Column(
-//     children: [
-//       Text(
-//         'Order Barcode',
-//         style: TextStyle(
-//           fontSize: 16,
-//           fontWeight: FontWeight.bold,
-//           color: Colors.grey[700],
-//         ),
-//       ),
-//       SizedBox(height: 8),
-//       GestureDetector(
-//         onTap: () => _scanBarcode(context),
-//         child: Container(
-//           padding: EdgeInsets.all(16),
-//           decoration: BoxDecoration(
-//             color: Colors.white,
-//             borderRadius: BorderRadius.circular(8),
-//             border: Border.all(color: Colors.brown),
-//           ),
-//           child: Column(
-//             children: [
-//               // Replace the Icon with BarcodeWidget
-//               BarcodeWidget(
-//                 barcode: Barcode.code128(),
-//                 data: 'CDR45HGJF',
-//                 width: 200,
-//                 height: 80,
-//                 color: Colors.black,
-//               ),
-//               SizedBox(height: 8),
-//               Text(
-//                 'Tap to Scan',
-//                 style: TextStyle(
-//                   color: Colors.brown,
-//                   fontWeight: FontWeight.bold,
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//       SizedBox(height: 8),
-//       Text(
-//         'CDR45HGJF',
-//         style: TextStyle(
-//           fontSize: 16,
-//           letterSpacing: 2,
-//           fontWeight: FontWeight.bold,
-//         ),
-//       ),
-//     ],
-//   );
-// }
-
-//   Widget _buildCoffeeItem() {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Text(
-//           'Cappuccino',
-//           style: TextStyle(
-//             fontSize: 24,
-//             fontWeight: FontWeight.bold,
-//           ),
-//         ),
-//         SizedBox(height: 8),
-//         Text(
-//           'Coffee | Qty.: 02',
-//           style: TextStyle(
-//             fontSize: 16,
-//             color: Colors.grey[600],
-//           ),
-//         ),
-//         SizedBox(height: 8),
-//         Text(
-//           'by The Daily Grind Hub',
-//           style: TextStyle(
-//             fontSize: 16,
-//             color: Colors.brown[700],
-//             fontWeight: FontWeight.w500,
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-
-//   Widget _buildOrderDetails() {
-//     return Container(
-//       padding: EdgeInsets.all(16),
-//       decoration: BoxDecoration(
-//         color: Colors.grey[100],
-//         borderRadius: BorderRadius.circular(12),
-//       ),
-//       child: Column(
-//         children: [
-//           _buildDetailRow('Order ID', 'CDR45HGJF'),
-//           _buildDetailRow('Order Type', 'Delivery'),
-//           _buildDetailRow('Delivery Address', 'Home (1901 Thornridge..)'),
-//           _buildDetailRow('Order Date', 'Dec 27, 2023 | 10:00 AM'),
-//           _buildDetailRow('Coupon Code', 'CF45AA2024'),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget _buildDetailRow(String label, String value) {
-//     return Padding(
-//       padding: EdgeInsets.symmetric(vertical: 8),
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//         children: [
-//           Text(
-//             label,
-//             style: TextStyle(
-//               fontSize: 16,
-//               color: Colors.grey[700],
-//             ),
-//           ),
-//           Text(
-//             value,
-//             style: TextStyle(
-//               fontSize: 16,
-//               fontWeight: FontWeight.w500,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget _buildPaymentSummary() {
-//     return Container(
-//       padding: EdgeInsets.all(16),
-//       decoration: BoxDecoration(
-//         color: Colors.grey[100],
-//         borderRadius: BorderRadius.circular(12),
-//       ),
-//       child: Column(
-//         children: [
-//           _buildPaymentRow('Sub Total', '\$19.50'),
-//           _buildPaymentRow('Taxes', '+\$02.00', isPositive: true),
-//           _buildPaymentRow('Delivery Charge', '+\$00.00', isPositive: true),
-//           _buildPaymentRow('Discount', '-\$00.00', isNegative: true),
-//           _buildPaymentRow('50 Points', '-\$05.00', isNegative: true),
-//           SizedBox(height: 12),
-//           Divider(thickness: 1),
-//           SizedBox(height: 12),
-//           _buildPaymentRow('Total', '\$16.50', isTotal: true),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget _buildPaymentRow(String label, String value, 
-//       {bool isPositive = false, bool isNegative = false, bool isTotal = false}) {
-//     Color textColor = Colors.black;
-//     if (isPositive) textColor = Colors.green;
-//     if (isNegative) textColor = Colors.red;
-//     if (isTotal) textColor = Colors.brown[800]!;
-
-//     return Padding(
-//       padding: EdgeInsets.symmetric(vertical: 6),
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//         children: [
-//           Text(
-//             label,
-//             style: TextStyle(
-//               fontSize: isTotal ? 18 : 16,
-//               fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
-//               color: Colors.grey[700],
-//             ),
-//           ),
-//           Text(
-//             value,
-//             style: TextStyle(
-//               fontSize: isTotal ? 18 : 16,
-//               fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
-//               color: textColor,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget _buildDownloadButton(BuildContext context) {
-//     return SizedBox(
-//       width: double.infinity,
-//       child: ElevatedButton(
-//         onPressed: () {
-//           // Handle download receipt
-//           ScaffoldMessenger.of(context).showSnackBar(
-//             SnackBar(content: Text('Receipt downloaded successfully')),
-//           );
-//         },
-//         style: ElevatedButton.styleFrom(
-//           padding: EdgeInsets.symmetric(vertical: 16),
-//           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(12),
-//           ),
-//           backgroundColor: Colors.brown[800],
-//         ),
-//         child: Text(
-//           'Download E-Receipt',
-//           style: TextStyle(
-//             fontSize: 18,
-//             fontWeight: FontWeight.bold,
-//             color: Colors.white,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
