@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> {
       'category': 'ເຮືອນ',
       'status': 'ຂາຍ',
       'roomSharing': 'ບໍ່ແຊຫ້ອງ',
-      'currency': 'UDS',
+      'currency': 'USD',
     },
     {
       'title': 'ອາພາດເມັ້ນ ທະເລສາບ',
@@ -987,8 +987,8 @@ class _HomePageState extends State<HomePage> {
                           image: image,
                           category: category,
                           status: status,
-                          rental: rental, 
-                          currency: currency, 
+                          currency: currency,
+                          rental: rental,
                         ),
                       ),
                     );

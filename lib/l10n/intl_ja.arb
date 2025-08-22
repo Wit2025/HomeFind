@@ -192,7 +192,7 @@
   "discount_5_percent": "-5%",
   "breakfast_review": "朝食ビュッフェは素晴らしく、とても価値がありました！立地は完璧で、スタッフは滞在中とても親切でした。",
   "book": "予約",
-  "reviews": "レビュー",
+  "views": "閲覧数 {views}回",
 
   "select_image": "画像選択",
   "gallery": "ギャラリー",
@@ -424,7 +424,7 @@
   "find_next_home": "私たちと一緒に次の住まいを見つけましょう",
   "search_name_address": "名前、住所で検索...",
   "property_types": "一軒家、アパート、土地、ルームシェア...",
-  "found": "見",
+  "found": "見つかりました",
   "listing": "リスト",
   "filter": "フィルター",
   "no_data": "データなし",
@@ -435,5 +435,7 @@
   "oldest": "古い順",
   "cheapest": "安い順",
   "bank": "銀行",
-  "most_expensive": "高い順"
+  "most_expensive": "高い順",
+  "notificationDetail": "通知の詳細", 
+  "newNotification": "新着"
 }

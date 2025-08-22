@@ -206,7 +206,7 @@
   "discount_5_percent": "-5%",
   "breakfast_review": "早餐自助餐非常棒，物超所值！位置完美，工作人员在我们住宿期间非常乐于助人。",
   "book": "预订",
-  "reviews": "评价",
+  "views": "浏览 {views} 次",
 
 
   "select_image": "选择图片",
@@ -462,5 +462,7 @@
   "oldest": "最旧",
   "cheapest": "最便宜",
   "bank": "银行",
-  "most_expensive": "最贵"
+  "most_expensive": "最贵",
+  "notificationDetail": "通知详情",
+  "newNotification": "新"
 }

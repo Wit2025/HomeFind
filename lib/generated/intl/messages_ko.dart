@@ -34,6 +34,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m6(query) => "\"${query}\"에 대한 검색 결과";
 
+  static String m7(views) => "조회수 ${views}회";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "aboutPolicy": MessageLookupByLibrary.simpleMessage("정책 관련"),
@@ -348,6 +350,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "moving_goods": MessageLookupByLibrary.simpleMessage("물건 옮기기"),
     "name": MessageLookupByLibrary.simpleMessage("이름"),
     "needMoreHelp": MessageLookupByLibrary.simpleMessage("추가 도움이 필요하신가요?"),
+    "newNotification": MessageLookupByLibrary.simpleMessage("새로운"),
     "newPassword": MessageLookupByLibrary.simpleMessage("새 비밀번호"),
     "next": MessageLookupByLibrary.simpleMessage("다음"),
     "noItems": MessageLookupByLibrary.simpleMessage("항목 없음"),
@@ -367,6 +370,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "아직 등록하지 않으셨습니다",
     ),
     "notification": MessageLookupByLibrary.simpleMessage("알림"),
+    "notificationDetail": MessageLookupByLibrary.simpleMessage("알림 세부사항"),
     "notifications": MessageLookupByLibrary.simpleMessage("알림"),
     "now": MessageLookupByLibrary.simpleMessage("지금"),
     "oldPassword": MessageLookupByLibrary.simpleMessage("기존 비밀번호"),
@@ -559,7 +563,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "rental_period": MessageLookupByLibrary.simpleMessage("임대 기간"),
     "resend_otp": MessageLookupByLibrary.simpleMessage("OTP 재전송"),
     "reset": MessageLookupByLibrary.simpleMessage("리셋"),
-    "reviews": MessageLookupByLibrary.simpleMessage("리뷰"),
     "room_sharing": MessageLookupByLibrary.simpleMessage("룸 셰어링"),
     "sale": MessageLookupByLibrary.simpleMessage("판매"),
     "save": MessageLookupByLibrary.simpleMessage("저장"),
@@ -652,6 +655,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "\"사용자\"는 저희 플랫폼에 접근하거나 사용하는 모든 사람을 의미합니다",
     ),
     "verify_otp": MessageLookupByLibrary.simpleMessage("OTP 인증"),
+    "views": m7,
     "village": MessageLookupByLibrary.simpleMessage("마을"),
     "washing_machine": MessageLookupByLibrary.simpleMessage("세탁기"),
     "welcome_home_find": MessageLookupByLibrary.simpleMessage(

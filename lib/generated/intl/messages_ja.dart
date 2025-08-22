@@ -34,6 +34,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m6(query) => "「${query}」の検索結果";
 
+  static String m7(views) => "閲覧数 ${views}回";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "aboutPolicy": MessageLookupByLibrary.simpleMessage("ポリシーについて"),
@@ -262,7 +264,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "パスワード忘れ・アカウントロック",
     ),
     "forgot_password": MessageLookupByLibrary.simpleMessage("パスワードをお忘れですか？"),
-    "found": MessageLookupByLibrary.simpleMessage("見"),
+    "found": MessageLookupByLibrary.simpleMessage("見つかりました"),
     "frequentQuestions": MessageLookupByLibrary.simpleMessage("よくある質問"),
     "frequentQuestionsCount": m2,
     "full_16_images": MessageLookupByLibrary.simpleMessage("最大16枚の画像に到達しました"),
@@ -336,6 +338,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "moving_goods": MessageLookupByLibrary.simpleMessage("引越し荷物"),
     "name": MessageLookupByLibrary.simpleMessage("名前"),
     "needMoreHelp": MessageLookupByLibrary.simpleMessage("さらにサポートが必要ですか？"),
+    "newNotification": MessageLookupByLibrary.simpleMessage("新着"),
     "newPassword": MessageLookupByLibrary.simpleMessage("新しいパスワード"),
     "next": MessageLookupByLibrary.simpleMessage("次へ"),
     "noItems": MessageLookupByLibrary.simpleMessage("項目なし"),
@@ -351,6 +354,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_share_room": MessageLookupByLibrary.simpleMessage("ルームシェアなし"),
     "not_registered_yet": MessageLookupByLibrary.simpleMessage("まだ登録されていません"),
     "notification": MessageLookupByLibrary.simpleMessage("通知"),
+    "notificationDetail": MessageLookupByLibrary.simpleMessage("通知の詳細"),
     "notifications": MessageLookupByLibrary.simpleMessage("通知"),
     "now": MessageLookupByLibrary.simpleMessage("現在"),
     "oldPassword": MessageLookupByLibrary.simpleMessage("現在のパスワード"),
@@ -533,7 +537,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "rental_period": MessageLookupByLibrary.simpleMessage("賃貸期間"),
     "resend_otp": MessageLookupByLibrary.simpleMessage("OTP再送信"),
     "reset": MessageLookupByLibrary.simpleMessage("リセット"),
-    "reviews": MessageLookupByLibrary.simpleMessage("レビュー"),
     "room_sharing": MessageLookupByLibrary.simpleMessage("ルームシェア"),
     "sale": MessageLookupByLibrary.simpleMessage("売買"),
     "save": MessageLookupByLibrary.simpleMessage("保存"),
@@ -624,6 +627,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "「ユーザー」とは、私たちのプラットフォームにアクセスまたは利用する人を指します",
     ),
     "verify_otp": MessageLookupByLibrary.simpleMessage("OTP認証"),
+    "views": m7,
     "village": MessageLookupByLibrary.simpleMessage("村"),
     "washing_machine": MessageLookupByLibrary.simpleMessage("洗濯機"),
     "welcome_home_find": MessageLookupByLibrary.simpleMessage("Home Findへようこそ"),

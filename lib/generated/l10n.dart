@@ -1479,9 +1479,9 @@ class S {
     return Intl.message('Booking', name: 'book', desc: '', args: []);
   }
 
-  /// `Reviews`
-  String get reviews {
-    return Intl.message('Reviews', name: 'reviews', desc: '', args: []);
+  /// `{views} views`
+  String views(Object views) {
+    return Intl.message('$views views', name: 'views', desc: '', args: [views]);
   }
 
   /// `Select Image`
@@ -3457,6 +3457,21 @@ class S {
   /// `Bank`
   String get bank {
     return Intl.message('Bank', name: 'bank', desc: '', args: []);
+  }
+
+  /// `Notification Details`
+  String get notificationDetail {
+    return Intl.message(
+      'Notification Details',
+      name: 'notificationDetail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New`
+  String get newNotification {
+    return Intl.message('New', name: 'newNotification', desc: '', args: []);
   }
 }
 

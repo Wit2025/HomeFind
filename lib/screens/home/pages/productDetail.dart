@@ -29,8 +29,8 @@ class Productdetails extends StatefulWidget {
     required this.image,
     required this.category,
     required this.status,
-    required this.currency,
     this.rental,
+    this.currency,
     super.key,
   });
 
@@ -277,7 +277,6 @@ class _ProductdetailsState extends State<Productdetails>
                     ),
                   ),
 
-                  // Enhanced Image counter
                   Positioned(
                     bottom: 8,
                     right: 8,
@@ -572,7 +571,7 @@ class _ProductdetailsState extends State<Productdetails>
                                   ),
                                   SizedBox(width: 8),
                                   Text(
-                                    widget.date,
+                                    S.of(context).daysAgo(widget.date),
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
@@ -584,13 +583,11 @@ class _ProductdetailsState extends State<Productdetails>
 
                               SizedBox(width: 12),
                               GestureDetector(
-                                onTap: () {
-                                  // Navigate to reviews
-                                },
+                                onTap: () {},
                                 child: Row(
                                   children: [
                                     Text(
-                                      'ຍອດເບີ່ງ ${widget.views} ຄັ້ງ',
+                                      S.of(context).views(widget.views),
                                       style: TextStyle(
                                         color: Colors.grey[700],
                                         fontWeight: FontWeight.w500,
