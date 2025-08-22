@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
+import 'package:homefind/screens/home/pages/bill_page.dart';
 import 'package:homefind/widgets/Colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -620,44 +621,10 @@ class _BookingDetailPageState extends State<BookingDetailPage>
         ),
         child: SafeArea(
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      S.of(context).price, // ต้องเพิ่มใน l10n
-                      style: TextStyle(color: Colors.grey[700], fontSize: 16),
-                    ),
-                    SizedBox(height: 4),
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: '₭ ',
-                            style: TextStyle(
-                              color: Colors.blue.shade700,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          TextSpan(
-                            text: widget.booking['price'] ?? '',
-                            style: TextStyle(
-                              color: Colors.blue.shade700,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(width: 16),
               Container(
+                width: 350,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [AppColors.color1, AppColors.color2],
@@ -675,21 +642,25 @@ class _BookingDetailPageState extends State<BookingDetailPage>
                 ),
                 child: ElevatedButton(
                   onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => BillPage(
-                    //       bookingId: widget.booking['id'] ?? 'B123456',
-                    //       customerName: widget.booking['title'] ?? 'ສຸດທິພົນ',
-                    //       pro_name: widget.booking['title'] ?? 'ສຸດທິພົນ',
-                    //       category: _getTypeDisplayText(
-                    //         type,
-                    //       ), // ใช้ function แปลงภาษา
-                    //       currency: widget.booking['price'] ?? '1500000',
-                    //       createdAt: DateTime.now(),
-                    //     ),
-                    //   ),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BillPage(
+                          bookingId: widget.booking['id'] ?? 'B123456',
+                          customerName:
+                              widget.booking['customerName'] ?? 'Guest',
+                          title: widget.booking['title'] ?? '',
+                          bookingFee:
+                              double.tryParse(widget.booking['price'] ?? '0') ??
+                              0.0, // ⚠️ ต้องแปลง String เป็น double
+                          currency:
+                              'LAK', // หรือ widget.booking['currency'] ถ้ามี
+                          createdAt:
+                              DateTime.tryParse(widget.booking['date'] ?? '') ??
+                              DateTime.now(), // ⚠️ ต้องแปลง String เป็น DateTime
+                        ),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.transparent,
