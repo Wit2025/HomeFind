@@ -34,6 +34,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m6(query) => "\"${query}\" के लिए खोज परिणाम";
 
+  static String m7(views) => "${views} बार देखा गया";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "aboutPolicy": MessageLookupByLibrary.simpleMessage("नीति के बारे में"),
@@ -412,6 +414,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "name": MessageLookupByLibrary.simpleMessage("नाम"),
     "needMoreHelp": MessageLookupByLibrary.simpleMessage("और सहायता चाहिए?"),
+    "newNotification": MessageLookupByLibrary.simpleMessage("नया"),
     "newPassword": MessageLookupByLibrary.simpleMessage("नया पासवर्ड"),
     "next": MessageLookupByLibrary.simpleMessage("आगे"),
     "noItems": MessageLookupByLibrary.simpleMessage("कोई आइटम नहीं"),
@@ -437,6 +440,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "आप अभी तक रजिस्टर नहीं हैं",
     ),
     "notification": MessageLookupByLibrary.simpleMessage("सूचना"),
+    "notificationDetail": MessageLookupByLibrary.simpleMessage(
+      "अधिसूचना विवरण",
+    ),
     "notifications": MessageLookupByLibrary.simpleMessage("सूचनाएं"),
     "now": MessageLookupByLibrary.simpleMessage("अब"),
     "oldPassword": MessageLookupByLibrary.simpleMessage("पुराना पासवर्ड"),
@@ -655,7 +661,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "rental_period": MessageLookupByLibrary.simpleMessage("किराया अवधि"),
     "resend_otp": MessageLookupByLibrary.simpleMessage("OTP पुनः भेजें"),
     "reset": MessageLookupByLibrary.simpleMessage("रीसेट"),
-    "reviews": MessageLookupByLibrary.simpleMessage("समीक्षाएं"),
     "room_sharing": MessageLookupByLibrary.simpleMessage("कमरा साझाकरण"),
     "sale": MessageLookupByLibrary.simpleMessage("बिक्री"),
     "save": MessageLookupByLibrary.simpleMessage("सेव करें"),
@@ -766,6 +771,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "\"उपयोगकर्ता\" का अर्थ है कोई भी व्यक्ति जो हमारे प्लेटफॉर्म तक पहुंचता या उपयोग करता है",
     ),
     "verify_otp": MessageLookupByLibrary.simpleMessage("OTP सत्यापित करें"),
+    "views": m7,
     "village": MessageLookupByLibrary.simpleMessage("गांव"),
     "washing_machine": MessageLookupByLibrary.simpleMessage("वॉशिंग मशीन"),
     "welcome_home_find": MessageLookupByLibrary.simpleMessage(
