@@ -420,6 +420,9 @@
   "addressAndContact": "पता और संपर्क जानकारी",
   "perYear": "प्रति वर्ष",
   "swimmingPool": "तरणताल",
+  "per_m": "/महीना",
+  "per_y": "/साल",
+  "booking_fee": "बुकिंग शुल्क",
 
   "find_next_home": "हमारे साथ अपना अगला घर खोजें",
   "search_name_address": "नाम, पता खोजें...",

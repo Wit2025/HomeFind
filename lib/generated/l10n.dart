@@ -3359,6 +3359,21 @@ class S {
     );
   }
 
+  /// `/Year`
+  String get per_y {
+    return Intl.message('/Year', name: 'per_y', desc: '', args: []);
+  }
+
+  /// `/Month`
+  String get per_m {
+    return Intl.message('/Month', name: 'per_m', desc: '', args: []);
+  }
+
+  /// `Booking Fee`
+  String get booking_fee {
+    return Intl.message('Booking Fee', name: 'booking_fee', desc: '', args: []);
+  }
+
   /// `Find your next home with us`
   String get find_next_home {
     return Intl.message(

@@ -145,6 +145,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "booking_date": MessageLookupByLibrary.simpleMessage("बुकिंग दिनांक"),
     "booking_details": MessageLookupByLibrary.simpleMessage("बुकिंग विवरण"),
+    "booking_fee": MessageLookupByLibrary.simpleMessage("बुकिंग शुल्क"),
     "booking_receipt": MessageLookupByLibrary.simpleMessage("बुकिंग रसीद"),
     "booking_successful": MessageLookupByLibrary.simpleMessage("बुकिंग सफल"),
     "booking_time": MessageLookupByLibrary.simpleMessage("बुकिंग समय"),
@@ -483,7 +484,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "pending": MessageLookupByLibrary.simpleMessage("लंबित"),
     "perYear": MessageLookupByLibrary.simpleMessage("प्रति वर्ष"),
+    "per_m": MessageLookupByLibrary.simpleMessage("/महीना"),
     "per_month": MessageLookupByLibrary.simpleMessage("प्रति माह"),
+    "per_y": MessageLookupByLibrary.simpleMessage("/साल"),
     "personalInfo": MessageLookupByLibrary.simpleMessage("व्यक्तिगत जानकारी"),
     "personalInformation": MessageLookupByLibrary.simpleMessage(
       "व्यक्तिगत जानकारी",

@@ -138,6 +138,9 @@
   "destinationAccount": "ບັນຊີປາຍທາງ",
   "transactionId": "ລະຫັດທຸລະກຳ",
   "date": "ວັນທີ່",
+  "per_m": "/ເດືອນ",
+  "per_y": "/ປີ",
+  "booking_fee": "ຄ່າຈອງ",
 
 
 

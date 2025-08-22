@@ -587,7 +587,6 @@ class _BookingDetailPageState extends State<BookingDetailPage>
                               ),
                               SizedBox(height: 10),
                               Text(
-                                // 'The breakfast buffet was amazing and very worth it! The location is perfect and the staff was incredibly helpful throughout our stay.',
                                 S.of(context).breakfast_review,
                                 style: TextStyle(
                                   fontSize: 15,
@@ -652,12 +651,11 @@ class _BookingDetailPageState extends State<BookingDetailPage>
                           title: widget.booking['title'] ?? '',
                           bookingFee:
                               double.tryParse(widget.booking['price'] ?? '0') ??
-                              0.0, // ⚠️ ต้องแปลง String เป็น double
-                          currency:
-                              'LAK', // หรือ widget.booking['currency'] ถ้ามี
+                              0.0,
+                          currency: 'LAK',
                           createdAt:
                               DateTime.tryParse(widget.booking['date'] ?? '') ??
-                              DateTime.now(), // ⚠️ ต้องแปลง String เป็น DateTime
+                              DateTime.now(),
                         ),
                       ),
                     );
@@ -672,7 +670,7 @@ class _BookingDetailPageState extends State<BookingDetailPage>
                     minimumSize: Size(140, 54),
                   ),
                   child: Text(
-                    S.of(context).receipt, // ต้องเพิ่มใน l10n
+                    S.of(context).receipt,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,

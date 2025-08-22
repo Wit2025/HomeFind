@@ -167,6 +167,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "booking_date": MessageLookupByLibrary.simpleMessage("Booking Date"),
     "booking_details": MessageLookupByLibrary.simpleMessage("Booking Details"),
+    "booking_fee": MessageLookupByLibrary.simpleMessage("Booking Fee"),
     "booking_receipt": MessageLookupByLibrary.simpleMessage("Booking Receipt"),
     "booking_successful": MessageLookupByLibrary.simpleMessage(
       "Booking Successful",
@@ -505,7 +506,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "pending": MessageLookupByLibrary.simpleMessage("Pending"),
     "perYear": MessageLookupByLibrary.simpleMessage("Per Year"),
+    "per_m": MessageLookupByLibrary.simpleMessage("/Month"),
     "per_month": MessageLookupByLibrary.simpleMessage("Per Month"),
+    "per_y": MessageLookupByLibrary.simpleMessage("/Year"),
     "personalInfo": MessageLookupByLibrary.simpleMessage(
       "Personal Information",
     ),
