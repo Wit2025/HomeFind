@@ -221,7 +221,7 @@ class _BillPageState extends State<BillPage>
                   child: ClipPath(
                     clipper: PositionedOvalClipper(positionY: 0.85, radius: 16),
                     child: Container(
-                      height: MediaQuery.of(context).size.height * 0.65,
+                      height: MediaQuery.of(context).size.height * 0.55,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
@@ -356,7 +356,7 @@ class _BillPageState extends State<BillPage>
                               ],
                             ),
                       
-                            const SizedBox(height: 110),
+                            const SizedBox(height: 35),
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 16.0,
@@ -366,7 +366,7 @@ class _BillPageState extends State<BillPage>
                                 height: 1.5,
                               ),
                             ),
-                            const SizedBox(height: 25),
+                            const SizedBox(height: 16),
                             Center(
                               child: const Text(
                                 'Thank You',
