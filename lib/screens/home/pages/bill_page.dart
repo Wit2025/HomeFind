@@ -153,67 +153,67 @@ class _BillPageState extends State<BillPage>
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-            colors: [Color(0XFF00B8D1), Color(0XFF005E6B)],
+      body: SingleChildScrollView(
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [Color(0XFF00B8D1), Color(0XFF005E6B)],
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              const SizedBox(height: 16),
-              // Big success icon with bounce-in animation
-              ScaleTransition(
-                scale: _scale,
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white.withOpacity(0.15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.15),
-                        blurRadius: 24,
-                        offset: const Offset(0, 10),
+          child: SafeArea(
+            child: Column(
+              children: [
+                const SizedBox(height: 16),
+                // Big success icon with bounce-in animation
+                ScaleTransition(
+                  scale: _scale,
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white.withOpacity(0.15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.15),
+                          blurRadius: 24,
+                          offset: const Offset(0, 10),
+                        ),
+                      ],
+                    ),
+                    child: const CircleAvatar(
+                      radius: 44,
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        Icons.check_rounded,
+                        size: 48,
+                        color: Colors.teal,
                       ),
-                    ],
-                  ),
-                  child: const CircleAvatar(
-                    radius: 44,
-                    backgroundColor: Colors.white,
-                    child: Icon(
-                      Icons.check_rounded,
-                      size: 48,
-                      color: Colors.teal,
                     ),
                   ),
                 ),
-              ),
-
-              const SizedBox(height: 12),
-              Text(
-                'Booking Successful!',
-                style: theme.textTheme.headlineSmall?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+                  
+                const SizedBox(height: 12),
+                Text(
+                  'Booking Successful!',
+                  style: theme.textTheme.headlineSmall?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Thank you, ${widget.customerName}',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: Colors.white70,
+                const SizedBox(height: 4),
+                Text(
+                  'Thank you, ${widget.customerName}',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: Colors.white70,
+                  ),
                 ),
-              ),
-
-              const SizedBox(height: 16),
-
-              // Glass card
-              Expanded(
-                child: Padding(
+                  
+                const SizedBox(height: 16),
+                  
+                // Glass card
+                Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 8,
@@ -246,7 +246,7 @@ class _BillPageState extends State<BillPage>
                           const SizedBox(height: 6),
                           const DashedDivider(color: Colors.grey, height: 1.5),
                           const SizedBox(height: 12),
-
+                
                           /// --- Service Details ---
                           Row(
                             children: [
@@ -276,11 +276,11 @@ class _BillPageState extends State<BillPage>
                               'dd/MM/yyyy HH:mm',
                             ).format(widget.createdAt),
                           ),
-
+                
                           const SizedBox(height: 12),
                           const DashedDivider(color: Colors.grey, height: 1.5),
                           const SizedBox(height: 8),
-
+                
                           /// --- Payment Summary ---
                           Row(
                             children: [
@@ -316,11 +316,11 @@ class _BillPageState extends State<BillPage>
                           //   widget.paymentMethod,
                           //   '',
                           // ), // << เพิ่มตรงนี้
-
+                
                           const SizedBox(height: 12),
                           const DashedDivider(color: Colors.grey, height: 1.5),
                           const SizedBox(height: 12),
-
+                
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -349,7 +349,7 @@ class _BillPageState extends State<BillPage>
                               ),
                             ],
                           ),
-
+                
                           const SizedBox(height: 32),
                           Padding(
                             padding: const EdgeInsets.symmetric(
@@ -375,58 +375,58 @@ class _BillPageState extends State<BillPage>
                     ),
                   ),
                 ),
-              ),
-
-              // Bottom buttons
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          side: const BorderSide(color: Colors.white70),
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(Icons.home_rounded),
-                        label: const Text('Back Home'),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.teal,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          elevation: 2,
-                        ),
-                        onPressed: () {
-                          // In a real app, implement share or download receipt here
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Receipt saved (demo).'),
+                  
+                // Bottom buttons
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            side: const BorderSide(color: Colors.white70),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
                             ),
-                          );
-                        },
-                        icon: const Icon(Icons.download_rounded),
-                        label: const Text('Save Receipt'),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(Icons.home_rounded),
+                          label: const Text('Back Home'),
+                        ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.teal,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                            elevation: 2,
+                          ),
+                          onPressed: () {
+                            // In a real app, implement share or download receipt here
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Receipt saved (demo).'),
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.download_rounded),
+                          label: const Text('Save Receipt'),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
