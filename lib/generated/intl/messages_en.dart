@@ -34,6 +34,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m6(query) => "Search results for \"${query}\"";
 
+  static String m7(views) => "${views} views";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "aboutPolicy": MessageLookupByLibrary.simpleMessage("About Policy"),
@@ -434,6 +436,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "moving_goods": MessageLookupByLibrary.simpleMessage("Moving goods"),
     "name": MessageLookupByLibrary.simpleMessage("Name"),
     "needMoreHelp": MessageLookupByLibrary.simpleMessage("Need more help?"),
+    "newNotification": MessageLookupByLibrary.simpleMessage("New"),
     "newPassword": MessageLookupByLibrary.simpleMessage("New Password"),
     "next": MessageLookupByLibrary.simpleMessage("Next"),
     "noItems": MessageLookupByLibrary.simpleMessage("No items"),
@@ -459,6 +462,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "You are not registered yet",
     ),
     "notification": MessageLookupByLibrary.simpleMessage("Notification"),
+    "notificationDetail": MessageLookupByLibrary.simpleMessage(
+      "Notification Details",
+    ),
     "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
     "now": MessageLookupByLibrary.simpleMessage("Now"),
     "oldPassword": MessageLookupByLibrary.simpleMessage("Old Password"),
@@ -679,7 +685,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "rental_period": MessageLookupByLibrary.simpleMessage("Rental Period"),
     "resend_otp": MessageLookupByLibrary.simpleMessage("Resend OTP"),
     "reset": MessageLookupByLibrary.simpleMessage("Reset"),
-    "reviews": MessageLookupByLibrary.simpleMessage("Reviews"),
     "room_sharing": MessageLookupByLibrary.simpleMessage("Room Sharing"),
     "sale": MessageLookupByLibrary.simpleMessage("Sale"),
     "save": MessageLookupByLibrary.simpleMessage("Save"),
@@ -794,6 +799,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "\"User\" refers to any person who accesses or uses our platform",
     ),
     "verify_otp": MessageLookupByLibrary.simpleMessage("Verify OTP"),
+    "views": m7,
     "village": MessageLookupByLibrary.simpleMessage("Village"),
     "washing_machine": MessageLookupByLibrary.simpleMessage("Washing Machine"),
     "welcome_home_find": MessageLookupByLibrary.simpleMessage(

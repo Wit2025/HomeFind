@@ -207,7 +207,7 @@
   "discount_5_percent": "-5%",
   "breakfast_review": "The breakfast buffet was amazing and very worth it! The location is perfect and the staff was incredibly helpful throughout our stay.",
   "book": "Booking",
-  "reviews": "Reviews",
+  "views": "{views} views",
 
 
   "select_image": "Select Image",
@@ -463,5 +463,7 @@
   "oldest": "Oldest",
   "cheapest": "Cheapest",
   "most_expensive": "Most expensive",
-  "bank": "Bank"
+  "bank": "Bank",
+  "notificationDetail": "Notification Details",
+  "newNotification": "New"
 }

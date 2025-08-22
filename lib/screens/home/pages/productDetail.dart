@@ -17,6 +17,8 @@ class Productdetails extends StatefulWidget {
   final String image;
   final String category;
   final String status;
+  final String? rental;
+  final String? currency;
 
   Productdetails({
     required this.title,
@@ -27,6 +29,8 @@ class Productdetails extends StatefulWidget {
     required this.image,
     required this.category,
     required this.status,
+    this.rental,
+    this.currency,
     super.key,
   });
 
@@ -277,7 +281,6 @@ class _ProductdetailsState extends State<Productdetails>
                     ),
                   ),
 
-                  // Enhanced Image counter
                   Positioned(
                     bottom: 8,
                     right: 8,
@@ -572,7 +575,7 @@ class _ProductdetailsState extends State<Productdetails>
                                   ),
                                   SizedBox(width: 8),
                                   Text(
-                                    widget.date,
+                                    S.of(context).daysAgo(widget.date),
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
@@ -584,23 +587,15 @@ class _ProductdetailsState extends State<Productdetails>
 
                               SizedBox(width: 12),
                               GestureDetector(
-                                onTap: () {
-                                  // Navigate to reviews
-                                },
+                                onTap: () {},
                                 child: Row(
                                   children: [
                                     Text(
-                                      "${widget.views} ${S.of(context).reviews}",
+                                      S.of(context).views(widget.views),
                                       style: TextStyle(
                                         color: Colors.grey[700],
                                         fontWeight: FontWeight.w500,
                                       ),
-                                    ),
-                                    SizedBox(width: 4),
-                                    Icon(
-                                      Icons.chevron_right,
-                                      color: Colors.grey[600],
-                                      size: 20,
                                     ),
                                   ],
                                 ),

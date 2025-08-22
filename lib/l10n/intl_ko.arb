@@ -206,7 +206,7 @@
   "discount_5_percent": "-5%",
   "breakfast_review": "조식 뷔페가 정말 훌륭했고 매우 가치가 있었습니다! 위치가 완벽하고 직원들이 저희 숙박 기간 내내 매우 도움이 되었습니다.",
   "book": "예약",
-  "reviews": "리뷰",
+  "views": "조회수 {views}회",
 
 
   "select_image": "이미지 선택",
@@ -462,5 +462,7 @@
   "oldest": "가장 오래된",
   "cheapest": "가장 저렴한",
   "bank": "은행",
-  "most_expensive": "가장 비싼"
+  "most_expensive": "가장 비싼",
+  "notificationDetail": "알림 세부사항",
+  "newNotification": "새로운"
 }

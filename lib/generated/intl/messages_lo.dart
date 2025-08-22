@@ -34,6 +34,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m6(query) => "ຜົນການຄົ້ນຫາສໍາລັບ \"${query}\"";
 
+  static String m7(views) => "ຍອດເບິ່ງ ${views} ຄັ້ງ";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "aboutPolicy": MessageLookupByLibrary.simpleMessage("ກ່ຽວກັບນະໂຍບາຍຂໍ້ມູນ"),
@@ -418,6 +420,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "needMoreHelp": MessageLookupByLibrary.simpleMessage(
       "ຕ້ອງການຊ່ວຍເຫຼືອເພີ່ມເຕີມ?",
     ),
+    "newNotification": MessageLookupByLibrary.simpleMessage("ໃໝ່"),
     "newPassword": MessageLookupByLibrary.simpleMessage("ລະຫັດຜ່ານໃໝ່"),
     "next": MessageLookupByLibrary.simpleMessage("ຖັດໄປ"),
     "noItems": MessageLookupByLibrary.simpleMessage("ບໍ່ມີລາຍການ"),
@@ -441,6 +444,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "ທ່ານຍັງບໍ່ໄດ້ລົງທະບຽນ",
     ),
     "notification": MessageLookupByLibrary.simpleMessage("ແຈ້ງເຕືອນ"),
+    "notificationDetail": MessageLookupByLibrary.simpleMessage(
+      "ລາຍລະອຽດການແຈ້ງເຕືອນ",
+    ),
     "notifications": MessageLookupByLibrary.simpleMessage("ການແຈ້ງເຕືອນ"),
     "now": MessageLookupByLibrary.simpleMessage("ຕອນນີ້"),
     "oldPassword": MessageLookupByLibrary.simpleMessage("ລະຫັດຜ່ານເກົ່າ"),
@@ -655,7 +661,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "rental_period": MessageLookupByLibrary.simpleMessage("ລະຍະເວລາເຊົ່າ"),
     "resend_otp": MessageLookupByLibrary.simpleMessage("ສົ່ງ OTP ອີກຄັ້ງ"),
     "reset": MessageLookupByLibrary.simpleMessage("ຣີເຊັດ"),
-    "reviews": MessageLookupByLibrary.simpleMessage("ຣີວິວ"),
     "room_sharing": MessageLookupByLibrary.simpleMessage("ການແຊ່ຫ້ອງ"),
     "sale": MessageLookupByLibrary.simpleMessage("ຂາຍ"),
     "save": MessageLookupByLibrary.simpleMessage("ບັນທຶກ"),
@@ -772,6 +777,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "\"ຜູ້ໃຊ້\" ໝາຍເຖິງ ບຸກຄົນໃດໆ ທີ່ເຂົ້າເຖິງ ຫຼື ນໍາໃຊ້ແພລັດຟອມຂອງພວກເຮົາ",
     ),
     "verify_otp": MessageLookupByLibrary.simpleMessage("ຢືນຢັນ OTP"),
+    "views": m7,
     "village": MessageLookupByLibrary.simpleMessage("ບ້ານ"),
     "washing_machine": MessageLookupByLibrary.simpleMessage("ເຄື່ອງຊັກຜ້າ"),
     "welcome_home_find": MessageLookupByLibrary.simpleMessage(

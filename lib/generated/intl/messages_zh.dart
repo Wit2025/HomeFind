@@ -34,6 +34,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m6(query) => "\"${query}\" 的搜索结果";
 
+  static String m7(views) => "浏览 ${views} 次";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "aboutPolicy": MessageLookupByLibrary.simpleMessage("关于政策"),
@@ -302,6 +304,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "moving_goods": MessageLookupByLibrary.simpleMessage("搬运物品"),
     "name": MessageLookupByLibrary.simpleMessage("姓名"),
     "needMoreHelp": MessageLookupByLibrary.simpleMessage("需要更多帮助？"),
+    "newNotification": MessageLookupByLibrary.simpleMessage("新"),
     "newPassword": MessageLookupByLibrary.simpleMessage("新密码"),
     "next": MessageLookupByLibrary.simpleMessage("下一步"),
     "noItems": MessageLookupByLibrary.simpleMessage("无项目"),
@@ -317,6 +320,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_share_room": MessageLookupByLibrary.simpleMessage("非合租房"),
     "not_registered_yet": MessageLookupByLibrary.simpleMessage("您尚未注册"),
     "notification": MessageLookupByLibrary.simpleMessage("通知"),
+    "notificationDetail": MessageLookupByLibrary.simpleMessage("通知详情"),
     "notifications": MessageLookupByLibrary.simpleMessage("通知"),
     "now": MessageLookupByLibrary.simpleMessage("现在"),
     "oldPassword": MessageLookupByLibrary.simpleMessage("旧密码"),
@@ -461,7 +465,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "rental_period": MessageLookupByLibrary.simpleMessage("租赁期限"),
     "resend_otp": MessageLookupByLibrary.simpleMessage("重新发送OTP"),
     "reset": MessageLookupByLibrary.simpleMessage("重置"),
-    "reviews": MessageLookupByLibrary.simpleMessage("评价"),
     "room_sharing": MessageLookupByLibrary.simpleMessage("共享房间"),
     "sale": MessageLookupByLibrary.simpleMessage("出售"),
     "save": MessageLookupByLibrary.simpleMessage("保存"),
@@ -540,6 +543,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "\"用户\"是指访问或使用我们平台的任何人",
     ),
     "verify_otp": MessageLookupByLibrary.simpleMessage("验证验证码"),
+    "views": m7,
     "village": MessageLookupByLibrary.simpleMessage("村庄"),
     "washing_machine": MessageLookupByLibrary.simpleMessage("洗衣机"),
     "welcome_home_find": MessageLookupByLibrary.simpleMessage("欢迎来到 Home Find"),
