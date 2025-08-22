@@ -93,7 +93,7 @@ class DashedDivider extends StatelessWidget {
 class BillPage extends StatefulWidget {
   final String bookingId;
   final String customerName;
-  final String proname;
+  final String title;
   final double bookingFee;
   final String currency; // e.g. "LAK", "THB", "USD"
   final DateTime createdAt;
@@ -102,7 +102,7 @@ class BillPage extends StatefulWidget {
     super.key,
     required this.bookingId,
     required this.customerName,
-    required this.proname,
+    required this.title,
     required this.bookingFee,
     this.currency = 'LAK',
     DateTime? createdAt,
@@ -225,6 +225,29 @@ class _BillPageState extends State<BillPage>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 6),
+                          Center(
+                            child: Text(
+                              'Payment Receipt',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey[800],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'Receipt No: #${0001}',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          const DashedDivider(color: Colors.grey, height: 1.5),
+                          const SizedBox(height: 12),
+
+                          /// --- Service Details ---
                           Row(
                             children: [
                               Icon(
@@ -244,21 +267,21 @@ class _BillPageState extends State<BillPage>
                             ],
                           ),
                           const SizedBox(height: 16),
-                          _titleRow('Service Name', widget.proname),
-                          const SizedBox(height: 6),
+                          _titleRow('Service Name', widget.title),
                           _titleRow('Booking ID', widget.bookingId),
-                          const SizedBox(height: 6),
                           _titleRow('Customer', widget.customerName),
-                          const SizedBox(height: 6),
                           _titleRow(
                             'Date',
                             DateFormat(
                               'dd/MM/yyyy HH:mm',
                             ).format(widget.createdAt),
                           ),
+
                           const SizedBox(height: 12),
                           const DashedDivider(color: Colors.grey, height: 1.5),
                           const SizedBox(height: 8),
+
+                          /// --- Payment Summary ---
                           Row(
                             children: [
                               Icon(
@@ -278,7 +301,6 @@ class _BillPageState extends State<BillPage>
                             ],
                           ),
                           const SizedBox(height: 12),
-
                           _amountRow(
                             'Booking Fee',
                             _money.format(widget.bookingFee),
@@ -289,10 +311,16 @@ class _BillPageState extends State<BillPage>
                             _money.format(0),
                             widget.currency,
                           ),
-                          const SizedBox(height: 12),
+                          // _amountRow(
+                          //   'Payment Method',
+                          //   widget.paymentMethod,
+                          //   '',
+                          // ), // << เพิ่มตรงนี้
 
+                          const SizedBox(height: 12),
                           const DashedDivider(color: Colors.grey, height: 1.5),
                           const SizedBox(height: 12),
+
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -321,7 +349,8 @@ class _BillPageState extends State<BillPage>
                               ),
                             ],
                           ),
-                          const SizedBox(height: 97),
+
+                          const SizedBox(height: 32),
                           Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 16.0,
@@ -334,9 +363,9 @@ class _BillPageState extends State<BillPage>
                           const SizedBox(height: 10),
                           Center(
                             child: const Text(
-                              'Thank You',
+                              'Thank You for Your Payment',
                               style: TextStyle(
-                                fontSize: 22,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

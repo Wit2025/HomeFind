@@ -4,17 +4,28 @@ import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/home/pages/bill_page.dart';
 import 'package:homefind/widgets/Colors.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class BookingPage extends StatefulWidget {
-  final String proname;
-  final String category;
-  BookingPage({required this.proname, required this.category, super.key});
+  final String title;
+  final double price;
+  final String? currency;
+  final String? rental;
+  BookingPage({
+    required this.title,
+    required this.price,
+    required this.currency,
+    this.rental,
+    super.key,
+  });
 
   @override
   State<BookingPage> createState() => _BookingPageState();
 }
 
 class _BookingPageState extends State<BookingPage> {
+  final format = NumberFormat("#,##0.00", "en_US");
+
   File? _image;
 
   bool _isPickingImage = false;
@@ -167,8 +178,12 @@ class _BookingPageState extends State<BookingPage> {
       key: ValueKey(Localizations.localeOf(context).languageCode),
       backgroundColor: Colors.white,
       appBar: AppBar(
-        // title: Text('ຈອງ'),
-        // backgroundColor: const Color.fromARGB(255, 87, 167, 177),
+        title: Text(
+          '${format.format(widget.price)} ${widget.currency} ${widget.rental ?? ''}',
+          style: TextStyle(color: Colors.white,
+          fontSize: 22,
+          ),
+        ),
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -190,6 +205,7 @@ class _BookingPageState extends State<BookingPage> {
           children: [
             // QR Code Section
             Container(
+              width: double.infinity,
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -215,8 +231,8 @@ class _BookingPageState extends State<BookingPage> {
                   ),
                   SizedBox(height: 20),
                   Container(
-                    height: 200,
-                    width: 200,
+                    height: 280,
+                    width: 280,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
@@ -523,7 +539,7 @@ class _BookingPageState extends State<BookingPage> {
                                   BillPage(
                                     bookingId: 'BK-2025-0001',
                                     customerName: 'Phengvar Lee',
-                                    proname: widget.proname,
+                                    title: widget.title,
                                     bookingFee: 50000,
                                     currency: 'LAK',
                                   ),

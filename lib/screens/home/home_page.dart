@@ -74,119 +74,114 @@ class _HomePageState extends State<HomePage> {
     {
       'title': 'ຫ້ອງແຖວ 2 ຊັ້ນ',
       'location': 'ນະຄອນຫຼວງວຽງຈັນ, ສີສັດຕະນາກ, ດົງປາລານ',
-      'date': '4 ມື້ກ່ອນ',
+      'date': '4',
       'price': '250000',
       'views': '120',
       'image': 'assets/images/ap1.jpeg',
       'category': 'ຫ້ອງແຖວ',
       'status': 'ເຊົ່າ',
       'roomSharing': 'ແຊຫ້ອງ',
-      'priceValue': '250000',
-      'dateValue': '4',
+      'rental': 'ຕໍ່ເດືອນ',
+      'currency': 'LAK',
     },
     {
       'title': 'ເຮືອນ 3 ຊັ້ນ',
       'location': 'ນະຄອນຫຼວງວຽງຈັນ, ຈັນທະບຸລີ, ທົ່ງສາງນາງ',
-      'date': '1 ປີກ່ອນ',
+      'date': '1',
       'price': '2500000',
       'views': '276',
       'image': 'assets/images/ap2.jpeg',
       'category': 'ເຮືອນ',
       'status': 'ຂາຍ',
       'roomSharing': 'ບໍ່ແຊຫ້ອງ',
-      'priceValue': '2500000000',
-      'dateValue': '365',
+      'currency': 'UDS',
     },
     {
       'title': 'ອາພາດເມັ້ນ ທະເລສາບ',
       'location': 'ນະຄອນຫຼວງວຽງຈັນ, ສີສັດຕະນາກ, ດົງປາລານ',
-      'date': '1 ອາທິດກ່ອນ',
+      'date': '1',
       'price': '180000',
       'views': '120',
       'image': 'assets/images/ap3.jpeg',
       'category': 'ອາພາດເມັ້ນ',
       'status': 'ເຊົ່າ',
       'roomSharing': 'ບໍ່ແຊຫ້ອງ',
-      'priceValue': '180000',
-      'dateValue': '7',
+      'rental': 'ຕໍ່ເດືອນ',
+      'currency': 'THB',
     },
     {
       'title': 'ອາພາດເມັ້ນ ໃຈກາງເມືອງ',
       'location': 'ນະຄອນຫຼວງວຽງຈັນ, ຈັນທະບຸລີ, ທົ່ງສາງນາງ',
-      'date': '1 ມື້ກ່ອນ',
+      'date': '1',
       'price': '18000000',
       'views': '276',
       'image': 'assets/images/ap4.jpeg',
       'category': 'ອາພາດເມັ້ນ',
       'status': 'ຂາຍ',
       'roomSharing': 'ແຊຫ້ອງ',
-      'priceValue': '1800000000',
-      'dateValue': '1',
+      'currency': 'CNY',
     },
     {
       'title': 'ເຮືອນ 4 ຊັ້ນ',
       'location': 'ນະຄອນຫຼວງວຽງຈັນ, ໄຊເສດຖາ, ບ້ານໄຊທານີ',
-      'date': '4 ມື້ກ່ອນ',
-      'price': '9500000',
+      'date': '4',
+      'price': '95000000',
       'views': '95',
       'image': 'assets/images/ap1.jpeg',
       'category': 'ເຮືອນ',
       'status': 'ເຊົ່າ',
       'roomSharing': 'ບໍ່ແຊຫ້ອງ',
-      'priceValue': '95000',
-      'dateValue': '4',
+      'rental': 'ຕໍ່ປີ',
+      'currency': 'LAK',
     },
     {
       'title': 'ເຮືອນ 3 ຊັ້ນ',
       'location': 'ນະຄອນຫຼວງວຽງຈັນ, ຈັນທະບຸລີ, ທົ່ງສາງນາງ',
-      'date': '1 ປີກ່ອນ',
+      'date': '1',
       'price': '2500000',
       'views': '276',
       'image': 'assets/images/ap2.jpeg',
       'category': 'ເຮືອນ',
       'status': 'ຂາຍ',
       'roomSharing': 'ບໍ່ແຊຫ້ອງ',
-      'priceValue': '2500000000',
-      'dateValue': '365',
+      'currency': 'USD',
     },
     {
       'title': 'ດີນ',
       'location': 'ນະຄອນຫຼວງວຽງຈັນ, ສີສັດຕະນາກ, ດົງປາລານ',
-      'date': '1 ອາທິດກ່ອນ',
+      'date': '1',
       'price': '180000',
       'views': '120',
       'image': 'assets/images/ap3.jpeg',
       'category': 'ດີນ',
       'status': 'ຂາຍ',
       'roomSharing': 'ບໍ່ແຊຫ້ອງ',
-      'priceValue': '180000',
-      'dateValue': '7',
+      'currency': 'BTH',
     },
     {
       'title': 'ອາພາດເມັ້ນ ໃຈກາງເມືອງ',
       'location': 'ນະຄອນຫຼວງວຽງຈັນ, ຈັນທະບຸລີ, ທົ່ງສາງນາງ',
-      'date': '1 ມື້ກ່ອນ',
+      'date': '1',
       'price': '18000000',
       'views': '276',
       'image': 'assets/images/ap4.jpeg',
       'category': 'ອາພາດເມັ້ນ',
       'status': 'ຂາຍ',
       'roomSharing': 'ແຊຫ້ອງ',
-      'priceValue': '1800000000',
-      'dateValue': '1',
+      'currency': 'YCN',
     },
     {
       'title': 'ເຮືອນ 5 ຊັ້ນ',
       'location': 'ນະຄອນຫຼວງວຽງຈັນ, ໄຊເສດຖາ, ບ້ານໄຊທານີ',
-      'date': '4 ມື້ກ່ອນ',
+      'date': '4',
       'price': '9500000',
       'views': '95',
       'image': 'assets/images/ap1.jpeg',
       'category': 'ເຮືອນ',
       'status': 'ເຊົ່າ',
       'roomSharing': 'ບໍ່ແຊຫ້ອງ',
-      'priceValue': '95000',
-      'dateValue': '4',
+      'rental': 'ຕໍ່ປີ',
+      'currency': 'LAK',
     },
   ];
 
@@ -309,14 +304,12 @@ class _HomePageState extends State<HomePage> {
       if (_selectedTime == 'ລ່າສຸດ') {
         // Sort by most recent (smallest dateValue)
         filtered.sort(
-          (a, b) =>
-              int.parse(a['dateValue']!).compareTo(int.parse(b['dateValue']!)),
+          (a, b) => int.parse(a['date']!).compareTo(int.parse(b['date']!)),
         );
       } else if (_selectedTime == 'ດົນສຸດ') {
-        // Sort by oldest (largest dateValue)
+        // Sort by oldest (largest date)
         filtered.sort(
-          (a, b) =>
-              int.parse(b['dateValue']!).compareTo(int.parse(a['dateValue']!)),
+          (a, b) => int.parse(b['date']!).compareTo(int.parse(a['date']!)),
         );
       }
     }
@@ -325,16 +318,12 @@ class _HomePageState extends State<HomePage> {
       if (_selectedPrice == 'ຖືກສຸດ') {
         // Sort by cheapest (smallest priceValue)
         filtered.sort(
-          (a, b) => int.parse(
-            a['priceValue']!,
-          ).compareTo(int.parse(b['priceValue']!)),
+          (a, b) => int.parse(a['price']!).compareTo(int.parse(b['price']!)),
         );
       } else if (_selectedPrice == 'ແພງສຸດ') {
         // Sort by most expensive (largest priceValue)
         filtered.sort(
-          (a, b) => int.parse(
-            b['priceValue']!,
-          ).compareTo(int.parse(a['priceValue']!)),
+          (a, b) => int.parse(b['price']!).compareTo(int.parse(a['price']!)),
         );
       }
     }
@@ -661,7 +650,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildListingsHeader() {
-    // คำนวณจำนวนรายการที่แสดงจริง (รวมการค้นหาด้วย)
     final displayList = _controller.text.isEmpty
         ? filteredPropertyList
         : _searchProperties(_controller.text);
@@ -669,9 +657,18 @@ class _HomePageState extends State<HomePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          _translateCategory(_selectedCategory),
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                _translateCategory(_selectedCategory),
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+            ),
+            _buildStatusToggle(),
+          ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -679,7 +676,6 @@ class _HomePageState extends State<HomePage> {
             Text(
               '${S.of(context).found} ${displayList.length} ${S.of(context).listing}',
             ),
-            _buildStatusToggle(),
             _buildFilterButton(),
           ],
         ),
@@ -688,13 +684,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildStatusToggle() {
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [_buildStatusButton('ເຊົ່າ'), _buildStatusButton('ຂາຍ')],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [_buildStatusButton('ເຊົ່າ'), _buildStatusButton('ຂາຍ')],
     );
   }
 
@@ -842,7 +834,7 @@ class _HomePageState extends State<HomePage> {
       itemBuilder: (context, index) {
         final item = displayList[index];
         return Transform.translate(
-          offset: const Offset(0, -30),
+          offset: const Offset(0, -20),
           child: _buildPropertyCard(
             item['title']!,
             item['location']!,
@@ -852,6 +844,8 @@ class _HomePageState extends State<HomePage> {
             item['image']!,
             item['category']!,
             item['status']!,
+            item['rental'],
+            item['currency'] ?? 'LAK',
           ),
         );
       },
@@ -901,6 +895,8 @@ class _HomePageState extends State<HomePage> {
     String image,
     String category,
     String status,
+    String? rental,
+    String? currency,
   ) {
     return Container(
       decoration: BoxDecoration(
@@ -927,8 +923,19 @@ class _HomePageState extends State<HomePage> {
             price,
             views,
             status,
+            rental,
+            currency,
           ),
-          _buildPropertyInfo(title, location, date, price, views, status),
+          _buildPropertyInfo(
+            title,
+            location,
+            date,
+            price,
+            views,
+            status,
+            rental,
+            currency,
+          ),
         ],
       ),
     );
@@ -943,6 +950,8 @@ class _HomePageState extends State<HomePage> {
     double price,
     String views,
     String status,
+    String? rental,
+    String? currency,
   ) {
     return Expanded(
       flex: 3,
@@ -978,6 +987,8 @@ class _HomePageState extends State<HomePage> {
                           image: image,
                           category: category,
                           status: status,
+                          rental: rental, 
+                          currency: currency, 
                         ),
                       ),
                     );
@@ -1044,8 +1055,10 @@ class _HomePageState extends State<HomePage> {
     double price,
     String views,
     String status,
+    String? rental,
+    String? currency,
   ) {
-    final formattedPrice = NumberFormat("#,##0.00", "en_US").format(price);
+    final formattedPrice = NumberFormat("#,##0", "en_US").format(price);
     return Expanded(
       flex: 3,
       child: Padding(
@@ -1094,7 +1107,7 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(width: 4),
                 Expanded(
                   child: Text(
-                    date,
+                    '${S.of(context).daysAgo(date)}',
                     style: TextStyle(fontSize: 10, color: Colors.black),
                   ),
                 ),
@@ -1105,17 +1118,42 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: Text(
-                    '₭ $formattedPrice',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: '$formattedPrice ${currency ?? "LAK"}',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              // แสดง rental เฉพาะเมื่อเป็นการเช่า และมีค่า rental
+                              if (status == 'ເຊົ່າ' &&
+                                  rental != null &&
+                                  rental.isNotEmpty)
+                                TextSpan(
+                                  text: ' $rental',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                            ],
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+                SizedBox(width: 5),
                 Row(
                   children: [
                     Icon(Icons.visibility, size: 12, color: Colors.grey),
@@ -1152,7 +1190,7 @@ class _HomePageState extends State<HomePage> {
             borderRadius: BorderRadius.circular(16),
             color: Colors.white,
             child: Container(
-              width: 208,
+              width: 235,
               margin: const EdgeInsets.only(right: 16, bottom: 16),
               padding: const EdgeInsets.all(16),
               child: StatefulBuilder(
@@ -1282,7 +1320,7 @@ class _HomePageState extends State<HomePage> {
               borderRadius: BorderRadius.circular(16),
               color: Colors.white,
               child: Container(
-                width: 208,
+                width: 235,
                 margin: const EdgeInsets.only(right: 16, bottom: 16),
                 padding: const EdgeInsets.all(16),
                 child: StatefulBuilder(
