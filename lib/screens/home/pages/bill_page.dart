@@ -155,9 +155,10 @@ class _BillPageState extends State<BillPage>
       ),
       body: SingleChildScrollView(
         child: Container(
+          // height: MediaQuery.of(context).size.height,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
-              begin: Alignment.centerLeft,
+              begin: Alignment.topLeft,
               end: Alignment.centerRight,
               colors: [Color(0XFF00B8D1), Color(0XFF005E6B)],
             ),
@@ -165,7 +166,6 @@ class _BillPageState extends State<BillPage>
           child: SafeArea(
             child: Column(
               children: [
-                const SizedBox(height: 16),
                 // Big success icon with bounce-in animation
                 ScaleTransition(
                   scale: _scale,
@@ -193,7 +193,7 @@ class _BillPageState extends State<BillPage>
                     ),
                   ),
                 ),
-                  
+
                 const SizedBox(height: 12),
                 Text(
                   'Booking Successful!',
@@ -209,9 +209,9 @@ class _BillPageState extends State<BillPage>
                     color: Colors.white70,
                   ),
                 ),
-                  
+
                 const SizedBox(height: 16),
-                  
+
                 // Glass card
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -220,162 +220,169 @@ class _BillPageState extends State<BillPage>
                   ),
                   child: ClipPath(
                     clipper: PositionedOvalClipper(positionY: 0.85, radius: 16),
-                    child: _FrostedCard(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 6),
-                          Center(
-                            child: Text(
-                              'Payment Receipt',
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.65,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: _FrostedCard(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 6),
+                            Center(
+                              child: Text(
+                                'Payment Receipt',
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey[800],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              'Receipt No: #${0001}',
                               style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey[800],
+                                fontSize: 14,
+                                color: Colors.grey[600],
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            'Receipt No: #${0001}',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey[600],
+                            const SizedBox(height: 6),
+                            const DashedDivider(color: Colors.grey, height: 1.5),
+                            const SizedBox(height: 12),
+                      
+                            /// --- Service Details ---
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.receipt_long,
+                                  color: Colors.teal,
+                                  size: 24,
+                                ),
+                                const SizedBox(width: 12),
+                                Text(
+                                  'Service Details',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey[800],
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          const SizedBox(height: 6),
-                          const DashedDivider(color: Colors.grey, height: 1.5),
-                          const SizedBox(height: 12),
-                
-                          /// --- Service Details ---
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.receipt_long,
-                                color: Colors.teal,
-                                size: 24,
-                              ),
-                              const SizedBox(width: 12),
-                              Text(
-                                'Service Details',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey[800],
+                            const SizedBox(height: 16),
+                            _titleRow('Service Name', widget.title),
+                            _titleRow('Booking ID', widget.bookingId),
+                            _titleRow('Customer', widget.customerName),
+                            _titleRow(
+                              'Date',
+                              DateFormat(
+                                'dd/MM/yyyy HH:mm',
+                              ).format(widget.createdAt),
+                            ),
+                      
+                            const SizedBox(height: 12),
+                            const DashedDivider(color: Colors.grey, height: 1.5),
+                            const SizedBox(height: 8),
+                      
+                            /// --- Payment Summary ---
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.credit_card,
+                                  color: Colors.teal,
+                                  size: 24,
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          _titleRow('Service Name', widget.title),
-                          _titleRow('Booking ID', widget.bookingId),
-                          _titleRow('Customer', widget.customerName),
-                          _titleRow(
-                            'Date',
-                            DateFormat(
-                              'dd/MM/yyyy HH:mm',
-                            ).format(widget.createdAt),
-                          ),
-                
-                          const SizedBox(height: 12),
-                          const DashedDivider(color: Colors.grey, height: 1.5),
-                          const SizedBox(height: 8),
-                
-                          /// --- Payment Summary ---
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.credit_card,
-                                color: Colors.teal,
-                                size: 24,
-                              ),
-                              const SizedBox(width: 12),
-                              Text(
-                                'Payment Summary',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey[800],
+                                const SizedBox(width: 12),
+                                Text(
+                                  'Payment Summary',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey[800],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 12),
-                          _amountRow(
-                            'Booking Fee',
-                            _money.format(widget.bookingFee),
-                            widget.currency,
-                          ),
-                          _amountRow(
-                            'Service Charge',
-                            _money.format(0),
-                            widget.currency,
-                          ),
-                          // _amountRow(
-                          //   'Payment Method',
-                          //   widget.paymentMethod,
-                          //   '',
-                          // ), // << เพิ่มตรงนี้
-                
-                          const SizedBox(height: 12),
-                          const DashedDivider(color: Colors.grey, height: 1.5),
-                          const SizedBox(height: 12),
-                
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Grand Total',
-                                style: theme.textTheme.titleLarge?.copyWith(
-                                  fontWeight: FontWeight.w800,
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+                            _amountRow(
+                              'Booking Fee',
+                              _money.format(widget.bookingFee),
+                              widget.currency,
+                            ),
+                            _amountRow(
+                              'Service Charge',
+                              _money.format(0),
+                              widget.currency,
+                            ),
+                      
+                            // _amountRow(
+                            //   'Payment Method',
+                            //   widget.paymentMethod,
+                            //   '',
+                            // ), // << เพิ่มตรงนี้
+                            const SizedBox(height: 12),
+                            const DashedDivider(color: Colors.grey, height: 1.5),
+                            const SizedBox(height: 12),
+                      
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Grand Total',
+                                  style: theme.textTheme.titleLarge?.copyWith(
+                                    fontWeight: FontWeight.w800,
+                                  ),
                                 ),
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    _money.format(50000),
-                                    style: theme.textTheme.titleLarge?.copyWith(
-                                      fontWeight: FontWeight.w900,
-                                      color: Colors.teal[700],
+                                Row(
+                                  children: [
+                                    Text(
+                                      _money.format(50000),
+                                      style: theme.textTheme.titleLarge?.copyWith(
+                                        fontWeight: FontWeight.w900,
+                                        color: Colors.teal[700],
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 6),
-                                  Text(
-                                    widget.currency,
-                                    style: theme.textTheme.titleMedium
-                                        ?.copyWith(color: Colors.teal[700]),
-                                  ),
-                                ],
+                                    const SizedBox(width: 6),
+                                    Text(
+                                      widget.currency,
+                                      style: theme.textTheme.titleMedium
+                                          ?.copyWith(color: Colors.teal[700]),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                      
+                            const SizedBox(height: 110),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
                               ),
-                            ],
-                          ),
-                
-                          const SizedBox(height: 32),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0,
-                            ),
-                            child: const DashedDivider(
-                              color: Colors.grey,
-                              height: 1.5,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Center(
-                            child: const Text(
-                              'Thank You for Your Payment',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                              child: const DashedDivider(
+                                color: Colors.grey,
+                                height: 1.5,
                               ),
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 25),
+                            Center(
+                              child: const Text(
+                                'Thank You',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-                  
+
                 // Bottom buttons
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
