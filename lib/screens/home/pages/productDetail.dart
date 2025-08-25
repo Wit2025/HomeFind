@@ -339,7 +339,7 @@ class _ProductdetailsState extends State<Productdetails>
                         width: 80,
                         margin: EdgeInsets.only(right: 12),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
+                          // borderRadius: BorderRadius.circular(8),
                           border: Border.all(
                             color: isSelected
                                 ? Colors.blue
@@ -357,7 +357,7 @@ class _ProductdetailsState extends State<Productdetails>
                               : [],
                         ),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
+                          // borderRadius: BorderRadius.circular(6),
                           child: Stack(
                             children: [
                               Image.asset(
