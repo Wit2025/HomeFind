@@ -1664,6 +1664,66 @@ class S {
     );
   }
 
+  /// `Payment Receipt`
+  String get paymentReceipt {
+    return Intl.message(
+      'Payment Receipt',
+      name: 'paymentReceipt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Receipt No: #{number}`
+  String receiptNo(Object number) {
+    return Intl.message(
+      'Receipt No: #$number',
+      name: 'receiptNo',
+      desc: '',
+      args: [number],
+    );
+  }
+
+  /// `Service Details`
+  String get serviceDetails {
+    return Intl.message(
+      'Service Details',
+      name: 'serviceDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Service Name`
+  String get serviceName {
+    return Intl.message(
+      'Service Name',
+      name: 'serviceName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment Summary`
+  String get paymentSummary {
+    return Intl.message(
+      'Payment Summary',
+      name: 'paymentSummary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Service Charge`
+  String get serviceCharge {
+    return Intl.message(
+      'Service Charge',
+      name: 'serviceCharge',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Booking Receipt`
   String get booking_receipt {
     return Intl.message(

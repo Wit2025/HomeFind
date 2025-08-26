@@ -236,6 +236,13 @@
   "backHome": "홈으로 돌아가기",
   "receiptSaved": "영수증 저장됨",
   "saveReceipt": "영수증 저장",
+  "paymentReceipt": "결제 영수증",
+  "receiptNo": "영수증 번호: #{number}",
+  "serviceDetails": "서비스 세부 정보",
+  "serviceName": "서비스 이름",
+  "paymentSummary": "결제 요약",
+  "serviceCharge": "서비스 요금",
+  "backHome": "홈으로 돌아가기",
 
 
   "booking_receipt": "예약 영수증",

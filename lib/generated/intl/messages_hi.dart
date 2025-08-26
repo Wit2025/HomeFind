@@ -32,9 +32,11 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m5(count) => "${count} मिनट पहले";
 
-  static String m6(query) => "\"${query}\" के लिए खोज परिणाम";
+  static String m6(number) => "रसीद संख्या: #${number}";
 
-  static String m7(views) => "${views} बार देखा गया";
+  static String m7(query) => "\"${query}\" के लिए खोज परिणाम";
+
+  static String m8(views) => "${views} बार देखा गया";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -124,7 +126,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "हमारा प्लेटफॉर्म \"जैसा है\" और \"जैसा उपलब्ध है\" के आधार पर बिना किसी वारंटी के प्रदान किया जाता है",
     ),
     "availableBalance": MessageLookupByLibrary.simpleMessage("उपलब्ध राशि"),
-    "backHome": MessageLookupByLibrary.simpleMessage("होम पर वापस"),
+    "backHome": MessageLookupByLibrary.simpleMessage(
+      "मुख्य पृष्ठ पर वापस जाएँ",
+    ),
     "back_to_login": MessageLookupByLibrary.simpleMessage("लॉगिन पर वापस"),
     "back_to_previous": MessageLookupByLibrary.simpleMessage("पिछले पर वापस"),
     "bank": MessageLookupByLibrary.simpleMessage("बैंक"),
@@ -482,6 +486,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "paymentMethods": MessageLookupByLibrary.simpleMessage(
       "कौन से भुगतान विकल्प उपलब्ध हैं?",
     ),
+    "paymentReceipt": MessageLookupByLibrary.simpleMessage("भुगतान रसीद"),
+    "paymentSummary": MessageLookupByLibrary.simpleMessage("भुगतान सारांश"),
     "pending": MessageLookupByLibrary.simpleMessage("लंबित"),
     "perYear": MessageLookupByLibrary.simpleMessage("प्रति वर्ष"),
     "per_m": MessageLookupByLibrary.simpleMessage("/महीना"),
@@ -649,6 +655,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "आगे बढ़ने से पहले कृपया निम्नलिखित नियमों और शर्तों को ध्यान से पढ़ें। हमारे प्लेटफॉर्म से जुड़कर, आपको निर्दिष्ट सभी नियमों को पढ़ा, समझा और स्वीकार किया गया माना जाता है।",
     ),
     "receipt": MessageLookupByLibrary.simpleMessage("रसीद"),
+    "receiptNo": m6,
     "receiptSaved": MessageLookupByLibrary.simpleMessage("रसीद सेव हो गई"),
     "redeemPoints": MessageLookupByLibrary.simpleMessage("अंक भुनाएं"),
     "refrigerator": MessageLookupByLibrary.simpleMessage("रेफ्रिजरेटर"),
@@ -677,7 +684,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "score": MessageLookupByLibrary.simpleMessage("स्कोर"),
     "scoreHistory": MessageLookupByLibrary.simpleMessage("स्कोर इतिहास"),
     "searchQuestions": MessageLookupByLibrary.simpleMessage("प्रश्न खोजें..."),
-    "searchResultsFor": m6,
+    "searchResultsFor": m7,
     "search_name_address": MessageLookupByLibrary.simpleMessage(
       "नाम, पता खोजें...",
     ),
@@ -694,6 +701,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "sendEmail": MessageLookupByLibrary.simpleMessage("ईमेल भेजें"),
     "send_otp_code": MessageLookupByLibrary.simpleMessage("OTP कोड भेजें"),
     "send_otp_to": MessageLookupByLibrary.simpleMessage("OTP कोड भेजें"),
+    "serviceCharge": MessageLookupByLibrary.simpleMessage("सेवा शुल्क"),
+    "serviceDetails": MessageLookupByLibrary.simpleMessage("सेवा विवरण"),
+    "serviceName": MessageLookupByLibrary.simpleMessage("सेवा का नाम"),
     "service_type": MessageLookupByLibrary.simpleMessage("सेवा प्रकार"),
     "share_receipt": MessageLookupByLibrary.simpleMessage("रसीद साझा करें"),
     "share_room": MessageLookupByLibrary.simpleMessage("कमरा साझा करें"),
@@ -774,7 +784,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "\"उपयोगकर्ता\" का अर्थ है कोई भी व्यक्ति जो हमारे प्लेटफॉर्म तक पहुंचता या उपयोग करता है",
     ),
     "verify_otp": MessageLookupByLibrary.simpleMessage("OTP सत्यापित करें"),
-    "views": m7,
+    "views": m8,
     "village": MessageLookupByLibrary.simpleMessage("गांव"),
     "washing_machine": MessageLookupByLibrary.simpleMessage("वॉशिंग मशीन"),
     "welcome_home_find": MessageLookupByLibrary.simpleMessage(

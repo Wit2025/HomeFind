@@ -238,6 +238,13 @@
   "backHome": "ກັບໄປໜ້າຫຼັກ",
   "receiptSaved": "ບັນທຶກໃບບິນແລ້ວ",
   "saveReceipt": "ບັນທຶກໃບບິນ",
+  "paymentReceipt": "ໃບຮັບເງິນ",
+  "receiptNo": "ໃບຮັບເງິນ ເລກທີ: #{number}",
+  "serviceDetails": "ລາຍລະອຽດການບໍລິການ",
+  "serviceName": "ຊື່ການບໍລິການ",
+  "paymentSummary": "ສະຫຼຸບການຈ່າຍເງິນ",
+  "serviceCharge": "ຄ່າບໍລິການ",
+  "backHome": "ກັບໜ້າຫຼັກ",
 
 
   "booking_receipt": "ບິນການຈອງ",

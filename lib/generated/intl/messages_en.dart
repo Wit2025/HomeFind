@@ -32,9 +32,11 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m5(count) => "${count} minutes ago";
 
-  static String m6(query) => "Search results for \"${query}\"";
+  static String m6(number) => "Receipt No: #${number}";
 
-  static String m7(views) => "${views} views";
+  static String m7(query) => "Search results for \"${query}\"";
+
+  static String m8(views) => "${views} views";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -504,6 +506,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "paymentMethods": MessageLookupByLibrary.simpleMessage(
       "What payment methods are available?",
     ),
+    "paymentReceipt": MessageLookupByLibrary.simpleMessage("Payment Receipt"),
+    "paymentSummary": MessageLookupByLibrary.simpleMessage("Payment Summary"),
     "pending": MessageLookupByLibrary.simpleMessage("Pending"),
     "perYear": MessageLookupByLibrary.simpleMessage("Per Year"),
     "per_m": MessageLookupByLibrary.simpleMessage("/Month"),
@@ -673,6 +677,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Please read the following terms and conditions carefully before proceeding. By joining our platform, you are deemed to have read, understood, and accepted all the terms specified.",
     ),
     "receipt": MessageLookupByLibrary.simpleMessage("Receipt"),
+    "receiptNo": m6,
     "receiptSaved": MessageLookupByLibrary.simpleMessage("Receipt saved"),
     "redeemPoints": MessageLookupByLibrary.simpleMessage("Redeem Points"),
     "refrigerator": MessageLookupByLibrary.simpleMessage("Refrigerator"),
@@ -703,7 +708,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "searchQuestions": MessageLookupByLibrary.simpleMessage(
       "Search questions...",
     ),
-    "searchResultsFor": m6,
+    "searchResultsFor": m7,
     "search_name_address": MessageLookupByLibrary.simpleMessage(
       "Search name, address...",
     ),
@@ -720,6 +725,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "sendEmail": MessageLookupByLibrary.simpleMessage("Send Email"),
     "send_otp_code": MessageLookupByLibrary.simpleMessage("Send OTP Code"),
     "send_otp_to": MessageLookupByLibrary.simpleMessage("Send OTP code to "),
+    "serviceCharge": MessageLookupByLibrary.simpleMessage("Service Charge"),
+    "serviceDetails": MessageLookupByLibrary.simpleMessage("Service Details"),
+    "serviceName": MessageLookupByLibrary.simpleMessage("Service Name"),
     "service_type": MessageLookupByLibrary.simpleMessage("Service Type"),
     "share_receipt": MessageLookupByLibrary.simpleMessage("Share Receipt"),
     "share_room": MessageLookupByLibrary.simpleMessage("Share Room"),
@@ -802,7 +810,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "\"User\" refers to any person who accesses or uses our platform",
     ),
     "verify_otp": MessageLookupByLibrary.simpleMessage("Verify OTP"),
-    "views": m7,
+    "views": m8,
     "village": MessageLookupByLibrary.simpleMessage("Village"),
     "washing_machine": MessageLookupByLibrary.simpleMessage("Washing Machine"),
     "welcome_home_find": MessageLookupByLibrary.simpleMessage(

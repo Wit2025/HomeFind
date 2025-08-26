@@ -236,6 +236,13 @@
   "backHome": "返回首页",
   "receiptSaved": "收据已保存",
   "saveReceipt": "保存收据",
+  "paymentReceipt": "付款收据",
+  "receiptNo": "收据号码: #{number}",
+  "serviceDetails": "服务详情",
+  "serviceName": "服务名称",
+  "paymentSummary": "付款摘要",
+  "serviceCharge": "服务费",
+  "backHome": "返回主页",
 
 
   "booking_receipt": "预订凭证",

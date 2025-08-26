@@ -32,9 +32,11 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m5(count) => "${count} 분 전";
 
-  static String m6(query) => "\"${query}\"에 대한 검색 결과";
+  static String m6(number) => "영수증 번호: #${number}";
 
-  static String m7(views) => "조회수 ${views}회";
+  static String m7(query) => "\"${query}\"에 대한 검색 결과";
+
+  static String m8(views) => "조회수 ${views}회";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -408,6 +410,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "paymentMethods": MessageLookupByLibrary.simpleMessage(
       "결제 방법에는 어떤 것이 있나요?",
     ),
+    "paymentReceipt": MessageLookupByLibrary.simpleMessage("결제 영수증"),
+    "paymentSummary": MessageLookupByLibrary.simpleMessage("결제 요약"),
     "pending": MessageLookupByLibrary.simpleMessage("대기 중"),
     "perYear": MessageLookupByLibrary.simpleMessage("연별"),
     "per_m": MessageLookupByLibrary.simpleMessage("/월"),
@@ -551,6 +555,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "계속 진행하기 전에 다음 이용약관을 주의 깊게 읽어 주십시오. 저희 플랫폼에 참여하시면 명시된 모든 약관을 읽고, 이해하고, 동의한 것으로 간주됩니다.",
     ),
     "receipt": MessageLookupByLibrary.simpleMessage("영수증"),
+    "receiptNo": m6,
     "receiptSaved": MessageLookupByLibrary.simpleMessage("영수증 저장됨"),
     "redeemPoints": MessageLookupByLibrary.simpleMessage("포인트 교환"),
     "refrigerator": MessageLookupByLibrary.simpleMessage("냉장고"),
@@ -577,7 +582,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "score": MessageLookupByLibrary.simpleMessage("점수"),
     "scoreHistory": MessageLookupByLibrary.simpleMessage("점수 내역"),
     "searchQuestions": MessageLookupByLibrary.simpleMessage("질문 검색..."),
-    "searchResultsFor": m6,
+    "searchResultsFor": m7,
     "search_name_address": MessageLookupByLibrary.simpleMessage("이름, 주소 검색..."),
     "seconds": MessageLookupByLibrary.simpleMessage("초"),
     "securityAndPrivacy": MessageLookupByLibrary.simpleMessage("보안 및 개인정보"),
@@ -588,6 +593,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "sendEmail": MessageLookupByLibrary.simpleMessage("이메일 보내기"),
     "send_otp_code": MessageLookupByLibrary.simpleMessage("OTP 코드 전송"),
     "send_otp_to": MessageLookupByLibrary.simpleMessage("OTP 코드를 다음으로 전송: "),
+    "serviceCharge": MessageLookupByLibrary.simpleMessage("서비스 요금"),
+    "serviceDetails": MessageLookupByLibrary.simpleMessage("서비스 세부 정보"),
+    "serviceName": MessageLookupByLibrary.simpleMessage("서비스 이름"),
     "service_type": MessageLookupByLibrary.simpleMessage("서비스 유형"),
     "share_receipt": MessageLookupByLibrary.simpleMessage("영수증 공유"),
     "share_room": MessageLookupByLibrary.simpleMessage("쉐어룸"),
@@ -658,7 +666,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "\"사용자\"는 저희 플랫폼에 접근하거나 사용하는 모든 사람을 의미합니다",
     ),
     "verify_otp": MessageLookupByLibrary.simpleMessage("OTP 인증"),
-    "views": m7,
+    "views": m8,
     "village": MessageLookupByLibrary.simpleMessage("마을"),
     "washing_machine": MessageLookupByLibrary.simpleMessage("세탁기"),
     "welcome_home_find": MessageLookupByLibrary.simpleMessage(

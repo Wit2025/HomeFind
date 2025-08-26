@@ -220,6 +220,13 @@
   "backHome": "होम पर वापस",
   "receiptSaved": "रसीद सेव हो गई",
   "saveReceipt": "रसीद सेव करें",
+  "paymentReceipt": "भुगतान रसीद",
+  "receiptNo": "रसीद संख्या: #{number}",
+  "serviceDetails": "सेवा विवरण",
+  "serviceName": "सेवा का नाम",
+  "paymentSummary": "भुगतान सारांश",
+  "serviceCharge": "सेवा शुल्क",
+  "backHome": "मुख्य पृष्ठ पर वापस जाएँ",
 
   "booking_receipt": "बुकिंग रसीद",
   "share_receipt": "रसीद साझा करें",

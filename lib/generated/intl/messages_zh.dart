@@ -32,9 +32,11 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m5(count) => "${count} 分钟前";
 
-  static String m6(query) => "\"${query}\" 的搜索结果";
+  static String m6(number) => "收据号码: #${number}";
 
-  static String m7(views) => "浏览 ${views} 次";
+  static String m7(query) => "\"${query}\" 的搜索结果";
+
+  static String m8(views) => "浏览 ${views} 次";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -94,7 +96,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "我们的平台按\"现状\"和\"可用状态\"提供，不提供任何明示或暗示的保证",
     ),
     "availableBalance": MessageLookupByLibrary.simpleMessage("可用余额"),
-    "backHome": MessageLookupByLibrary.simpleMessage("返回首页"),
+    "backHome": MessageLookupByLibrary.simpleMessage("返回主页"),
     "back_to_login": MessageLookupByLibrary.simpleMessage("返回登录"),
     "back_to_previous": MessageLookupByLibrary.simpleMessage("返回上一页"),
     "bank": MessageLookupByLibrary.simpleMessage("银行"),
@@ -348,6 +350,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "password_min_length": MessageLookupByLibrary.simpleMessage("密码长度至少需要6个字符"),
     "password_not_match": MessageLookupByLibrary.simpleMessage("密码不匹配"),
     "paymentMethods": MessageLookupByLibrary.simpleMessage("有哪些付款方式？"),
+    "paymentReceipt": MessageLookupByLibrary.simpleMessage("付款收据"),
+    "paymentSummary": MessageLookupByLibrary.simpleMessage("付款摘要"),
     "pending": MessageLookupByLibrary.simpleMessage("等待中"),
     "perYear": MessageLookupByLibrary.simpleMessage("每年"),
     "per_m": MessageLookupByLibrary.simpleMessage("/月"),
@@ -455,6 +459,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "请在继续之前仔细阅读以下条款和条件。加入我们的平台即表示您已阅读、理解并接受所有规定的条款。",
     ),
     "receipt": MessageLookupByLibrary.simpleMessage("收据"),
+    "receiptNo": m6,
     "receiptSaved": MessageLookupByLibrary.simpleMessage("收据已保存"),
     "redeemPoints": MessageLookupByLibrary.simpleMessage("兑换积分"),
     "refrigerator": MessageLookupByLibrary.simpleMessage("冰箱"),
@@ -477,7 +482,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "score": MessageLookupByLibrary.simpleMessage("分数"),
     "scoreHistory": MessageLookupByLibrary.simpleMessage("积分历史"),
     "searchQuestions": MessageLookupByLibrary.simpleMessage("搜索问题..."),
-    "searchResultsFor": m6,
+    "searchResultsFor": m7,
     "search_name_address": MessageLookupByLibrary.simpleMessage("搜索名称、地址..."),
     "seconds": MessageLookupByLibrary.simpleMessage("秒"),
     "securityAndPrivacy": MessageLookupByLibrary.simpleMessage("安全与隐私"),
@@ -488,6 +493,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "sendEmail": MessageLookupByLibrary.simpleMessage("发送邮件"),
     "send_otp_code": MessageLookupByLibrary.simpleMessage("发送验证码"),
     "send_otp_to": MessageLookupByLibrary.simpleMessage("发送验证码到 "),
+    "serviceCharge": MessageLookupByLibrary.simpleMessage("服务费"),
+    "serviceDetails": MessageLookupByLibrary.simpleMessage("服务详情"),
+    "serviceName": MessageLookupByLibrary.simpleMessage("服务名称"),
     "service_type": MessageLookupByLibrary.simpleMessage("服务类型"),
     "share_receipt": MessageLookupByLibrary.simpleMessage("分享凭证"),
     "share_room": MessageLookupByLibrary.simpleMessage("合租房"),
@@ -546,7 +554,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "\"用户\"是指访问或使用我们平台的任何人",
     ),
     "verify_otp": MessageLookupByLibrary.simpleMessage("验证验证码"),
-    "views": m7,
+    "views": m8,
     "village": MessageLookupByLibrary.simpleMessage("村庄"),
     "washing_machine": MessageLookupByLibrary.simpleMessage("洗衣机"),
     "welcome_home_find": MessageLookupByLibrary.simpleMessage("欢迎来到 Home Find"),

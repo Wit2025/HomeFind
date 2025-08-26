@@ -32,9 +32,11 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m5(count) => "${count}分前";
 
-  static String m6(query) => "「${query}」の検索結果";
+  static String m6(number) => "領収書番号: #${number}";
 
-  static String m7(views) => "閲覧数 ${views}回";
+  static String m7(query) => "「${query}」の検索結果";
+
+  static String m8(views) => "閲覧数 ${views}回";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -388,6 +390,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "password_not_match": MessageLookupByLibrary.simpleMessage("パスワードが一致しません"),
     "paymentMethods": MessageLookupByLibrary.simpleMessage("利用可能な支払い方法は？"),
+    "paymentReceipt": MessageLookupByLibrary.simpleMessage("領収書"),
+    "paymentSummary": MessageLookupByLibrary.simpleMessage("支払い概要"),
     "pending": MessageLookupByLibrary.simpleMessage("保留中"),
     "perYear": MessageLookupByLibrary.simpleMessage("年額"),
     "per_m": MessageLookupByLibrary.simpleMessage("/月"),
@@ -529,6 +533,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "次の利用規約をよくお読みください。プラットフォームに参加することで、指定されたすべての規約を読み、理解し、同意したものとみなされます。",
     ),
     "receipt": MessageLookupByLibrary.simpleMessage("レシート"),
+    "receiptNo": m6,
     "receiptSaved": MessageLookupByLibrary.simpleMessage("レシート保存完了"),
     "redeemPoints": MessageLookupByLibrary.simpleMessage("ポイント交換"),
     "refrigerator": MessageLookupByLibrary.simpleMessage("冷蔵庫"),
@@ -551,7 +556,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "score": MessageLookupByLibrary.simpleMessage("スコア"),
     "scoreHistory": MessageLookupByLibrary.simpleMessage("スコア履歴"),
     "searchQuestions": MessageLookupByLibrary.simpleMessage("質問を検索..."),
-    "searchResultsFor": m6,
+    "searchResultsFor": m7,
     "search_name_address": MessageLookupByLibrary.simpleMessage("名前、住所で検索..."),
     "seconds": MessageLookupByLibrary.simpleMessage("秒"),
     "securityAndPrivacy": MessageLookupByLibrary.simpleMessage("セキュリティ・プライバシー"),
@@ -562,6 +567,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "sendEmail": MessageLookupByLibrary.simpleMessage("メール送信"),
     "send_otp_code": MessageLookupByLibrary.simpleMessage("OTPコード送信"),
     "send_otp_to": MessageLookupByLibrary.simpleMessage("OTPコードを送信："),
+    "serviceCharge": MessageLookupByLibrary.simpleMessage("サービス料"),
+    "serviceDetails": MessageLookupByLibrary.simpleMessage("サービス詳細"),
+    "serviceName": MessageLookupByLibrary.simpleMessage("サービス名"),
     "service_type": MessageLookupByLibrary.simpleMessage("サービスタイプ"),
     "share_receipt": MessageLookupByLibrary.simpleMessage("レシート共有"),
     "share_room": MessageLookupByLibrary.simpleMessage("ルームシェア"),
@@ -630,7 +638,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "「ユーザー」とは、私たちのプラットフォームにアクセスまたは利用する人を指します",
     ),
     "verify_otp": MessageLookupByLibrary.simpleMessage("OTP認証"),
-    "views": m7,
+    "views": m8,
     "village": MessageLookupByLibrary.simpleMessage("村"),
     "washing_machine": MessageLookupByLibrary.simpleMessage("洗濯機"),
     "welcome_home_find": MessageLookupByLibrary.simpleMessage("Home Findへようこそ"),

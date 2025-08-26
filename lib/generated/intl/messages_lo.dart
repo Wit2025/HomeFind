@@ -32,9 +32,11 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m5(count) => "${count} ນາທີຜ່ານໄປ";
 
-  static String m6(query) => "ຜົນການຄົ້ນຫາສໍາລັບ \"${query}\"";
+  static String m6(number) => "ໃບຮັບເງິນ ເລກທີ: #${number}";
 
-  static String m7(views) => "ຍອດເບິ່ງ ${views} ຄັ້ງ";
+  static String m7(query) => "ຜົນການຄົ້ນຫາສໍາລັບ \"${query}\"";
+
+  static String m8(views) => "ຍອດເບິ່ງ ${views} ຄັ້ງ";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -132,7 +134,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "ແພລັດຟອມຂອງພວກເຮົາໃຫ້ບໍລິການ \"ຕາມສະພາບ\" ແລະ \"ຕາມທີ່ມີ\" ໂດຍບໍ່ມີການຮັບປະກັນໃດໆ ທັງໂດຍຊັດແຈ້ງ ຫຼື ໂດຍໄນ",
     ),
     "availableBalance": MessageLookupByLibrary.simpleMessage("ຍອດເງິນທີ່ມີ"),
-    "backHome": MessageLookupByLibrary.simpleMessage("ກັບໄປໜ້າຫຼັກ"),
+    "backHome": MessageLookupByLibrary.simpleMessage("ກັບໜ້າຫຼັກ"),
     "back_to_login": MessageLookupByLibrary.simpleMessage("ກັບຄືນໜ້າລ໋ອກອິນ"),
     "back_to_previous": MessageLookupByLibrary.simpleMessage(
       "ກັບຄືນໜ້າກ່ອນໜ້າ",
@@ -486,6 +488,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "paymentMethods": MessageLookupByLibrary.simpleMessage(
       "ວິທີການຊຳລະເງິນມີຫຍັງແດ່?",
     ),
+    "paymentReceipt": MessageLookupByLibrary.simpleMessage("ໃບຮັບເງິນ"),
+    "paymentSummary": MessageLookupByLibrary.simpleMessage("ສະຫຼຸບການຈ່າຍເງິນ"),
     "pending": MessageLookupByLibrary.simpleMessage("ລໍຖ້າ"),
     "perYear": MessageLookupByLibrary.simpleMessage("ເປັນປີ"),
     "per_m": MessageLookupByLibrary.simpleMessage("/ເດືອນ"),
@@ -649,6 +653,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "ກະລຸນາອ່ານເງື່ອນໄຂ ແລະ ນະໂຍບາຍລຸ່ມນີ້ຢ່າງລະອຽດກ່ອນທີ່ຈະດຳເນີນການຕໍ່. ການເຂົ້າຮ່ວມແພລັດຟອມຂອງພວກເຮົາຖືວ່າທ່ານໄດ້ອ່ານ, ເຂົ້າໃຈ ແລະ ຍອມຮັບເງື່ອນໄຂທັງໝົດທີ່ລະບຸໄວ້.",
     ),
     "receipt": MessageLookupByLibrary.simpleMessage("ໃບບິນ"),
+    "receiptNo": m6,
     "receiptSaved": MessageLookupByLibrary.simpleMessage("ບັນທຶກໃບບິນແລ້ວ"),
     "redeemPoints": MessageLookupByLibrary.simpleMessage("ແລກຄະແນນ"),
     "refrigerator": MessageLookupByLibrary.simpleMessage("ຕູ້ເຢັນ"),
@@ -677,7 +682,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "score": MessageLookupByLibrary.simpleMessage("ຄະແນນ"),
     "scoreHistory": MessageLookupByLibrary.simpleMessage("ປະຫວັດຄະແນນ"),
     "searchQuestions": MessageLookupByLibrary.simpleMessage("ຊອກຫາຄຳຖາມ..."),
-    "searchResultsFor": m6,
+    "searchResultsFor": m7,
     "search_name_address": MessageLookupByLibrary.simpleMessage(
       "ຄົ້ນຫາຊື່, ທີ່ຢູ່...",
     ),
@@ -694,6 +699,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "sendEmail": MessageLookupByLibrary.simpleMessage("ສົ່ງອີເມວ"),
     "send_otp_code": MessageLookupByLibrary.simpleMessage("ສົ່ງລະຫັດ OTP"),
     "send_otp_to": MessageLookupByLibrary.simpleMessage("ສົ່ງລະຫັດ OTP ໄປຫາ "),
+    "serviceCharge": MessageLookupByLibrary.simpleMessage("ຄ່າບໍລິການ"),
+    "serviceDetails": MessageLookupByLibrary.simpleMessage(
+      "ລາຍລະອຽດການບໍລິການ",
+    ),
+    "serviceName": MessageLookupByLibrary.simpleMessage("ຊື່ການບໍລິການ"),
     "service_type": MessageLookupByLibrary.simpleMessage("ປະເພດບໍລິການ"),
     "share_receipt": MessageLookupByLibrary.simpleMessage("ແບ່ງປັນບິນ"),
     "share_room": MessageLookupByLibrary.simpleMessage("ແຊຫ້ອງ"),
@@ -780,7 +790,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "\"ຜູ້ໃຊ້\" ໝາຍເຖິງ ບຸກຄົນໃດໆ ທີ່ເຂົ້າເຖິງ ຫຼື ນໍາໃຊ້ແພລັດຟອມຂອງພວກເຮົາ",
     ),
     "verify_otp": MessageLookupByLibrary.simpleMessage("ຢືນຢັນ OTP"),
-    "views": m7,
+    "views": m8,
     "village": MessageLookupByLibrary.simpleMessage("ບ້ານ"),
     "washing_machine": MessageLookupByLibrary.simpleMessage("ເຄື່ອງຊັກຜ້າ"),
     "welcome_home_find": MessageLookupByLibrary.simpleMessage(

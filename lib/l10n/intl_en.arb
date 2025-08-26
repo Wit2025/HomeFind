@@ -237,6 +237,13 @@
   "backHome": "Back to Home",
   "receiptSaved": "Receipt saved",
   "saveReceipt": "Save Receipt",
+  "paymentReceipt": "Payment Receipt",
+  "receiptNo": "Receipt No: #{number}",
+  "serviceDetails": "Service Details",
+  "serviceName": "Service Name",
+  "paymentSummary": "Payment Summary",
+  "serviceCharge": "Service Charge",
+  "backHome": "Back to Home",
 
 
   "booking_receipt": "Booking Receipt",

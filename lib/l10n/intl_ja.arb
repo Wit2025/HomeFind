@@ -220,6 +220,13 @@
   "backHome": "ホームに戻る",
   "receiptSaved": "レシート保存完了",
   "saveReceipt": "レシート保存",
+  "paymentReceipt": "領収書",
+  "receiptNo": "領収書番号: #{number}",
+  "serviceDetails": "サービス詳細",
+  "serviceName": "サービス名",
+  "paymentSummary": "支払い概要",
+  "serviceCharge": "サービス料",
+  "backHome": "ホームに戻る",
 
   "booking_receipt": "予約レシート",
   "share_receipt": "レシート共有",

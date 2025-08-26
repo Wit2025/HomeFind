@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:homefind/generated/l10n.dart';
+import 'package:homefind/widgets/Colors.dart';
 import 'package:intl/intl.dart';
 
 // คลาสตัดรอยเว้าที่แก้ไขแล้ว
@@ -146,7 +148,6 @@ class _BillPageState extends State<BillPage>
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation: 0,
         foregroundColor: Colors.white,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
@@ -160,7 +161,7 @@ class _BillPageState extends State<BillPage>
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.centerRight,
-              colors: [Color(0XFF00B8D1), Color(0XFF005E6B)],
+              colors: [AppColors.color1, AppColors.color2],
             ),
           ),
           child: SafeArea(
@@ -188,7 +189,7 @@ class _BillPageState extends State<BillPage>
                       child: Icon(
                         Icons.check_rounded,
                         size: 48,
-                        color: Colors.teal,
+                        color: AppColors.color1,
                       ),
                     ),
                   ),
@@ -196,7 +197,8 @@ class _BillPageState extends State<BillPage>
 
                 const SizedBox(height: 12),
                 Text(
-                  'Booking Successful!',
+                  // 'Booking Successful!',
+                  S.of(context).bookingSuccess,
                   style: theme.textTheme.headlineSmall?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -204,9 +206,10 @@ class _BillPageState extends State<BillPage>
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Thank you, ${widget.customerName}',
+                  // 'Thank you, ${widget.customerName}',
+                  '${S.of(context).thankYou}, ${widget.customerName}',
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color: Colors.white70,
+                    color: Colors.white,
                   ),
                 ),
 
@@ -233,7 +236,8 @@ class _BillPageState extends State<BillPage>
                             const SizedBox(height: 6),
                             Center(
                               child: Text(
-                                'Payment Receipt',
+                                // 'Payment Receipt',
+                                S.of(context).paymentReceipt,
                                 style: TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold,
@@ -243,7 +247,8 @@ class _BillPageState extends State<BillPage>
                             ),
                             const SizedBox(height: 12),
                             Text(
-                              'Receipt No: #${0001}',
+                              // 'Receipt No: #${0001}',
+                              S.of(context).receiptNo(0001),
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.grey[600],
@@ -261,12 +266,13 @@ class _BillPageState extends State<BillPage>
                               children: [
                                 Icon(
                                   Icons.receipt_long,
-                                  color: Colors.teal,
+                                  color: AppColors.color1,
                                   size: 24,
                                 ),
                                 const SizedBox(width: 12),
                                 Text(
-                                  'Service Details',
+                                  // 'Service Details',
+                                  S.of(context).serviceDetails,
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
@@ -276,11 +282,21 @@ class _BillPageState extends State<BillPage>
                               ],
                             ),
                             const SizedBox(height: 16),
-                            _titleRow('Service Name', widget.title),
-                            _titleRow('Booking ID', widget.bookingId),
-                            _titleRow('Customer', widget.customerName),
+                            // _titleRow('Service Name', widget.title),
+                            _titleRow(S.of(context).serviceName, widget.title),
+                            // _titleRow('Booking ID', widget.bookingId),
                             _titleRow(
-                              'Date',
+                              S.of(context).bookingId,
+                              widget.bookingId,
+                            ),
+                            // _titleRow('Customer', widget.customerName),
+                            _titleRow(
+                              S.of(context).customer,
+                              widget.customerName,
+                            ),
+                            _titleRow(
+                              // 'Date',
+                              S.of(context).date,
                               DateFormat(
                                 'dd/MM/yyyy HH:mm',
                               ).format(widget.createdAt),
@@ -298,12 +314,13 @@ class _BillPageState extends State<BillPage>
                               children: [
                                 Icon(
                                   Icons.credit_card,
-                                  color: Colors.teal,
+                                  color: AppColors.color1,
                                   size: 24,
                                 ),
                                 const SizedBox(width: 12),
                                 Text(
-                                  'Payment Summary',
+                                  // 'Payment Summary',
+                                  S.of(context).paymentSummary,
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
@@ -314,12 +331,14 @@ class _BillPageState extends State<BillPage>
                             ),
                             const SizedBox(height: 12),
                             _amountRow(
-                              'Booking Fee',
+                              // 'Booking Fee',
+                              S.of(context).booking_fee,
                               _money.format(widget.bookingFee),
                               widget.currency,
                             ),
                             _amountRow(
-                              'Service Charge',
+                              // 'Service Charge',
+                              S.of(context).serviceCharge,
                               _money.format(0),
                               widget.currency,
                             ),
@@ -340,7 +359,8 @@ class _BillPageState extends State<BillPage>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Grand Total',
+                                  // 'Grand Total',
+                                  S.of(context).grandTotal,
                                   style: theme.textTheme.titleLarge?.copyWith(
                                     fontWeight: FontWeight.w800,
                                   ),
@@ -352,14 +372,14 @@ class _BillPageState extends State<BillPage>
                                       style: theme.textTheme.titleLarge
                                           ?.copyWith(
                                             fontWeight: FontWeight.w900,
-                                            color: Colors.teal[700],
+                                            color: AppColors.color1,
                                           ),
                                     ),
                                     const SizedBox(width: 6),
                                     Text(
                                       widget.currency,
                                       style: theme.textTheme.titleMedium
-                                          ?.copyWith(color: Colors.teal[700]),
+                                          ?.copyWith(color: AppColors.color1),
                                     ),
                                   ],
                                 ),
@@ -378,8 +398,9 @@ class _BillPageState extends State<BillPage>
                             ),
                             const SizedBox(height: 16),
                             Center(
-                              child: const Text(
-                                'Thank You',
+                              child: Text(
+                                // 'Thank You',
+                                S.of(context).thankYou,
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -403,7 +424,7 @@ class _BillPageState extends State<BillPage>
                         child: OutlinedButton.icon(
                           style: OutlinedButton.styleFrom(
                             foregroundColor: Colors.white,
-                            side: const BorderSide(color: Colors.white70),
+                            side: const BorderSide(color: Colors.white),
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(14),
@@ -413,7 +434,8 @@ class _BillPageState extends State<BillPage>
                             Navigator.pop(context);
                           },
                           icon: const Icon(Icons.home_rounded),
-                          label: const Text('Back Home'),
+                          // label:  Text('Back Home'),
+                          label: Text(S.of(context).backHome),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -421,7 +443,7 @@ class _BillPageState extends State<BillPage>
                         child: ElevatedButton.icon(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
-                            foregroundColor: Colors.teal,
+                            foregroundColor: AppColors.color1,
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(14),
@@ -431,13 +453,16 @@ class _BillPageState extends State<BillPage>
                           onPressed: () {
                             // In a real app, implement share or download receipt here
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Receipt saved (demo).'),
+                              SnackBar(
+                                // content: Text('Receipt saved'),
+                                content: Text(S.of(context).receiptSaved),
+                                backgroundColor: AppColors.color2,
                               ),
                             );
                           },
                           icon: const Icon(Icons.download_rounded),
-                          label: const Text('Save Receipt'),
+                          // label: const Text('Save Receipt'),
+                          label: Text(S.of(context).saveReceipt),
                         ),
                       ),
                     ],
