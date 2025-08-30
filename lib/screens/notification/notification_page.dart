@@ -33,7 +33,7 @@ class _NotificationsBodyState extends State<NotificationsBody> {
   }
 
   void _loadNotifications() {
-    // Mock data - in a real app, this would come from an API
+    // Mock data - ในแอปจริงอาจดึงจาก API
     setState(() {
       _notifications = [
         NotificationItem(
@@ -57,22 +57,13 @@ class _NotificationsBodyState extends State<NotificationsBody> {
           date: DateTime.now().subtract(const Duration(days: 3)),
           isRead: false,
         ),
-        NotificationItem(
-          id: '4',
-          title: 'ບຸນມີ ອຸໄລພອນ',
-          details: 'ສະແດງຄວາມສົນໃຈໃນໂພສຂອງທ່ານ',
-          date: DateTime.now().subtract(const Duration(days: 4)),
-          isRead: true,
-        ),
-        NotificationItem(
-          id: '5',
-          title: 'ແກ້ວມະນີ ສີສຸກ',
-          details: 'ໄດ້ຕິດຕາມທ່ານ',
-          date: DateTime.now().subtract(const Duration(days: 5)),
-          isRead: false,
-        ),
       ];
     });
+  }
+
+  Future<void> _handleRefresh() async {
+    await Future.delayed(const Duration(seconds: 1));
+    _loadNotifications(); // โหลดใหม่ (mock data) หรือดึงจาก API ก็ได้
   }
 
   void _markAsRead(String id) {
@@ -109,7 +100,7 @@ class _NotificationsBodyState extends State<NotificationsBody> {
         automaticallyImplyLeading: false,
         title: Text(
           S.of(context).notifications,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 20,
             color: Colors.white,
@@ -134,7 +125,7 @@ class _NotificationsBodyState extends State<NotificationsBody> {
               onPressed: _markAllAsRead,
               child: Text(
                 S.of(context).markAllAsRead,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
         ],
@@ -175,21 +166,27 @@ class _NotificationsBodyState extends State<NotificationsBody> {
             Expanded(
               child: RefreshIndicator(
                 color: _primaryColor,
-                onRefresh: () async {
-                  await Future.delayed(const Duration(seconds: 1));
-                  _loadNotifications();
-                },
+                onRefresh: _handleRefresh,
                 child: _filteredNotifications.isEmpty
-                    ? Center(
-                        child: Text(
-                          _selectedTab == NotificationTabs.unread
-                              ? S.of(context).noUnreadNotifications
-                              : S.of(context).noReadNotifications,
-                          style: TextStyle(color: Colors.grey[600]),
-                        ),
+                    ? ListView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        children: [
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.5,
+                            child: Center(
+                              child: Text(
+                                _selectedTab == NotificationTabs.unread
+                                    ? S.of(context).noUnreadNotifications
+                                    : S.of(context).noReadNotifications,
+                                style: TextStyle(color: Colors.grey[600]),
+                              ),
+                            ),
+                          ),
+                        ],
                       )
                     : ListView.separated(
                         controller: _scrollController,
+                        physics: const AlwaysScrollableScrollPhysics(),
                         padding: const EdgeInsets.symmetric(
                           horizontal: 20,
                           vertical: 8,

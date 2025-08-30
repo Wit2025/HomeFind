@@ -26,6 +26,14 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
     );
   }
 
+  Future<void> _handleRefresh() async {
+    await Future.delayed(const Duration(seconds: 1));
+    setState(() {
+      // โหลดข้อมูลใหม่ (mock data)
+      // ถ้าในอนาคตเชื่อม API ก็เรียก API ที่นี่แทน
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = S.of(context);
@@ -34,7 +42,52 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
       backgroundColor: Colors.white,
       appBar: _buildAppBar(l10n),
       body: Column(
-        children: [_buildFilterSection(l10n), _buildBookingGrid(l10n)],
+        children: [
+          _buildFilterSection(l10n),
+          Expanded(
+            child: RefreshIndicator(
+              color: AppColors.color1,
+              onRefresh: _handleRefresh,
+              child: _filteredBookings.isEmpty
+                  ? ListView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.5,
+                          child: Center(
+                            child: Text(
+                              l10n.no_data, // ถ้ามี string สำหรับ "ไม่มีข้อมูล"
+                              style: TextStyle(color: Colors.grey[600]),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: GridView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount: _filteredBookings.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 16,
+                              mainAxisSpacing: 16,
+                              childAspectRatio: 0.80,
+                            ),
+                        itemBuilder: (context, index) {
+                          final booking = _filteredBookings[index];
+                          return BookingCardWidget(
+                            booking: booking,
+                            l10n: l10n,
+                            onTap: () => _navigateToBookingDetail(booking),
+                          );
+                        },
+                      ),
+                    ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -84,31 +137,6 @@ class _HistoryBookingPagesState extends State<HistoryBookingPages> {
         });
       },
       l10n: l10n,
-    );
-  }
-
-  Widget _buildBookingGrid(S l10n) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: GridView.builder(
-          itemCount: _filteredBookings.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
-            childAspectRatio: 0.80,
-          ),
-          itemBuilder: (context, index) {
-            final booking = _filteredBookings[index];
-            return BookingCardWidget(
-              booking: booking,
-              l10n: l10n,
-              onTap: () => _navigateToBookingDetail(booking),
-            );
-          },
-        ),
-      ),
     );
   }
 

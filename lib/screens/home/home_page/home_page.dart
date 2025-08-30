@@ -6,7 +6,6 @@ import 'package:homefind/screens/home/home_page/widget/property_data.dart';
 import 'package:homefind/screens/home/home_page/widget/property_listings_section.dart';
 import 'package:homefind/screens/home/home_page/widget/property_model.dart';
 
-
 class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
@@ -131,42 +130,53 @@ class _HomePageState extends State<HomePage> {
   void _onSearchPressed() {
     // Add search logic here if needed
   }
+  Future<void> _handleRefresh() async {
+    await Future.delayed(const Duration(seconds: 1)); // mock delay โหลดข้อมูล
+    setState(() {
+      _initializeProperties(); // โหลด properties ใหม่
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: ValueKey(Localizations.localeOf(context).languageCode),
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            HeaderSection(
-              controller: _controller,
-              focusNode: _focusNode,
-              showHint: _showHint,
-              isFocused: _isFocused,
-              onClearPressed: _onSearchClearPressed,
-              onSearchPressed: _onSearchPressed,
-            ),
-            CategoriesSection(
-              selectedCategoryIndex: _selectedCategoryIndex,
-              onCategorySelected: _onCategorySelected,
-            ),
-            Transform.translate(
-              offset: const Offset(0, -30),
-              child: PropertyListingsSection(
-                selectedCategory: _selectedCategory,
-                selectedStatus: _selectedStatus,
-                selectedPropertyType: _selectedPropertyType,
-                selectedTime: _selectedTime,
-                selectedPrice: _selectedPrice,
-                displayProperties: _displayProperties,
-                onStatusChanged: _onStatusChanged,
-                onRentFiltersChanged: _onRentFiltersChanged,
-                onSaleFiltersChanged: _onSaleFiltersChanged,
+      body: RefreshIndicator(
+        onRefresh: _handleRefresh, // ฟังก์ชันรีเฟรช
+        child: SingleChildScrollView(
+          physics:
+              const AlwaysScrollableScrollPhysics(), // ให้เลื่อนแม้ไม่มีข้อมูล
+          child: Column(
+            children: [
+              HeaderSection(
+                controller: _controller,
+                focusNode: _focusNode,
+                showHint: _showHint,
+                isFocused: _isFocused,
+                onClearPressed: _onSearchClearPressed,
+                onSearchPressed: _onSearchPressed,
               ),
-            ),
-          ],
+              CategoriesSection(
+                selectedCategoryIndex: _selectedCategoryIndex,
+                onCategorySelected: _onCategorySelected,
+              ),
+              Transform.translate(
+                offset: const Offset(0, -30),
+                child: PropertyListingsSection(
+                  selectedCategory: _selectedCategory,
+                  selectedStatus: _selectedStatus,
+                  selectedPropertyType: _selectedPropertyType,
+                  selectedTime: _selectedTime,
+                  selectedPrice: _selectedPrice,
+                  displayProperties: _displayProperties,
+                  onStatusChanged: _onStatusChanged,
+                  onRentFiltersChanged: _onRentFiltersChanged,
+                  onSaleFiltersChanged: _onSaleFiltersChanged,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
