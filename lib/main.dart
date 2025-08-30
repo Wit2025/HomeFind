@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'generated/l10n.dart';
-import 'auth/splashscreen.dart';
+import 'auth/first_start_app/splashscreen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const HomeFind());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class HomeFind extends StatefulWidget {
+  const HomeFind({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<HomeFind> createState() => _HomeFindState();
 
-  static _MyAppState? of(BuildContext context) =>
-      context.findAncestorStateOfType<_MyAppState>();
+  static _HomeFindState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_HomeFindState>();
 }
 
-class _MyAppState extends State<MyApp> {
+class _HomeFindState extends State<HomeFind> {
   Locale _locale = const Locale('lo');
 
   @override

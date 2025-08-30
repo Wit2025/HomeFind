@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:homefind/auth/auth_check.dart';
+import 'package:homefind/auth/login_check/auth_check.dart';
 import 'package:homefind/generated/l10n.dart';
-import 'package:homefind/screens/home/home_page.dart';
+import 'package:homefind/screens/home/home_page/home_page.dart';
 import 'package:homefind/screens/add/add_page.dart';
-import 'package:homefind/screens/join/join_page.dart';
+import 'package:homefind/screens/join/join_page/join_page.dart';
 import 'package:homefind/screens/notification/notification_page.dart';
-import 'package:homefind/screens/profile/profile_page.dart';
+import 'package:homefind/screens/profile/profile_pages/profile_page.dart';
 import 'package:homefind/widgets/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
