@@ -41,6 +41,16 @@ class _PointPagesState extends State<PointPages> {
     },
   ];
 
+  /// ฟังก์ชัน refresh ทั้งหน้า
+  Future<void> _handleRefresh() async {
+    await Future.delayed(const Duration(seconds: 1));
+    setState(() {
+      // ตัวอย่าง: reverse list เพื่อ refresh state
+      pointHistory = List.from(pointHistory.reversed);
+      totalPoints += 50; // เปลี่ยนค่าเพื่อทดสอบ refresh
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,51 +81,60 @@ class _PointPagesState extends State<PointPages> {
         ),
         elevation: 0,
       ),
-      body: Column(
-        children: [
-          // Points Summary Card
-          PointsSummaryCard(
-            totalPoints: totalPoints,
-            onRedeem: () {
-              // TODO: redeem points
-            },
-            onDetails: () {
-              // TODO: show details
-            },
-          ),
-          const SizedBox(height: 16),
+      body: RefreshIndicator(
+        color: AppColors.color1,
+        onRefresh: _handleRefresh,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            children: [
+              const SizedBox(height: 16),
 
-          // History Header
-          HistoryHeader(
-            onShowAll: () {
-              // TODO: show all history
-            },
-          ),
-          const SizedBox(height: 8),
+              // Points Summary Card
+              PointsSummaryCard(
+                totalPoints: totalPoints,
+                onRedeem: () {
+                  // TODO: redeem points
+                },
+                onDetails: () {
+                  // TODO: show details
+                },
+              ),
+              const SizedBox(height: 16),
 
-          // Points History
-          Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              physics: const BouncingScrollPhysics(),
-              itemCount: pointHistory.length,
-              separatorBuilder: (context, index) =>
-                  Divider(height: 1, color: Colors.grey[200], indent: 72),
-              itemBuilder: (context, index) {
-                final item = pointHistory[index];
-                return HistoryItem(
-                  icon: item['icon'],
-                  description: item['description'],
-                  date: item['date'],
-                  points: item['points'],
-                  onTap: () {
-                    // TODO: show transaction details
-                  },
-                );
-              },
-            ),
+              // History Header
+              HistoryHeader(
+                onShowAll: () {
+                  // TODO: show all history
+                },
+              ),
+              const SizedBox(height: 8),
+
+              // Points History
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                itemCount: pointHistory.length,
+                separatorBuilder: (context, index) =>
+                    Divider(height: 1, color: Colors.grey[200], indent: 72),
+                itemBuilder: (context, index) {
+                  final item = pointHistory[index];
+                  return HistoryItem(
+                    icon: item['icon'],
+                    description: item['description'],
+                    date: item['date'],
+                    points: item['points'],
+                    onTap: () {
+                      // TODO: show transaction details
+                    },
+                  );
+                },
+              ),
+              const SizedBox(height: 16),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
