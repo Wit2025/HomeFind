@@ -64,7 +64,7 @@ class PropertyBottomNavigation extends StatelessWidget {
                         Text(
                           S.of(context).submit_data,
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 22,
                             fontWeight: FontWeight.w600,
                             color: Colors.white,
                           ),

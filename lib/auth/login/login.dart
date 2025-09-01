@@ -3,7 +3,7 @@ import 'package:homefind/auth/login/widget/login_form.dart';
 import 'package:homefind/auth/login/widget/login_header.dart';
 import 'package:homefind/service/Auth_Service.dart';
 import 'package:homefind/generated/l10n.dart';
-import 'package:homefind/screens/main_screen.dart';
+import 'package:homefind/screens/main_screen/main_screen.dart';
 import 'package:homefind/auth/forget_password/forget_pass.dart';
 import 'package:homefind/auth/register/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
