@@ -74,17 +74,16 @@ class _BookingPageState extends State<BookingPage> {
       key: ValueKey(Localizations.localeOf(context).languageCode),
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Row(
-          children: [
-            Text(
-              '${format.format(widget.price)} ${widget.currency}',
-              style: TextStyle(color: Colors.white, fontSize: 22),
-            ),
-            Text(
-              _translateRental(widget.rental ?? ''),
-              style: TextStyle(color: Colors.white, fontSize: 22),
-            ),
-          ],
+        title: Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: '${format.format(widget.price)} ${widget.currency}',
+              ),
+              TextSpan(text: _translateRental(widget.rental ?? '')),
+            ],
+          ),
+          style: TextStyle(color: Colors.white, fontSize: 22),
         ),
         flexibleSpace: Container(
           decoration: BoxDecoration(
