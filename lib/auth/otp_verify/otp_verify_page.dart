@@ -7,7 +7,7 @@ import 'package:homefind/auth/otp_verify/widget/otp_header.dart';
 import 'package:homefind/auth/otp_verify/widget/otp_notification.dart';
 import 'package:homefind/auth/otp_verify/widget/otp_success_dialog.dart';
 import 'package:homefind/generated/l10n.dart';
-import 'package:homefind/screens/main_screen.dart';
+import 'package:homefind/screens/main_screen/main_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OTPVerifyPage extends StatefulWidget {
