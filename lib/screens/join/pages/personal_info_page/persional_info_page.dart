@@ -29,7 +29,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   final TextEditingController _villageController = TextEditingController();
   final TextEditingController _districtController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
-  final TextEditingController _documentNumberController = TextEditingController();
+  final TextEditingController _documentNumberController =
+      TextEditingController();
 
   // State variables for images and document type
   String? _selectedDocumentType = "ບັດປະຈຳຕົວ";
@@ -74,10 +75,14 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
           _documentNumberController.text = data['documentNumber']!;
 
           // Load images from base64 strings
-          _selectedDocumentImage =
-              base64ToFile(data['documentImage'], 'document.jpg');
-          _selectedPersonalImage =
-              base64ToFile(data['personalImage'], 'personal.jpg');
+          _selectedDocumentImage = base64ToFile(
+            data['documentImage'],
+            'document.jpg',
+          );
+          _selectedPersonalImage = base64ToFile(
+            data['personalImage'],
+            'personal.jpg',
+          );
         });
       }
     } catch (e) {
@@ -142,18 +147,11 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                     // Use the ImageUploadSection widget
                     ImageUploadSection(
                       personalImage: _selectedPersonalImage,
-                      documentImage: _selectedDocumentImage,
                       onPersonalImageChanged: (file) {
-                        setState(() {
-                          _selectedPersonalImage = file;
-                        });
-                      },
-                      onDocumentImageChanged: (file) {
-                        setState(() {
-                          _selectedDocumentImage = file;
-                        });
+                        setState(() => _selectedPersonalImage = file);
                       },
                     ),
+
                     const SizedBox(height: 14),
                     // Use the PersonalInfoFormFields widget
                     PersonalInfoFormFields(
@@ -169,6 +167,13 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                         setState(() {
                           _selectedDocumentType = value;
                         });
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    ImageUploadSection(
+                      documentImage: _selectedDocumentImage,
+                      onDocumentImageChanged: (file) {
+                        setState(() => _selectedDocumentImage = file);
                       },
                     ),
                     const SizedBox(height: 40),

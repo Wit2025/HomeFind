@@ -102,8 +102,8 @@ class PropertyMainImageSection extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: 5,
-          right: 5,
+          top: 0,
+          right: 0,
           child: GestureDetector(
             onTap: onRemoveImage,
             child: Container(
