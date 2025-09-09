@@ -4,26 +4,33 @@ import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/widgets/Colors.dart';
 import 'package:image_picker/image_picker.dart';
 
-// This widget handles the UI and logic for uploading personal and document images.
+// Handles UI & logic for uploading personal and/or document images.
+// You can pass only one of the callbacks to show just that section.
 class ImageUploadSection extends StatelessWidget {
   final File? personalImage;
   final File? documentImage;
-  final Function(File?) onPersonalImageChanged;
-  final Function(File?) onDocumentImageChanged;
+
+  // Make callbacks optional; show a section only if its callback is provided.
+  final ValueChanged<File?>? onPersonalImageChanged;
+  final ValueChanged<File?>? onDocumentImageChanged;
 
   const ImageUploadSection({
     super.key,
-    required this.personalImage,
-    required this.documentImage,
-    required this.onPersonalImageChanged,
-    required this.onDocumentImageChanged,
-  });
+    this.personalImage,
+    this.documentImage,
+    this.onPersonalImageChanged,
+    this.onDocumentImageChanged,
+  }) : assert(
+         onPersonalImageChanged != null || onDocumentImageChanged != null,
+         'Provide at least one of the callbacks',
+       );
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+    final List<Widget> children = [];
+
+    if (onPersonalImageChanged != null) {
+      children.addAll([
         _buildSectionTitle(S.of(context).upload_photo),
         const SizedBox(height: 12),
         Center(
@@ -31,7 +38,7 @@ class ImageUploadSection extends StatelessWidget {
             context,
             imageFile: personalImage,
             onTap: () => _pickImage(context, ImageType.personal),
-            onRemove: () => onPersonalImageChanged(null),
+            onRemove: () => onPersonalImageChanged!(null),
             icon: Icons.image,
             title: S.of(context).tap_to_upload,
             subtitle: S.of(context).upload_current_photo,
@@ -39,6 +46,11 @@ class ImageUploadSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 14),
+      ]);
+    }
+
+    if (onDocumentImageChanged != null) {
+      children.addAll([
         _buildSectionTitle(S.of(context).document_photo),
         const SizedBox(height: 12),
         Center(
@@ -46,21 +58,30 @@ class ImageUploadSection extends StatelessWidget {
             context,
             imageFile: documentImage,
             onTap: () => _pickImage(context, ImageType.document),
-            onRemove: () => onDocumentImageChanged(null),
+            onRemove: () => onDocumentImageChanged!(null),
             icon: Icons.credit_card_outlined,
             title: S.of(context).upload_document,
             subtitle: S.of(context).tap_to_upload_document,
             isDocument: true,
           ),
         ),
-      ],
+      ]);
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: children,
     );
   }
 
-  // Helper method to pick an image from the gallery
+  // Helper: pick an image from the gallery
   Future<void> _pickImage(BuildContext context, ImageType type) async {
     try {
-      final ImagePicker picker = ImagePicker();
+      // If the relevant callback is missing, do nothing (defensive)
+      if (type == ImageType.personal && onPersonalImageChanged == null) return;
+      if (type == ImageType.document && onDocumentImageChanged == null) return;
+
+      final picker = ImagePicker();
       final XFile? pickedFile = await picker.pickImage(
         source: ImageSource.gallery,
         maxWidth: type == ImageType.personal ? 800 : 1200,
@@ -71,9 +92,9 @@ class ImageUploadSection extends StatelessWidget {
       if (pickedFile != null) {
         final newFile = File(pickedFile.path);
         if (type == ImageType.personal) {
-          onPersonalImageChanged(newFile);
+          onPersonalImageChanged?.call(newFile);
         } else {
-          onDocumentImageChanged(newFile);
+          onDocumentImageChanged?.call(newFile);
         }
       }
     } catch (e) {
@@ -107,7 +128,7 @@ class ImageUploadSection extends StatelessWidget {
     required String subtitle,
     required bool isDocument,
   }) {
-    final _primaryColor = AppColors.color1;
+    final primary = AppColors.color1;
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -117,7 +138,7 @@ class ImageUploadSection extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: imageFile != null ? _primaryColor : Colors.grey[300]!,
+            color: imageFile != null ? primary : Colors.grey[300]!,
             width: isDocument ? 2 : 3,
             style: BorderStyle.solid,
           ),
@@ -175,9 +196,17 @@ class ImageUploadSection extends StatelessWidget {
         Positioned(
           top: 0,
           right: 0,
-          child: IconButton(
-            onPressed: onRemove,
-            icon: const Icon(Icons.close, color: Colors.red),
+          child: Container(
+            height: 35,
+            width: 35,
+            decoration: BoxDecoration(
+              color: Colors.red,
+              shape: BoxShape.circle,
+            ),
+            child: IconButton(
+              onPressed: onRemove,
+              icon: const Icon(Icons.close, color: Colors.white, size: 18),
+            ),
           ),
         ),
       ],
