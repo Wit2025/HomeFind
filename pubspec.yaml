@@ -53,6 +53,7 @@ dependencies:
   location: ^8.0.1
   flutter_map: ^8.2.2
   latlong2: ^0.9.1
+  font_awesome_flutter: ^10.9.1
   
 
 dev_dependencies:

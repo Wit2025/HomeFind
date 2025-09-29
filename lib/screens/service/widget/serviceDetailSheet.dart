@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:homefind/screens/service/chat/chatService.dart';
 import 'package:homefind/screens/service/widget/serviceModel.dart';
 import 'package:homefind/widgets/Colors.dart';
@@ -233,7 +234,7 @@ class ServiceDetailsSheet {
                 ),
               );
             },
-            icon: const Icon(Icons.message_outlined),
+            icon: Icon(FontAwesomeIcons.comments),
             label: const Text('ສົ່ງຂໍ້ຄວາມ'),
             style: OutlinedButton.styleFrom(
               foregroundColor: Colors.white,
@@ -254,9 +255,6 @@ class ServiceDetailsSheet {
           child: OutlinedButton.icon(
             onPressed: () {
               Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('ກຳລັງໂທຫາ ${marker.phoneNumber}')),
-              );
             },
             icon: const Icon(Icons.call),
             label: const Text('ໂທ'),
