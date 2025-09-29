@@ -100,7 +100,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                       padding: EdgeInsets.all(4),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(30),
                         border: Border.all(color: AppColors.color1, width: 1),
                       ),
                       child: TabBar(
