@@ -20,17 +20,6 @@ class ServiceList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 100,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: [
-            Colors.transparent,
-            Colors.white.withOpacity(0.3),
-            Colors.white,
-          ],
-        ),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
