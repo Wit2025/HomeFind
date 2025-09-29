@@ -35,10 +35,7 @@ class PropertyListingsSection extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: Column(
-        children: [
-          _buildListingsHeader(context),
-          _buildPropertyGrid(context),
-        ],
+        children: [_buildListingsHeader(context), _buildPropertyGrid(context)],
       ),
     );
   }

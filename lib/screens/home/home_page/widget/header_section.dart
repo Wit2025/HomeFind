@@ -30,7 +30,7 @@ class _HeaderSectionState extends State<HeaderSection> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 340,
+      height: 250,
       width: double.infinity,
       decoration: BoxDecoration(
         gradient: LinearGradient(

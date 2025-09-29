@@ -143,8 +143,8 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(Icons.home_rounded, size: 20),
-                                SizedBox(width: 8),
+                                // Icon(Icons.home_rounded, size: 20),
+                                // SizedBox(width: 8),
                                 Text('ທີ່ພັກ'),
                               ],
                             ),
@@ -154,8 +154,8 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(Icons.build_rounded, size: 20),
-                                SizedBox(width: 8),
+                                // Icon(Icons.build_rounded, size: 20),
+                                // SizedBox(width: 8),
                                 Text('ບໍລິການ'),
                               ],
                             ),

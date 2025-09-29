@@ -93,7 +93,8 @@ class CategoriesSection extends StatelessWidget {
       child: Semantics(
         button: true,
         selected: isSelected,
-        label: '${S.of(context).category} ${TranslationUtils.translateCategory(category.title, context)}',
+        label:
+            '${S.of(context).category} ${TranslationUtils.translateCategory(category.title, context)}',
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
