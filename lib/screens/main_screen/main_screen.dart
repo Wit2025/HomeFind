@@ -106,7 +106,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                       child: TabBar(
                         controller: _tabController,
                         indicator: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(25),
                           gradient: LinearGradient(
                             colors: [AppColors.color1, AppColors.color2],
                             begin: Alignment.centerLeft,
