@@ -19,7 +19,7 @@ class _ServicesPageState extends State<ServicesPage> {
   final TextEditingController _searchController = TextEditingController();
 
   // ตำแหน่งเริ่มต้น (เวียงจันทน์, ลาว)
-  final LatLng _kVientiane = LatLng(17.9757, 102.6331);
+  final LatLng _kVientiane = LatLng(17.981442, 102.618952);
 
   String? _selectedServiceType;
 
