@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/main.dart';
-import 'package:homefind/screens/main_screen.dart';
+import 'package:homefind/screens/main_screen/main_screen.dart';
 import 'package:homefind/widgets/Colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
