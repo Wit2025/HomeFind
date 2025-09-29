@@ -49,6 +49,10 @@ dependencies:
     sdk: flutter
   intl: ^0.20.2
   intl_utils: ^2.8.11
+  google_maps_flutter: ^2.13.1
+  location: ^8.0.1
+  flutter_map: ^8.2.2
+  latlong2: ^0.9.1
   
 
 dev_dependencies:

@@ -43,7 +43,6 @@ class _HeaderSectionState extends State<HeaderSection> {
         padding: EdgeInsets.all(26),
         child: Column(
           children: [
-            SizedBox(height: 65),
             _buildHeaderTitle(),
             SizedBox(height: 25),
             _buildSearchBar(),
@@ -106,7 +105,9 @@ class _HeaderSectionState extends State<HeaderSection> {
                     hintText: '',
                     contentPadding: EdgeInsets.only(
                       left: 12,
-                      right: (widget.isFocused || widget.controller.text.isNotEmpty)
+                      right:
+                          (widget.isFocused ||
+                              widget.controller.text.isNotEmpty)
                           ? 40
                           : 12,
                       top: 12,

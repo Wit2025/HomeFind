@@ -7,6 +7,10 @@ import 'package:homefind/screens/home/home_page/widget/property_listings_section
 import 'package:homefind/screens/home/home_page/widget/property_model.dart';
 
 class HomePage extends StatefulWidget {
+  final ScrollController? scrollController; // เพิ่ม parameter สำหรับ ScrollController
+  
+  const HomePage({Key? key, this.scrollController}) : super(key: key);
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -130,6 +134,7 @@ class _HomePageState extends State<HomePage> {
   void _onSearchPressed() {
     // Add search logic here if needed
   }
+  
   Future<void> _handleRefresh() async {
     await Future.delayed(const Duration(seconds: 1)); // mock delay โหลดข้อมูล
     setState(() {
@@ -143,10 +148,10 @@ class _HomePageState extends State<HomePage> {
       key: ValueKey(Localizations.localeOf(context).languageCode),
       backgroundColor: Colors.white,
       body: RefreshIndicator(
-        onRefresh: _handleRefresh, // ฟังก์ชันรีเฟรช
+        onRefresh: _handleRefresh,
         child: SingleChildScrollView(
-          physics:
-              const AlwaysScrollableScrollPhysics(), // ให้เลื่อนแม้ไม่มีข้อมูล
+          controller: widget.scrollController,
+          physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
             children: [
               HeaderSection(
