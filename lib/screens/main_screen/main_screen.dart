@@ -174,7 +174,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
               controller: _tabController,
               children: [
                 HomePage(scrollController: _homeScrollController),
-                ServicesPage(),
+                ServiceRequestPage(),
               ],
             ),
           ),
@@ -237,21 +237,17 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    // เงื่อนไขการซ่อน BottomNavigationBar:
-    // ซ่อนเมื่ออยู่ที่หน้าแรก (index 0) และอยู่ในแท็บบริการ (index 1)
     bool shouldHideBottomNav = _currentIndex == 0 && _tabController.index == 1;
 
     return Scaffold(
       key: ValueKey(Localizations.localeOf(context).languageCode),
       body: _pages[_currentIndex],
-      // แสดงหรือซ่อน BottomNavigationBar ตามเงื่อนไข
       bottomNavigationBar: shouldHideBottomNav
           ? null
           : _buildBottomNavigationBar(),
     );
   }
 
-  // แยกการสร้าง BottomNavigationBar ออกมาเป็นเมธอด
   Widget _buildBottomNavigationBar() {
     return Container(
       decoration: BoxDecoration(

@@ -1,0 +1,106 @@
+import 'package:flutter/material.dart';
+import 'package:homefind/screens/service/techView/techRequestCard/widget/techCardDescription.dart';
+import 'package:homefind/screens/service/techView/techRequestCard/widget/techCardHeader.dart';
+import 'package:homefind/screens/service/techView/techRequestCard/widget/techCardImage.dart';
+import 'package:homefind/screens/service/techView/techRequestCard/widget/techCardLocation.dart';
+import 'package:homefind/screens/service/techView/techRequestCard/widget/techCardPrice.dart';
+import 'package:homefind/screens/service/techView/technician_view.dart';
+import 'package:homefind/screens/service/techView/widget/service_request_model.dart';
+import 'package:homefind/screens/service/techView/widget/techActionButton.dart';
+import 'package:homefind/widgets/Colors.dart';
+
+class TechRequestCard extends StatelessWidget {
+  final ServiceRequestModel request;
+  final String? requestState;
+  final OnTechDecision? onDecision;
+  final Function(String) onStateChange;
+
+  const TechRequestCard({
+    Key? key,
+    required this.request,
+    required this.requestState,
+    required this.onDecision,
+    required this.onStateChange,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.color1.withOpacity(0.08),
+            blurRadius: 16,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Card(
+        elevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Colors.white, Colors.white],
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TechRequestCardHeader(
+                  request: request,
+                  requestState: requestState,
+                ),
+                const SizedBox(height: 16),
+                if (request.imagePaths.isNotEmpty) ...[
+                  TechRequestCardImage(request: request),
+                  const SizedBox(height: 16),
+                ],
+                if (request.location != null) ...[
+                  TechRequestCardLocation(request: request),
+                  const SizedBox(height: 12),
+                ],
+                TechRequestCardDescription(request: request),
+                const SizedBox(height: 16),
+                _buildDivider(),
+                const SizedBox(height: 16),
+                TechRequestCardPrice(
+                  request: request,
+                  requestState: requestState,
+                ),
+                const SizedBox(height: 16),
+                TechActionButtons(
+                  request: request,
+                  requestState: requestState,
+                  onDecision: onDecision,
+                  onStateChange: onStateChange,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDivider() {
+    return Container(
+      height: 1,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Colors.transparent,
+            AppColors.color1.withOpacity(0.2),
+            Colors.transparent,
+          ],
+        ),
+      ),
+    );
+  }
+}
