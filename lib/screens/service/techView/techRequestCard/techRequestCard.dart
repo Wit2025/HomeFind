@@ -25,6 +25,9 @@ class TechRequestCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hasImages = request.attachments
+        .where((a) => a.type == MediaType.image)
+        .isNotEmpty;
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -58,7 +61,7 @@ class TechRequestCard extends StatelessWidget {
                   requestState: requestState,
                 ),
                 const SizedBox(height: 16),
-                if (request.imagePaths.isNotEmpty) ...[
+                if (hasImages) ...[
                   TechRequestCardImage(request: request),
                   const SizedBox(height: 16),
                 ],

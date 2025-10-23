@@ -141,7 +141,11 @@ class _HeaderSectionState extends State<HeaderSection> {
             child: Container(
               padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppColors.color1,
+                gradient: LinearGradient(
+                  colors: [AppColors.color1, AppColors.color2],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Icon(Icons.search, color: Colors.white),

@@ -1,5 +1,16 @@
 import 'package:homefind/screens/service/widget/service_location.dart';
 
+enum MediaType { image, video }
+
+class MediaAttachment {
+  final String path;
+  final MediaType type;
+
+  MediaAttachment({required this.path, required this.type});
+}
+
+enum PaymentMethod { cash, bankTransfer, online }
+
 class ServiceRequestModel {
   final String id;
   final String serviceType;
@@ -9,7 +20,7 @@ class ServiceRequestModel {
   final String requesterName;
   final String status;
   final DateTime timestamp;
-  final List<String> imagePaths;
+  final List<MediaAttachment> attachments;
 
   ServiceRequestModel({
     String? id,
@@ -20,7 +31,7 @@ class ServiceRequestModel {
     required this.requesterName,
     required this.status,
     DateTime? timestamp,
-    this.imagePaths = const [],
+    this.attachments = const [],
   }) : id = id ?? DateTime.now().millisecondsSinceEpoch.toString(),
        timestamp = timestamp ?? DateTime.now();
 }

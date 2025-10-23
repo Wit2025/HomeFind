@@ -8,8 +8,10 @@ class Step1LocationService extends StatefulWidget {
   final List<ServiceType> services;
   final ServiceLocation? selectedLocation;
   final List<ServiceLocation> locations;
+  final double? initialPrice;
   final Function(String?) onServiceChanged;
   final Function(ServiceLocation?) onLocationChanged;
+  final Function(double?) onPriceChanged;
   final Function() onNextStep;
 
   const Step1LocationService({
@@ -18,8 +20,10 @@ class Step1LocationService extends StatefulWidget {
     required this.services,
     required this.selectedLocation,
     required this.locations,
+    this.initialPrice,
     required this.onServiceChanged,
     required this.onLocationChanged,
+    required this.onPriceChanged,
     required this.onNextStep,
   }) : super(key: key);
 
@@ -31,13 +35,30 @@ class _Step1LocationServiceState extends State<Step1LocationService> {
   late TextEditingController _searchController;
   late List<ServiceLocation> _filteredLocations;
   String? _localSelectedLocationId;
+  late TextEditingController _priceController;
+  double? _editingPrice;
 
   @override
   void initState() {
     super.initState();
     _searchController = TextEditingController();
+    _priceController = TextEditingController();
     _filteredLocations = List.from(widget.locations);
     _searchController.addListener(_onSearchChanged);
+  }
+
+  @override
+  void didUpdateWidget(covariant Step1LocationService oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // sync local selection and editing price if parent changed the selectedLocation
+    if (widget.selectedLocation?.id != oldWidget.selectedLocation?.id) {
+      _localSelectedLocationId = widget.selectedLocation?.id;
+      _editingPrice =
+          widget.initialPrice ?? widget.selectedLocation?.suggestedPrice ?? 0.0;
+      _priceController.text = _editingPrice != null
+          ? _editingPrice!.toStringAsFixed(0)
+          : '';
+    }
   }
 
   void _onSearchChanged() {
@@ -57,6 +78,7 @@ class _Step1LocationServiceState extends State<Step1LocationService> {
   void dispose() {
     _searchController.removeListener(_onSearchChanged);
     _searchController.dispose();
+    _priceController.dispose();
     super.dispose();
   }
 
@@ -75,23 +97,23 @@ class _Step1LocationServiceState extends State<Step1LocationService> {
           children: [
             const Text(
               'ເລືອກປະເພດບໍລິການ ແລະ ຈຸດທີ່ຢູ່ຂອງທີ່ໃຫ້ສ້ອມແປງ',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 3),
             const Text(
               'ຕຳແໜ່ງທີ່ຕ້ອງການໃຫ້ຊ່າງມາສ້ອມ',
-              style: TextStyle(fontSize: 14, color: Colors.grey),
+              style: TextStyle(fontSize: 12, color: Colors.grey),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 5),
 
             const Text(
               'ປະເພດບໍລິການ',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 12),
 
             SizedBox(
-              height: 100,
+              height: 50,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: widget.services.length,
@@ -119,10 +141,10 @@ class _Step1LocationServiceState extends State<Step1LocationService> {
                         children: [
                           Icon(
                             service.icon,
-                            size: 32,
+                            size: 20,
                             color: isSelected ? Colors.white : Colors.grey[700],
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: 2),
                           Text(
                             service.label,
                             style: TextStyle(
@@ -230,8 +252,15 @@ class _Step1LocationServiceState extends State<Step1LocationService> {
                       onTap: () {
                         setState(() {
                           _localSelectedLocationId = loc.id;
+                          // initialize editable price with suggested or 0
+                          _editingPrice = loc.suggestedPrice ?? 0.0;
+                          _priceController.text = _editingPrice != null
+                              ? _editingPrice!.toStringAsFixed(0)
+                              : '';
                         });
                         widget.onLocationChanged(loc);
+                        // notify parent of initial selected price
+                        widget.onPriceChanged(_editingPrice);
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -281,6 +310,91 @@ class _Step1LocationServiceState extends State<Step1LocationService> {
                                       fontSize: 12,
                                     ),
                                   ),
+                                  // show editable price when this tile is selected
+                                  if (isSelected)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 6),
+                                      child: Row(
+                                        children: [
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.remove_circle_outline,
+                                              size: 20,
+                                              color: Colors.white,
+                                            ),
+                                            onPressed: () {
+                                              setState(() {
+                                                _editingPrice =
+                                                    (_editingPrice ?? 0) - 1000;
+                                                if (_editingPrice! < 0)
+                                                  _editingPrice = 0;
+                                                _priceController.text =
+                                                    _editingPrice!
+                                                        .toStringAsFixed(0);
+                                              });
+                                              widget.onPriceChanged(
+                                                _editingPrice,
+                                              );
+                                            },
+                                          ),
+                                          SizedBox(
+                                            width: 90,
+                                            child: TextField(
+                                              controller: _priceController,
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              textAlign: TextAlign.center,
+                                              decoration: const InputDecoration(
+                                                isDense: true,
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                      vertical: 6,
+                                                      horizontal: 6,
+                                                    ),
+                                                border: OutlineInputBorder(),
+                                              ),
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              onSubmitted: (v) {
+                                                final parsed = double.tryParse(
+                                                  v.replaceAll(',', ''),
+                                                );
+                                                setState(() {
+                                                  _editingPrice = parsed ?? 0.0;
+                                                  _priceController.text =
+                                                      _editingPrice!
+                                                          .toStringAsFixed(0);
+                                                });
+                                                widget.onPriceChanged(
+                                                  _editingPrice,
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                          IconButton(
+                                            icon: const Icon(
+                                              Icons.add_circle_outline,
+                                              size: 20,
+                                              color: Colors.white,
+                                            ),
+                                            onPressed: () {
+                                              setState(() {
+                                                _editingPrice =
+                                                    (_editingPrice ?? 0) + 1000;
+                                                _priceController.text =
+                                                    _editingPrice!
+                                                        .toStringAsFixed(0);
+                                              });
+                                              widget.onPriceChanged(
+                                                _editingPrice,
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                 ],
                               ),
                             ),
@@ -294,6 +408,17 @@ class _Step1LocationServiceState extends State<Step1LocationService> {
             ),
 
             const SizedBox(height: 12),
+
+            // Suggested price bar (appears when service + location selected)
+            if (widget.selectedService != null &&
+                widget.selectedLocation != null) ...[
+              _SuggestedPriceBar(
+                serviceType: widget.selectedService!,
+                locationId: widget.selectedLocation!.id,
+                onPriceChanged: widget.onPriceChanged,
+              ),
+              const SizedBox(height: 12),
+            ],
 
             SizedBox(
               width: double.infinity,
@@ -334,6 +459,61 @@ class _Step1LocationServiceState extends State<Step1LocationService> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _SuggestedPriceBar extends StatefulWidget {
+  final String serviceType;
+  final String locationId;
+  final ValueChanged<double?> onPriceChanged;
+
+  const _SuggestedPriceBar({
+    Key? key,
+    required this.serviceType,
+    required this.locationId,
+    required this.onPriceChanged,
+  }) : super(key: key);
+
+  @override
+  State<_SuggestedPriceBar> createState() => _SuggestedPriceBarState();
+}
+
+class _SuggestedPriceBarState extends State<_SuggestedPriceBar> {
+  double? _price;
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(
+      text: _price != null ? _price!.toStringAsFixed(0) : '',
+    );
+    // Do not auto-invoke onPriceChanged with a null/empty value here; the
+    // parent will be notified when the user selects a location or edits the price.
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
     );
   }

@@ -20,7 +20,10 @@ class _ServiceRequestPageState extends State<ServiceRequestPage> {
   bool _isTechnicianMode = false;
   String? _selectedService;
   double? _offerPrice;
+  double? _selectedPrice;
   File? _selectedImage;
+  List<MediaAttachment> _attachments = [];
+  PaymentMethod? _paymentMethod;
   String _description = '';
 
   final List<ServiceType> _services = ServiceType.defaultServices;
@@ -55,15 +58,33 @@ class _ServiceRequestPageState extends State<ServiceRequestPage> {
     });
   }
 
-  void _updateOfferPrice(double? price) {
+  // void _updateOfferPrice(double? price) {
+  //   // kept for historical compatibility but not currently used
+  //   setState(() {
+  //     _offerPrice = price;
+  //   });
+  // }
+
+  void _updateSelectedPrice(double? price) {
     setState(() {
+      _selectedPrice = price;
+      // keep legacy offerPrice in sync as needed
       _offerPrice = price;
+      _priceController.text = price != null ? price.toInt().toString() : '';
     });
   }
 
-  void _updateSelectedImage(File? image) {
+  // legacy single-image setter removed; use attachments instead
+
+  void _updateAttachments(List<MediaAttachment> attachments) {
     setState(() {
-      _selectedImage = image;
+      _attachments = attachments;
+    });
+  }
+
+  void _updatePaymentMethod(PaymentMethod? method) {
+    setState(() {
+      _paymentMethod = method;
     });
   }
 
@@ -120,15 +141,22 @@ class _ServiceRequestPageState extends State<ServiceRequestPage> {
                         // Use a stable preview id (stored in state) so we can track tech actions
                         id: _previewId,
                         serviceType: _selectedService ?? 'other',
-                        offeredPrice: _offerPrice,
+                        offeredPrice: _selectedPrice ?? _offerPrice,
                         description: _description,
                         // new submissions should start in pending/waiting state
                         status: 'pending',
                         location: _selectedLocation,
                         requesterName: 'Somesack',
-                        imagePaths: _selectedImage != null
-                            ? [_selectedImage!.path]
-                            : const [],
+                        attachments: _attachments.isNotEmpty
+                            ? _attachments
+                            : (_selectedImage != null
+                                  ? [
+                                      MediaAttachment(
+                                        path: _selectedImage!.path,
+                                        type: MediaType.image,
+                                      ),
+                                    ]
+                                  : const []),
                       ),
                   ],
                   onDecision: (requestId, decision, {counterPrice, description}) {
@@ -166,11 +194,10 @@ class _ServiceRequestPageState extends State<ServiceRequestPage> {
               : ServiceRequestContent(
                   currentStep: _currentStep,
                   selectedService: _selectedService,
-                  offerPrice: _offerPrice,
-                  selectedImage: _selectedImage,
+                  offerPrice: _selectedPrice ?? _offerPrice,
+                  attachments: _attachments.isNotEmpty ? _attachments : null,
                   description: _description,
                   services: _services,
-                  priceController: _priceController,
                   descriptionController: _descriptionController,
                   technicianResponses: _technicianResponses,
                   hasNewResponses: _hasNewResponses,
@@ -179,8 +206,10 @@ class _ServiceRequestPageState extends State<ServiceRequestPage> {
                   onLocationChanged: _updateSelectedLocation,
                   onStepChanged: _updateStep,
                   onServiceChanged: _updateSelectedService,
-                  onPriceChanged: _updateOfferPrice,
-                  onImageChanged: _updateSelectedImage,
+                  onPriceChanged: _updateSelectedPrice,
+                  onAttachmentsChanged: _updateAttachments,
+                  paymentMethod: _paymentMethod,
+                  onPaymentMethodChanged: _updatePaymentMethod,
                   onDescriptionChanged: _updateDescription,
                   onTechnicianResponsesChanged: _updateTechnicianResponses,
                   onResetForm: _resetForm,

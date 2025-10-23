@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:homefind/screens/service/techView/widget/service_request_model.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -15,10 +15,9 @@ class ServiceRequestContent extends StatefulWidget {
   final int currentStep;
   final String? selectedService;
   final double? offerPrice;
-  final File? selectedImage;
+  final List<MediaAttachment>? attachments;
   final String description;
   final List<ServiceType> services;
-  final TextEditingController priceController;
   final TextEditingController descriptionController;
   final List<TechnicianResponse> technicianResponses;
   final bool hasNewResponses;
@@ -28,7 +27,9 @@ class ServiceRequestContent extends StatefulWidget {
   final Function(String?) onServiceChanged;
   final Function(ServiceLocation?) onLocationChanged;
   final Function(double?) onPriceChanged;
-  final Function(File?) onImageChanged;
+  final Function(List<MediaAttachment>) onAttachmentsChanged;
+  final PaymentMethod? paymentMethod;
+  final Function(PaymentMethod?) onPaymentMethodChanged;
   final Function(String) onDescriptionChanged;
   final Function(List<TechnicianResponse>, {bool hasNew})
   onTechnicianResponsesChanged;
@@ -39,10 +40,9 @@ class ServiceRequestContent extends StatefulWidget {
     required this.currentStep,
     required this.selectedService,
     required this.offerPrice,
-    required this.selectedImage,
+    this.attachments,
     required this.description,
     required this.services,
-    required this.priceController,
     required this.descriptionController,
     required this.technicianResponses,
     required this.hasNewResponses,
@@ -52,7 +52,9 @@ class ServiceRequestContent extends StatefulWidget {
     required this.onServiceChanged,
     required this.onLocationChanged,
     required this.onPriceChanged,
-    required this.onImageChanged,
+    required this.onAttachmentsChanged,
+    required this.paymentMethod,
+    required this.onPaymentMethodChanged,
     required this.onDescriptionChanged,
     required this.onTechnicianResponsesChanged,
     required this.onResetForm,
@@ -170,18 +172,20 @@ class _ServiceRequestContentState extends State<ServiceRequestContent> {
           locations: widget.locations,
           onServiceChanged: widget.onServiceChanged,
           onLocationChanged: widget.onLocationChanged,
+          onPriceChanged: widget.onPriceChanged,
+          initialPrice: widget.offerPrice,
           onNextStep: () => widget.onStepChanged(2),
         );
       case 2:
         return Step2DetailsPrice(
-          offerPrice: widget.offerPrice,
-          selectedImage: widget.selectedImage,
+          attachments: widget.attachments,
           selectedLocation: widget.selectedLocation,
           description: widget.description,
-          priceController: widget.priceController,
           descriptionController: widget.descriptionController,
           onPriceChanged: widget.onPriceChanged,
-          onImageChanged: widget.onImageChanged,
+          onAttachmentsChanged: widget.onAttachmentsChanged,
+          paymentMethod: widget.paymentMethod,
+          onPaymentMethodChanged: widget.onPaymentMethodChanged,
           onDescriptionChanged: widget.onDescriptionChanged,
           onPreviousStep: () => widget.onStepChanged(1),
           onSubmit: _submitRequest,
@@ -207,6 +211,7 @@ class _ServiceRequestContentState extends State<ServiceRequestContent> {
           locations: widget.locations,
           onServiceChanged: widget.onServiceChanged,
           onLocationChanged: widget.onLocationChanged,
+          onPriceChanged: widget.onPriceChanged,
           onNextStep: () => widget.onStepChanged(2),
         );
     }
@@ -215,7 +220,8 @@ class _ServiceRequestContentState extends State<ServiceRequestContent> {
   void _submitRequest() {
     if (widget.selectedService == null ||
         widget.offerPrice == null ||
-        widget.selectedImage == null) {
+        widget.attachments == null ||
+        widget.attachments!.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('ກາລຸນາປ້ອນຂໍ້ມູນໃຫ້ຕົບຖ້ວນ')),
       );
@@ -230,7 +236,18 @@ class _ServiceRequestContentState extends State<ServiceRequestContent> {
         'service': widget.selectedService,
         'price': widget.offerPrice,
         'description': widget.description,
-        'hasImage': widget.selectedImage != null,
+        'hasImage':
+            widget.attachments != null && widget.attachments!.isNotEmpty,
+        'attachments': widget.attachments != null
+            ? widget.attachments!
+                  .map(
+                    (a) => {
+                      'path': a.path,
+                      'type': a.type.toString().split('.').last,
+                    },
+                  )
+                  .toList()
+            : [],
         'location': widget.selectedLocation != null
             ? {
                 'id': widget.selectedLocation!.id,
@@ -238,7 +255,11 @@ class _ServiceRequestContentState extends State<ServiceRequestContent> {
                 'address': widget.selectedLocation!.address,
                 'lat': widget.selectedLocation!.lat,
                 'lng': widget.selectedLocation!.lng,
+                'suggestedPrice': widget.selectedLocation!.suggestedPrice,
               }
+            : null,
+        'paymentMethod': widget.paymentMethod != null
+            ? widget.paymentMethod.toString().split('.').last
             : null,
       };
 

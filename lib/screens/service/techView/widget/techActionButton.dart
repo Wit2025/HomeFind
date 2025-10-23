@@ -155,10 +155,10 @@ class TechActionButtons extends StatelessWidget {
             : null,
       ),
       child: ElevatedButton.icon(
-        icon: Icon(icon, size: 18),
+        icon: Icon(icon, size: 15),
         label: Text(
           text,
-          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
         ),
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(

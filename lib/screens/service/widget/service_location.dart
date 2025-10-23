@@ -4,6 +4,7 @@ class ServiceLocation {
   final String address;
   final double lat;
   final double lng;
+  final double? suggestedPrice;
 
   ServiceLocation({
     required this.id,
@@ -11,6 +12,7 @@ class ServiceLocation {
     required this.address,
     required this.lat,
     required this.lng,
+    required this.suggestedPrice,
   });
 
   static List<ServiceLocation> sampleLocations() {
@@ -21,6 +23,7 @@ class ServiceLocation {
         address: 'ຖະໜົນ 123, ເມືອງ ໄຊທານີ, ນະຄອນຫຼວງວຽງຈັນ',
         lat: 17.9657,
         lng: 102.6131,
+        suggestedPrice: 130000,
       ),
       ServiceLocation(
         id: 'loc_2',
@@ -28,6 +31,7 @@ class ServiceLocation {
         address: 'ຖະໜົນ 45, ເມືອງ ຈັນທະບູລີ, ນະຄອນຫຼວງວຽງຈັນ',
         lat: 17.9757,
         lng: 102.6231,
+        suggestedPrice: 130000,
       ),
       ServiceLocation(
         id: 'loc_3',
@@ -35,6 +39,7 @@ class ServiceLocation {
         address: 'ຖະໜົນ 78, ເມືອງ ໄຊທານີ, ນະຄອນຫຼວງວຽງຈັນ',
         lat: 17.9857,
         lng: 102.6331,
+        suggestedPrice: 130000,
       ),
       ServiceLocation(
         id: 'loc_4',
@@ -42,6 +47,7 @@ class ServiceLocation {
         address: 'ຖະໜົນ 9, ເມືອງ ໄຊທານີ, ນະຄອນຫຼວງວຽງຈັນ',
         lat: 17.9920,
         lng: 102.6400,
+        suggestedPrice: 130000,
       ),
       ServiceLocation(
         id: 'loc_5',
@@ -49,6 +55,7 @@ class ServiceLocation {
         address: 'ຖະໜົນ 56, ເມືອງ ໄຊທານີ, ນະຄອນຫຼວງວຽງຈັນ',
         lat: 17.9700,
         lng: 102.6100,
+        suggestedPrice: 130000,
       ),
       ServiceLocation(
         id: 'loc_6',
@@ -56,6 +63,7 @@ class ServiceLocation {
         address: 'ຖະໜົນ 1, ເມືອງ ຈັນທະບູລີ, ນະຄອນຫຼວງວຽງຈັນ',
         lat: 17.9800,
         lng: 102.6200,
+        suggestedPrice: 130000,
       ),
     ];
   }

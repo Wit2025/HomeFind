@@ -69,7 +69,7 @@ class TechRequestCardPrice extends StatelessWidget {
             '${NumberFormat().format(request.offeredPrice ?? 0)} ກີບ',
             style: const TextStyle(
               color: Colors.black54,
-              fontSize: 16,
+              fontSize: 10,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -111,7 +111,7 @@ class TechRequestCardPrice extends StatelessWidget {
             '${NumberFormat().format(counterPrice)} ກີບ',
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 20,
+              fontSize: 15,
               fontWeight: FontWeight.bold,
             ),
           ),

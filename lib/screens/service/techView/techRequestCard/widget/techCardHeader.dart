@@ -17,15 +17,26 @@ class TechRequestCardHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final (statusText, statusColor) = _getStatusInfo();
 
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildAvatar(),
-        const SizedBox(width: 12),
-        _buildUserInfo(),
-        const Spacer(),
-        _buildChatButton(context, statusColor),
-        const SizedBox(width: 10),
-        _buildStatusBadge(statusText, statusColor),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildAvatar(),
+            const SizedBox(width: 12),
+            _buildUserInfo(),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            _buildChatButton(context, statusColor),
+            const SizedBox(width: 10),
+            _buildStatusBadge(statusText, statusColor),
+          ],
+        ),
       ],
     );
   }
@@ -49,11 +60,7 @@ class TechRequestCardHeader extends StatelessWidget {
           ),
         ],
       ),
-      child: const Icon(
-        Icons.person_outlined,
-        color: Colors.white,
-        size: 24,
-      ),
+      child: const Icon(Icons.person_outlined, color: Colors.white, size: 24),
     );
   }
 

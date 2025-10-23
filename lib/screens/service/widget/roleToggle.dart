@@ -1,5 +1,6 @@
 // lib/components/role_toggle.dart
 import 'package:flutter/material.dart';
+import 'package:homefind/widgets/Colors.dart';
 
 class RoleToggle extends StatelessWidget {
   final bool isTechnicianMode;
@@ -61,8 +62,11 @@ class RoleToggle extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.all(6.0),
         decoration: BoxDecoration(
-          color: isActive ? Colors.blue : Colors.transparent,
           shape: BoxShape.circle,
+          gradient: isActive
+              ? LinearGradient(colors: [AppColors.color1, AppColors.color2])
+              : null,
+          color: isActive ? null : Colors.transparent,
         ),
         child: Icon(
           icon,

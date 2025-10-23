@@ -8,7 +8,7 @@ import 'package:homefind/screens/join/pages/personal_info_page/widget/image_uplo
 import 'package:homefind/screens/join/pages/personal_info_page/widget/personal_info_form.dart';
 import 'package:homefind/screens/join/pages/personal_info_page/widget/progress_indicator_section.dart';
 import 'package:homefind/screens/join/pages/propertie_detail_page/property_details_page.dart';
-import 'package:homefind/service/local_storageService.dart';
+import 'package:homefind/service/local_storageservice.dart';
 import 'package:homefind/widgets/Colors.dart';
 
 class PersonalInfoPage extends StatefulWidget {

@@ -6,10 +6,8 @@ import 'package:homefind/widgets/Colors.dart';
 class TechRequestCardImage extends StatelessWidget {
   final ServiceRequestModel request;
 
-  const TechRequestCardImage({
-    Key? key,
-    required this.request,
-  }) : super(key: key);
+  const TechRequestCardImage({Key? key, required this.request})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,34 +24,26 @@ class TechRequestCardImage extends StatelessWidget {
             ),
           ],
         ),
-        child: AspectRatio(
-          aspectRatio: 16 / 9,
-          child: _buildImageWidget(),
-        ),
+        child: AspectRatio(aspectRatio: 16 / 9, child: _buildImageWidget()),
       ),
     );
   }
 
   Widget _buildImageWidget() {
-    if (request.imagePaths.isEmpty) return _buildImagePlaceholder();
+    final imageAttachments = request.attachments
+        .where((a) => a.type == MediaType.image)
+        .toList();
+    if (imageAttachments.isEmpty) return _buildImagePlaceholder();
 
-    final path = request.imagePaths.first;
+    final path = imageAttachments.first.path;
 
     try {
       if (path.startsWith('assets/') || path.startsWith('packages/')) {
-        return Image.asset(
-          path,
-          fit: BoxFit.cover,
-          width: double.infinity,
-        );
+        return Image.asset(path, fit: BoxFit.cover, width: double.infinity);
       } else {
         final file = File(path);
         if (file.existsSync()) {
-          return Image.file(
-            file,
-            fit: BoxFit.cover,
-            width: double.infinity,
-          );
+          return Image.file(file, fit: BoxFit.cover, width: double.infinity);
         } else {
           return _buildImagePlaceholder();
         }
