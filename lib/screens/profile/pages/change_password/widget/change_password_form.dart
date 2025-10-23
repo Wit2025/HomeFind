@@ -7,8 +7,7 @@ class ChangePasswordForm extends StatefulWidget {
   final Function(String oldPassword, String newPassword, String confirmPassword)
   onChangePassword;
 
-  const ChangePasswordForm({Key? key, required this.onChangePassword})
-    : super(key: key);
+  const ChangePasswordForm({super.key, required this.onChangePassword});
 
   @override
   State<ChangePasswordForm> createState() => _ChangePasswordFormState();

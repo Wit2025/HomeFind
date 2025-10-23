@@ -7,7 +7,7 @@ import 'package:homefind/screens/profile/pages/help/widget/help_item_widget.dart
 import 'package:homefind/screens/profile/pages/help/widget/help_models.dart';
 import 'package:homefind/screens/profile/pages/help/widget/help_no_rsult_widget.dart';
 import 'package:homefind/screens/profile/pages/help/widget/help_search_bar.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class HelpPages extends StatefulWidget {
   const HelpPages({super.key});

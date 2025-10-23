@@ -1,16 +1,16 @@
 // lib/components/role_toggle.dart
 import 'package:flutter/material.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class RoleToggle extends StatelessWidget {
   final bool isTechnicianMode;
   final ValueChanged<bool> onChanged;
 
   const RoleToggle({
-    Key? key,
+    super.key,
     required this.isTechnicianMode,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class RoleToggle extends StatelessWidget {
         border: Border.all(color: Colors.grey[300]!),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),

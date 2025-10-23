@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class ImageCarouselWidget extends StatefulWidget {
   final List<String> images;
@@ -35,7 +35,7 @@ class _ImageCarouselWidgetState extends State<ImageCarouselWidget> {
   Widget build(BuildContext context) {
     return Hero(
       tag: 'product-image-${widget.images.first}',
-      child: Container(
+      child: SizedBox(
         height: 700,
         child: Stack(
           children: [
@@ -77,7 +77,7 @@ class _ImageCarouselWidgetState extends State<ImageCarouselWidget> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      AppColors.color1.withOpacity(0.6),
+                      AppColors.color1.withValues(alpha: 0.6),
                       Colors.transparent,
                     ],
                     begin: Alignment.bottomCenter,
@@ -101,12 +101,12 @@ class _ImageCarouselWidgetState extends State<ImageCarouselWidget> {
                   padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: isLiked
-                        ? Colors.red.withOpacity(0.9)
-                        : Colors.white.withOpacity(0.9),
+                        ? Colors.red.withValues(alpha: 0.9)
+                        : Colors.white.withValues(alpha: 0.9),
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.black.withValues(alpha: 0.2),
                         blurRadius: 15,
                         offset: Offset(0, 5),
                       ),
@@ -127,9 +127,11 @@ class _ImageCarouselWidgetState extends State<ImageCarouselWidget> {
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.7),
+                  color: Colors.black.withValues(alpha: 0.7),
                   borderRadius: BorderRadius.circular(25),
-                  border: Border.all(color: Colors.white.withOpacity(0.3)),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.3),
+                  ),
                 ),
                 child: Text(
                   '${currentImageIndex + 1}/${widget.images.length}',

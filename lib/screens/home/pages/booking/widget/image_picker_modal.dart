@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImagePickerModal extends StatefulWidget {
@@ -75,6 +75,7 @@ class _ImagePickerModalState extends State<ImagePickerModal> {
                           _isPickingImage = false;
                         });
                         widget.onImagePicking(false);
+                        // ignore: use_build_context_synchronously
                         Navigator.pop(context, picked);
                       },
                       child: AbsorbPointer(
@@ -82,7 +83,7 @@ class _ImagePickerModalState extends State<ImagePickerModal> {
                         child: Container(
                           padding: EdgeInsets.all(2),
                           decoration: BoxDecoration(
-                            color: AppColors.color1.withOpacity(0.1),
+                            color: AppColors.color1.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
                               color: AppColors.color1,
@@ -123,6 +124,7 @@ class _ImagePickerModalState extends State<ImagePickerModal> {
                           _isPickingImage = false;
                         });
                         widget.onImagePicking(false);
+                        // ignore: use_build_context_synchronously
                         Navigator.pop(context, picked);
                       },
                       child: AbsorbPointer(
@@ -130,7 +132,7 @@ class _ImagePickerModalState extends State<ImagePickerModal> {
                         child: Container(
                           padding: EdgeInsets.all(2),
                           decoration: BoxDecoration(
-                            color: AppColors.color2.withOpacity(0.1),
+                            color: AppColors.color2.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
                               color: AppColors.color2,

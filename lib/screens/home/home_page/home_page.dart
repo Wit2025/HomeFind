@@ -10,7 +10,7 @@ class HomePage extends StatefulWidget {
   final ScrollController?
   scrollController; // เพิ่ม parameter สำหรับ ScrollController
 
-  const HomePage({Key? key, this.scrollController}) : super(key: key);
+  const HomePage({super.key, this.scrollController});
 
   @override
   State<HomePage> createState() => _HomePageState();

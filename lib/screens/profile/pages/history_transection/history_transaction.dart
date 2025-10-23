@@ -3,7 +3,7 @@ import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/profile/pages/history_transection/widget/transaction.dart';
 import 'package:homefind/screens/profile/pages/history_transection/widget/transaction_detail_dialog.dart';
 import 'package:homefind/screens/profile/pages/history_transection/widget/transaction_widgets.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class HistoryTransaction extends StatefulWidget {
   const HistoryTransaction({super.key});

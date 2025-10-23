@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:homefind/screens/service/chat/widget/chatModel.dart';
-import 'package:homefind/screens/service/chat/widget/messageBuble.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/screens/service/chat/widget/chat_model.dart';
+import 'package:homefind/screens/service/chat/widget/message_buble.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class ChatScreen extends StatefulWidget {
   final String serviceId;
@@ -10,14 +10,15 @@ class ChatScreen extends StatefulWidget {
   final IconData serviceIcon;
 
   const ChatScreen({
-    Key? key,
+    super.key,
     required this.serviceId,
     required this.serviceName,
     required this.serviceType,
     required this.serviceIcon,
-  }) : super(key: key);
+  });
 
   @override
+  // ignore: library_private_types_in_public_api
   _ChatScreenState createState() => _ChatScreenState();
 }
 
@@ -147,7 +148,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 borderRadius: BorderRadius.circular(50),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.color1.withOpacity(0.3),
+                    color: AppColors.color1.withValues(alpha: 0.3),
                     blurRadius: 8,
                     offset: Offset(0, 3),
                   ),
@@ -228,12 +229,12 @@ class _ChatScreenState extends State<ChatScreen> {
                             padding: EdgeInsets.all(20),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: AppColors.color1.withOpacity(0.1),
+                              color: AppColors.color1.withValues(alpha: 0.1),
                             ),
                             child: Icon(
                               widget.serviceIcon,
                               size: 40,
-                              color: AppColors.color1.withOpacity(0.5),
+                              color: AppColors.color1.withValues(alpha: 0.5),
                             ),
                           ),
                           SizedBox(height: 16),
@@ -272,7 +273,7 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 15,
                   offset: Offset(0, -5),
                 ),
@@ -360,7 +361,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.color1.withOpacity(0.3),
+                          color: AppColors.color1.withValues(alpha: 0.3),
                           blurRadius: 8,
                           offset: Offset(0, 3),
                         ),

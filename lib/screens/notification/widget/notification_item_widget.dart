@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/notification/widget/notification_detail_page.dart';
 import 'package:homefind/screens/notification/widget/notification_item.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class NotificationItemWidget extends StatelessWidget {
   final NotificationItem notification;
@@ -58,7 +58,10 @@ class NotificationItemWidget extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             border: !notification.isRead
-                ? Border.all(color: primaryColor.withOpacity(0.3), width: 1.5)
+                ? Border.all(
+                    color: primaryColor.withValues(alpha: 0.3),
+                    width: 1.5,
+                  )
                 : null,
           ),
           child: Row(
@@ -71,7 +74,7 @@ class NotificationItemWidget extends StatelessWidget {
                     width: 48,
                     height: 48,
                     decoration: BoxDecoration(
-                      color: primaryColor.withOpacity(0.1),
+                      color: primaryColor.withValues(alpha: 0.1),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(

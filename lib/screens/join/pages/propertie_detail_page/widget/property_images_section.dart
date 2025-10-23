@@ -50,10 +50,7 @@ class PropertyImagesSection extends StatelessWidget {
               ),
               padding: const EdgeInsets.symmetric(vertical: 16),
             ),
-            icon: Icon(
-              Icons.add_photo_alternate_outlined,
-              color: primaryColor,
-            ),
+            icon: Icon(Icons.add_photo_alternate_outlined, color: primaryColor),
             label: Text(
               S.of(context).add_photo,
               style: TextStyle(
@@ -82,7 +79,7 @@ class PropertyImagesSection extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),

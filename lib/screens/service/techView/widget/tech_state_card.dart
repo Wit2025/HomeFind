@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/screens/service/techView/widget/service_request_model.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class TechStatsCards extends StatelessWidget {
   final List<ServiceRequestModel> requests;
   final String? Function(ServiceRequestModel) getRequestState;
 
   const TechStatsCards({
-    Key? key,
+    super.key,
     required this.requests,
     required this.getRequestState,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -61,12 +61,12 @@ class TechStatsCards extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: color.withOpacity(0.1),
+            color: color.withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
         ],
-        border: Border.all(color: color.withOpacity(0.2), width: 1),
+        border: Border.all(color: color.withValues(alpha: 0.2), width: 1),
       ),
       child: Row(
         children: [
@@ -74,7 +74,7 @@ class TechStatsCards extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, color: color, size: 20),
@@ -93,7 +93,10 @@ class TechStatsCards extends StatelessWidget {
               ),
               Text(
                 label,
-                style: TextStyle(fontSize: 12, color: color.withOpacity(0.8)),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: color.withValues(alpha: 0.8),
+                ),
               ),
             ],
           ),

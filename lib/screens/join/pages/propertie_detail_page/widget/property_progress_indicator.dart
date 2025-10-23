@@ -5,10 +5,7 @@ import 'package:homefind/screens/join/pages/personal_info_page/persional_info_pa
 class PropertyProgressIndicator extends StatelessWidget {
   final Color primaryColor;
 
-  const PropertyProgressIndicator({
-    super.key,
-    required this.primaryColor,
-  });
+  const PropertyProgressIndicator({super.key, required this.primaryColor});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +15,7 @@ class PropertyProgressIndicator extends StatelessWidget {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -41,7 +38,7 @@ class PropertyProgressIndicator extends StatelessWidget {
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: primaryColor.withOpacity(0.3),
+                    color: primaryColor.withValues(alpha: 0.3),
                     blurRadius: 10,
                     spreadRadius: 2,
                   ),
@@ -68,7 +65,7 @@ class PropertyProgressIndicator extends StatelessWidget {
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: primaryColor.withOpacity(0.3),
+                  color: primaryColor.withValues(alpha: 0.3),
                   blurRadius: 10,
                   spreadRadius: 2,
                 ),

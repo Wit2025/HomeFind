@@ -8,8 +8,8 @@ import 'package:homefind/screens/join/pages/personal_info_page/widget/image_uplo
 import 'package:homefind/screens/join/pages/personal_info_page/widget/personal_info_form.dart';
 import 'package:homefind/screens/join/pages/personal_info_page/widget/progress_indicator_section.dart';
 import 'package:homefind/screens/join/pages/propertie_detail_page/property_details_page.dart';
-import 'package:homefind/service/local_storageservice.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/service/local_storage_service.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class PersonalInfoPage extends StatefulWidget {
   const PersonalInfoPage({super.key});
@@ -86,6 +86,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         });
       }
     } catch (e) {
+      // ignore: use_build_context_synchronously
       debugPrint('${S.of(context).errorLoadingSavedData}: $e');
     }
   }
@@ -196,14 +197,14 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            _primaryColor.withOpacity(0.1),
-            _primaryColor.withOpacity(0.05),
+            _primaryColor.withValues(alpha: 0.1),
+            _primaryColor.withValues(alpha: 0.05),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: _primaryColor.withOpacity(0.2)),
+        border: Border.all(color: _primaryColor.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -256,7 +257,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 20,
             offset: const Offset(0, -5),
           ),
@@ -367,12 +368,14 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
       await LocalStorageService.savePersonalData(personalData);
 
       Navigator.push(
+        // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(
           builder: (context) => PropertyDetailsPage(personalData: personalData),
         ),
       );
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Error: ${e.toString()}'),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/home/pages/bill/widget/dashed_divider.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 import 'package:intl/intl.dart';
 
 class ServiceDetailsSection extends StatelessWidget {
@@ -11,12 +11,12 @@ class ServiceDetailsSection extends StatelessWidget {
   final DateTime createdAt;
 
   const ServiceDetailsSection({
-    Key? key,
+    super.key,
     required this.title,
     required this.bookingId,
     required this.customerName,
     required this.createdAt,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

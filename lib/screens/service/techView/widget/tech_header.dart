@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class TechHeader extends StatelessWidget {
-  const TechHeader({Key? key}) : super(key: key);
+  const TechHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class TechHeader extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.color1.withOpacity(0.2),
+                    color: AppColors.color1.withValues(alpha: 0.2),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
@@ -53,7 +53,7 @@ class TechHeader extends StatelessWidget {
                     'ຈັດການວຽກບໍລິການຂອງທ່ານຢ່າງມີປະສິດທິພາບ',
                     style: TextStyle(
                       fontSize: 14,
-                      color: AppColors.color2.withOpacity(0.8),
+                      color: AppColors.color2.withValues(alpha: 0.8),
                     ),
                   ),
                 ],

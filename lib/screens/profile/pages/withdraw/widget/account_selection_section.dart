@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/profile/pages/withdraw/widget/account.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 import 'account_card.dart';
 
 class AccountSelectionSection extends StatelessWidget {

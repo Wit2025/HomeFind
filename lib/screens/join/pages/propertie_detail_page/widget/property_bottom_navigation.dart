@@ -1,7 +1,7 @@
 // widgets/property_bottom_navigation.dart
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class PropertyBottomNavigation extends StatelessWidget {
   final bool isLoading;
@@ -23,7 +23,7 @@ class PropertyBottomNavigation extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 20,
             offset: const Offset(0, -5),
           ),

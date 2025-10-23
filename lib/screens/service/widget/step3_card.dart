@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Step3Waiting extends StatelessWidget {
-  const Step3Waiting({Key? key}) : super(key: key);
+  const Step3Waiting({super.key});
 
   @override
   Widget build(BuildContext context) {

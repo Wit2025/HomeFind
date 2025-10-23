@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class HelpContactSection extends StatelessWidget {
   const HelpContactSection({super.key});
@@ -14,7 +14,7 @@ class HelpContactSection extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 1,
             blurRadius: 8,
             offset: const Offset(0, 3),
@@ -47,7 +47,7 @@ class HelpContactSection extends StatelessWidget {
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    // TODO: contact support
+                    // tTODO: contact support
                   },
                   icon: const Icon(Icons.email, size: 20),
                   label: Text(S.of(context).sendEmail),
@@ -65,7 +65,7 @@ class HelpContactSection extends StatelessWidget {
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    // TODO: call support
+                    // tTODO: call support
                   },
                   icon: const Icon(Icons.phone, size: 20),
                   label: Text(S.of(context).call),

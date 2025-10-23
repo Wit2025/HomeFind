@@ -21,17 +21,10 @@ class BookingCardWidget extends StatelessWidget {
       child: Card(
         elevation: 1,
         color: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Stack(
           children: [
-            Column(
-              children: [
-                _buildImage(),
-                _buildContent(),
-              ],
-            ),
+            Column(children: [_buildImage(), _buildContent()]),
           ],
         ),
       ),
@@ -80,22 +73,17 @@ class BookingCardWidget extends StatelessWidget {
         Expanded(
           child: Text(
             booking['title']!,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
         ),
         Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 6,
-            vertical: 2,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
           decoration: BoxDecoration(
-            color: BookingHelper.getStatusColor(booking['status']!)
-                .withOpacity(0.2),
+            color: BookingHelper.getStatusColor(
+              booking['status']!,
+            ).withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: BookingHelper.getStatusColor(booking['status']!),
@@ -118,19 +106,12 @@ class BookingCardWidget extends StatelessWidget {
   Widget _buildLocation() {
     return Row(
       children: [
-        const Icon(
-          Icons.location_on,
-          size: 14,
-          color: Colors.grey,
-        ),
+        const Icon(Icons.location_on, size: 14, color: Colors.grey),
         const SizedBox(width: 4),
         Expanded(
           child: Text(
             booking['location']!,
-            style: const TextStyle(
-              fontSize: 12,
-              color: Colors.grey,
-            ),
+            style: const TextStyle(fontSize: 12, color: Colors.grey),
             overflow: TextOverflow.ellipsis,
           ),
         ),
@@ -141,18 +122,11 @@ class BookingCardWidget extends StatelessWidget {
   Widget _buildDate() {
     return Row(
       children: [
-        const Icon(
-          Icons.calendar_today,
-          size: 14,
-          color: Colors.grey,
-        ),
+        const Icon(Icons.calendar_today, size: 14, color: Colors.grey),
         const SizedBox(width: 4),
         Text(
           booking['date']!,
-          style: const TextStyle(
-            fontSize: 12,
-            color: Colors.grey,
-          ),
+          style: const TextStyle(fontSize: 12, color: Colors.grey),
         ),
       ],
     );
@@ -177,12 +151,11 @@ class BookingCardWidget extends StatelessWidget {
 
   Widget _buildTypeLabel() {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 6,
-        vertical: 2,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
-        color: BookingHelper.getTypeColor(booking['type']).withOpacity(0.2),
+        color: BookingHelper.getTypeColor(
+          booking['type'],
+        ).withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: BookingHelper.getTypeColor(booking['type']),

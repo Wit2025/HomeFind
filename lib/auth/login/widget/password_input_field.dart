@@ -7,11 +7,11 @@ class PasswordInputField extends StatelessWidget {
   final VoidCallback onToggleVisibility;
 
   const PasswordInputField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.obscurePassword,
     required this.onToggleVisibility,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -5,9 +5,9 @@ class PhoneInputField extends StatelessWidget {
   final TextEditingController controller;
 
   const PhoneInputField({
-    Key? key,
+    super.key,
     required this.controller,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

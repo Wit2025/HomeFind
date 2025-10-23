@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class GradientButton extends StatelessWidget {
   final String text;
@@ -11,7 +11,7 @@ class GradientButton extends StatelessWidget {
   final Widget? icon;
 
   const GradientButton({
-    Key? key,
+    super.key,
     required this.text,
     this.onPressed,
     this.padding,
@@ -19,7 +19,7 @@ class GradientButton extends StatelessWidget {
     this.textStyle,
     this.isLoading = false,
     this.icon,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

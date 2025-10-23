@@ -8,12 +8,12 @@ class ProductThumbnailList extends StatelessWidget {
   final Function(int) onThumbnailTap;
 
   const ProductThumbnailList({
-    Key? key,
+    super.key,
     required this.hotelImages,
     required this.currentImageIndex,
     required this.controller,
     required this.onThumbnailTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,15 +36,13 @@ class ProductThumbnailList extends StatelessWidget {
               decoration: BoxDecoration(
                 // borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: isSelected
-                      ? Colors.blue
-                      : Colors.transparent,
+                  color: isSelected ? Colors.blue : Colors.transparent,
                   width: 3,
                 ),
                 boxShadow: isSelected
                     ? [
                         BoxShadow(
-                          color: Colors.blue.withOpacity(0.3),
+                          color: Colors.blue.withValues(alpha: 0.3),
                           blurRadius: 10,
                           offset: Offset(0, 3),
                         ),
@@ -65,7 +63,7 @@ class ProductThumbnailList extends StatelessWidget {
                     if (isSelected)
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.blue.withOpacity(0.2),
+                          color: Colors.blue.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(13),
                         ),
                       ),
@@ -86,11 +84,11 @@ class ProductDotIndicator extends StatelessWidget {
   final Function(int) onDotClicked;
 
   const ProductDotIndicator({
-    Key? key,
+    super.key,
     required this.currentImageIndex,
     required this.itemCount,
     required this.onDotClicked,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

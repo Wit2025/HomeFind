@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/home/pages/bill/bill_page.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class BookingBottomBar extends StatelessWidget {
   final Map<String, String> booking;
@@ -16,7 +16,7 @@ class BookingBottomBar extends StatelessWidget {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 20,
             offset: Offset(0, -5),
           ),
@@ -37,7 +37,7 @@ class BookingBottomBar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(25),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.teal.withOpacity(0.3),
+                    color: Colors.teal.withValues(alpha: 0.3),
                     blurRadius: 15,
                     offset: Offset(0, 8),
                   ),
@@ -52,9 +52,11 @@ class BookingBottomBar extends StatelessWidget {
                         bookingId: booking['id'] ?? 'B123456',
                         customerName: booking['customerName'] ?? 'Guest',
                         title: booking['title'] ?? '',
-                        bookingFee: double.tryParse(booking['price'] ?? '0') ?? 0.0,
+                        bookingFee:
+                            double.tryParse(booking['price'] ?? '0') ?? 0.0,
                         currency: 'LAK',
-                        createdAt: DateTime.tryParse(booking['date'] ?? '') ??
+                        createdAt:
+                            DateTime.tryParse(booking['date'] ?? '') ??
                             DateTime.now(),
                       ),
                     ),

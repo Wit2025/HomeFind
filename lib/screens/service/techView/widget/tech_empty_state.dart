@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class TechEmptyState extends StatelessWidget {
-  const TechEmptyState({Key? key}) : super(key: key);
+  const TechEmptyState({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +16,8 @@ class TechEmptyState extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  AppColors.color1.withOpacity(0.1),
-                  AppColors.color2.withOpacity(0.1),
+                  AppColors.color1.withValues(alpha: 0.1),
+                  AppColors.color2.withValues(alpha: 0.1),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -27,7 +27,7 @@ class TechEmptyState extends StatelessWidget {
             child: Icon(
               Icons.handyman_outlined,
               size: 50,
-              color: AppColors.color1.withOpacity(0.5),
+              color: AppColors.color1.withValues(alpha: 0.5),
             ),
           ),
           const SizedBox(height: 24),
@@ -44,7 +44,7 @@ class TechEmptyState extends StatelessWidget {
             'ວຽກບໍລິການໃໝ່ຈະສະແດງບ່ອນນີ້',
             style: TextStyle(
               fontSize: 14,
-              color: AppColors.color2.withOpacity(0.8),
+              color: AppColors.color2.withValues(alpha: 0.8),
             ),
           ),
         ],

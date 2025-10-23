@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:homefind/auth/login_check/auth_check.dart';
 import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/home/home_page/home_page.dart';
@@ -7,12 +6,15 @@ import 'package:homefind/screens/add/add_page.dart';
 import 'package:homefind/screens/join/join_page/join_page.dart';
 import 'package:homefind/screens/notification/notification_page.dart';
 import 'package:homefind/screens/profile/profile_pages/profile_page.dart';
-import 'package:homefind/screens/service/servicePage.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/screens/service/service_page.dart';
+import 'package:homefind/widgets/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _MainScreenState createState() => _MainScreenState();
 }
 
@@ -82,7 +84,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
             ),
             child: SafeArea(
               bottom: false,
-              child: Container(
+              child: SizedBox(
                 height: 80,
                 child: Column(
                   children: [
@@ -114,7 +116,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: AppColors.color1.withOpacity(0.3),
+                              color: AppColors.color1.withValues(alpha: 0.3),
                               offset: Offset(0, 2),
                               blurRadius: 8,
                               spreadRadius: 0,
@@ -134,11 +136,11 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                         ),
                         dividerColor: Colors.transparent,
                         splashFactory: NoSplash.splashFactory,
-                        overlayColor: MaterialStateProperty.all(
+                        overlayColor: WidgetStateProperty.all(
                           Colors.transparent,
                         ),
                         tabs: [
-                          Container(
+                          SizedBox(
                             height: 44,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -149,7 +151,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                               ],
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             height: 44,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -205,6 +207,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
     if (!isLoggedIn) {
       Widget targetPage = _pages[index];
       await AuthChecker.checkAuthAndNavigate(
+        // ignore: use_build_context_synchronously
         context: context,
         showLoginPrompt: true,
         page: targetPage,
@@ -254,7 +257,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             spreadRadius: 0,
             blurRadius: 20,
             offset: const Offset(0, -2),
@@ -304,7 +307,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.color1.withOpacity(0.3),
+                    color: AppColors.color1.withValues(alpha: 0.3),
                     offset: Offset(0, 2),
                     blurRadius: 8,
                   ),

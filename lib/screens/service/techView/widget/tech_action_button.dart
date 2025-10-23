@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/screens/service/techView/technician_view.dart';
-import 'package:homefind/screens/service/techView/widget/counterDialog.dart';
-import 'package:homefind/screens/service/techView/widget/declineDialog.dart';
+import 'package:homefind/screens/service/techView/widget/counter_dialog.dart';
+import 'package:homefind/screens/service/techView/widget/decline_dialog.dart';
 import 'package:homefind/screens/service/techView/widget/service_request_model.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class TechActionButtons extends StatelessWidget {
   final ServiceRequestModel request;
@@ -12,12 +12,12 @@ class TechActionButtons extends StatelessWidget {
   final Function(String) onStateChange;
 
   const TechActionButtons({
-    Key? key,
+    super.key,
     required this.request,
     required this.requestState,
     required this.onDecision,
     required this.onStateChange,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -90,12 +90,12 @@ class TechActionButtons extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [color.withOpacity(0.1), color.withOpacity(0.05)],
+          colors: [color.withValues(alpha: 0.1), color.withValues(alpha: 0.05)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: color.withOpacity(0.3), width: 1.5),
+        border: Border.all(color: color.withValues(alpha: 0.3), width: 1.5),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -147,7 +147,7 @@ class TechActionButtons extends StatelessWidget {
         boxShadow: backgroundColor == AppColors.color1
             ? [
                 BoxShadow(
-                  color: AppColors.color1.withOpacity(0.3),
+                  color: AppColors.color1.withValues(alpha: 0.3),
                   blurRadius: 8,
                   offset: const Offset(0, 4),
                 ),

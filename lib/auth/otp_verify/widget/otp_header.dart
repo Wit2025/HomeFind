@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
-import 'package:homefind/widgets/Colors.dart' show AppColors;
+import 'package:homefind/widgets/colors.dart' show AppColors;
 
 class OTPHeader extends StatelessWidget {
   final bool isSmallScreen;
 
-  const OTPHeader({
-    super.key,
-    required this.isSmallScreen,
-  });
+  const OTPHeader({super.key, required this.isSmallScreen});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    
+
     return Container(
       height: isSmallScreen ? size.height * 0.25 : size.height * 0.3,
       decoration: const BoxDecoration(
@@ -41,11 +38,7 @@ class OTPHeader extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
-                  Icons.verified_user,
-                  size: 50,
-                  color: Colors.white,
-                ),
+                const Icon(Icons.verified_user, size: 50, color: Colors.white),
                 const SizedBox(height: 16),
                 Text(
                   S.of(context).verify_otp,
@@ -62,7 +55,7 @@ class OTPHeader extends StatelessWidget {
                   style: TextStyle(
                     fontFamily: 'NotoSansLao',
                     fontSize: isSmallScreen ? 16 : 18,
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                   ),
                 ),
               ],

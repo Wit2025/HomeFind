@@ -26,6 +26,7 @@ class LanguageService {
       await prefs.setString(_languageKey, languageCode);
 
       // อัปเดตภาษาในแอปทันที
+      // ignore: use_build_context_synchronously
       HomeFind.of(context)?.setLocale(Locale(languageCode));
     } catch (e) {
       // จัดการ error หากจำเป็น

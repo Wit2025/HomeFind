@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class BillHeader extends StatelessWidget {
   final Animation<double> scale;
   final String customerName;
 
-  const BillHeader({
-    Key? key,
-    required this.scale,
-    required this.customerName,
-  }) : super(key: key);
+  const BillHeader({super.key, required this.scale, required this.customerName});
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +21,10 @@ class BillHeader extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white.withOpacity(0.15),
+              color: Colors.white.withValues(alpha: 0.15),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.15),
+                  color: Colors.black.withValues(alpha: 0.15),
                   blurRadius: 24,
                   offset: const Offset(0, 10),
                 ),
@@ -56,9 +52,7 @@ class BillHeader extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           '${S.of(context).thankYou}, $customerName',
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: Colors.white,
-          ),
+          style: theme.textTheme.bodyMedium?.copyWith(color: Colors.white),
         ),
       ],
     );

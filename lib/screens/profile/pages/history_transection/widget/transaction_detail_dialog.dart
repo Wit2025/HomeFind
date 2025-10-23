@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/profile/pages/history_transection/widget/transaction.dart';
 import 'package:homefind/screens/profile/pages/history_transection/widget/transaction_untils.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 import 'custom_painters.dart';
 
 class TransactionDetailDialog extends StatelessWidget {
@@ -76,7 +76,7 @@ class TransactionDetailDialog extends StatelessWidget {
                       size: 24,
                     ),
                     style: IconButton.styleFrom(
-                      backgroundColor: Colors.white.withOpacity(0.1),
+                      backgroundColor: Colors.white.withValues(alpha: 0.1),
                       shape: const CircleBorder(),
                     ),
                   ),
@@ -99,12 +99,12 @@ class TransactionDetailDialog extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [AppColors.color1, AppColors.color1.withOpacity(0.8)],
+            colors: [AppColors.color1, AppColors.color1.withValues(alpha: 0.8)],
           ),
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: AppColors.color1.withOpacity(0.3),
+              color: AppColors.color1.withValues(alpha: 0.3),
               blurRadius: 20,
               offset: const Offset(0, 10),
             ),
@@ -153,15 +153,21 @@ class TransactionDetailDialog extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
-            color: TransactionUtils.getStatusColor(transaction.status).withOpacity(0.1),
+            color: TransactionUtils.getStatusColor(
+              transaction.status,
+            ).withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(50),
             border: Border.all(
-              color: TransactionUtils.getStatusColor(transaction.status).withOpacity(0.3),
+              color: TransactionUtils.getStatusColor(
+                transaction.status,
+              ).withValues(alpha: 0.3),
               width: 1.5,
             ),
             boxShadow: [
               BoxShadow(
-                color: TransactionUtils.getStatusColor(transaction.status).withOpacity(0.1),
+                color: TransactionUtils.getStatusColor(
+                  transaction.status,
+                ).withValues(alpha: 0.1),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -190,7 +196,7 @@ class TransactionDetailDialog extends StatelessWidget {
         border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -285,7 +291,7 @@ class TransactionDetailDialog extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: AppColors.color1.withOpacity(0.3),
+                color: AppColors.color1.withValues(alpha: 0.3),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),

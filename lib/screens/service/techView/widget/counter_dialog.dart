@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/screens/service/techView/widget/service_request_model.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 import 'package:intl/intl.dart';
 
 class CounterDialog extends StatefulWidget {
   final ServiceRequestModel request;
 
-  const CounterDialog({Key? key, required this.request}) : super(key: key);
+  const CounterDialog({super.key, required this.request});
 
   @override
   State<CounterDialog> createState() => _CounterDialogState();

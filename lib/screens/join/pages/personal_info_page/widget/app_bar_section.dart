@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 // This widget creates the custom app bar for the PersonalInfoPage.
 class AppBarSection extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/screens/service/techView/widget/service_request_model.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 import 'package:intl/intl.dart';
 
 class TechRequestCardPrice extends StatelessWidget {
@@ -8,10 +8,10 @@ class TechRequestCardPrice extends StatelessWidget {
   final String? requestState;
 
   const TechRequestCardPrice({
-    Key? key,
+    super.key,
     required this.request,
     required this.requestState,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class TechRequestCardPrice extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.color1.withOpacity(0.08),
+        color: AppColors.color1.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -60,7 +60,7 @@ class TechRequestCardPrice extends StatelessWidget {
           Text(
             'ລາຄາເດີມ',
             style: TextStyle(
-              color: AppColors.color1.withOpacity(0.8),
+              color: AppColors.color1.withValues(alpha: 0.8),
               fontSize: 12,
             ),
           ),
@@ -90,7 +90,7 @@ class TechRequestCardPrice extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: AppColors.color1.withOpacity(0.3),
+            color: AppColors.color1.withValues(alpha: 0.3),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -102,7 +102,7 @@ class TechRequestCardPrice extends StatelessWidget {
           Text(
             'ລາຄາໃໝ່',
             style: TextStyle(
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withValues(alpha: 0.9),
               fontSize: 12,
             ),
           ),
@@ -132,7 +132,7 @@ class TechRequestCardPrice extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: AppColors.color1.withOpacity(0.3),
+            color: AppColors.color1.withValues(alpha: 0.3),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),

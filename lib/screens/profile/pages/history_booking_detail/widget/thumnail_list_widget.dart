@@ -82,7 +82,7 @@ class _ThumbnailListWidgetState extends State<ThumbnailListWidget> {
                 boxShadow: isSelected
                     ? [
                         BoxShadow(
-                          color: Colors.blue.withOpacity(0.3),
+                          color: Colors.blue.withValues(alpha: 0.3),
                           blurRadius: 10,
                           offset: Offset(0, 3),
                         ),
@@ -102,7 +102,7 @@ class _ThumbnailListWidgetState extends State<ThumbnailListWidget> {
                     if (isSelected)
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.blue.withOpacity(0.2),
+                          color: Colors.blue.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(13),
                         ),
                       ),

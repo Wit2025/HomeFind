@@ -15,7 +15,7 @@ import 'package:homefind/screens/join/pages/propertie_detail_page/widget/propert
 import 'package:homefind/screens/join/pages/propertie_detail_page/widget/property_main_image_section.dart';
 import 'package:homefind/screens/join/pages/propertie_detail_page/widget/property_progress_indicator.dart';
 import 'package:homefind/screens/join/pages/propertie_detail_page/widget/property_welcome_section.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class PropertyDetailsPage extends StatefulWidget {
   final Map<String, dynamic> personalData;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/profile/pages/history_transection/widget/transaction.dart';
 import 'package:homefind/screens/profile/pages/history_transection/widget/transaction_untils.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 /// Section แสดงปุ่ม filter
 Widget buildFilterSection({
@@ -16,7 +16,7 @@ Widget buildFilterSection({
       color: Colors.white,
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withOpacity(0.05),
+          color: Colors.black.withValues(alpha: 0.05),
           blurRadius: 4,
           offset: const Offset(0, 2),
         ),
@@ -177,7 +177,7 @@ Widget buildTransactionItem(
                         decoration: BoxDecoration(
                           color: TransactionUtils.getStatusColor(
                             transaction.status,
-                          ).withOpacity(0.2),
+                          ).withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: TransactionUtils.getStatusColor(

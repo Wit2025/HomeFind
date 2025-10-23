@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class ProductImageCarousel extends StatelessWidget {
   final List<String> hotelImages;
@@ -12,7 +12,7 @@ class ProductImageCarousel extends StatelessWidget {
   final VoidCallback onLikeToggle;
 
   const ProductImageCarousel({
-    Key? key,
+    super.key,
     required this.hotelImages,
     required this.controller,
     required this.currentImageIndex,
@@ -20,7 +20,7 @@ class ProductImageCarousel extends StatelessWidget {
     required this.image,
     required this.onPageChanged,
     required this.onLikeToggle,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class ProductImageCarousel extends StatelessWidget {
         // Enhanced Carousel with Hero animation
         Hero(
           tag: 'product-image-$image',
-          child: Container(
+          child: SizedBox(
             height: 700,
             child: CarouselSlider.builder(
               carouselController: controller,
@@ -46,9 +46,7 @@ class ProductImageCarousel extends StatelessWidget {
                 viewportFraction: 1.0,
                 autoPlay: true,
                 autoPlayInterval: Duration(seconds: 4),
-                autoPlayAnimationDuration: Duration(
-                  milliseconds: 800,
-                ),
+                autoPlayAnimationDuration: Duration(milliseconds: 800),
                 autoPlayCurve: Curves.easeInOutCubic,
                 onPageChanged: onPageChanged,
               ),
@@ -66,7 +64,7 @@ class ProductImageCarousel extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  AppColors.color1.withOpacity(0.6),
+                  AppColors.color1.withValues(alpha: 0.6),
                   Colors.transparent,
                 ],
                 begin: Alignment.bottomCenter,
@@ -87,12 +85,12 @@ class ProductImageCarousel extends StatelessWidget {
               padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
                 color: isLiked
-                    ? Colors.red.withOpacity(0.9)
-                    : Colors.white.withOpacity(0.9),
+                    ? Colors.red.withValues(alpha: 0.9)
+                    : Colors.white.withValues(alpha: 0.9),
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
+                    color: Colors.black.withValues(alpha: 0.2),
                     blurRadius: 15,
                     offset: Offset(0, 5),
                   ),
@@ -111,16 +109,11 @@ class ProductImageCarousel extends StatelessWidget {
           bottom: 8,
           right: 8,
           child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 8,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.7),
+              color: Colors.black.withValues(alpha: 0.7),
               borderRadius: BorderRadius.circular(25),
-              border: Border.all(
-                color: Colors.white.withOpacity(0.3),
-              ),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
             ),
             child: Text(
               '${currentImageIndex + 1}/${hotelImages.length}',

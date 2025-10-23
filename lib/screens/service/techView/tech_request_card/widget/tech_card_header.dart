@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:homefind/screens/service/chat/chatService.dart';
+import 'package:homefind/screens/service/chat/chat_service.dart';
 import 'package:homefind/screens/service/techView/widget/service_request_model.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class TechRequestCardHeader extends StatelessWidget {
   final ServiceRequestModel request;
   final String? requestState;
 
   const TechRequestCardHeader({
-    Key? key,
+    super.key,
     required this.request,
     required this.requestState,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class TechRequestCardHeader extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.color1.withOpacity(0.3),
+            color: AppColors.color1.withValues(alpha: 0.3),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -112,14 +112,14 @@ class TechRequestCardHeader extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [statusColor, statusColor.withOpacity(0.8)],
+            colors: [statusColor, statusColor.withValues(alpha: 0.8)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: statusColor.withOpacity(0.3),
+              color: statusColor.withValues(alpha: 0.3),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
@@ -142,14 +142,14 @@ class TechRequestCardHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [statusColor, statusColor.withOpacity(0.8)],
+          colors: [statusColor, statusColor.withValues(alpha: 0.8)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: statusColor.withOpacity(0.3),
+            color: statusColor.withValues(alpha: 0.3),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),

@@ -30,7 +30,7 @@ class AccountCard extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 5,
             offset: const Offset(0, 3),
           ),
@@ -38,7 +38,9 @@ class AccountCard extends StatelessWidget {
       ),
       child: RadioListTile<String>(
         value: account.id,
+        // ignore: deprecated_member_use
         groupValue: selectedAccountId,
+        // ignore: deprecated_member_use
         onChanged: onChanged,
         activeColor: primaryColor,
         contentPadding: const EdgeInsets.symmetric(horizontal: 12),

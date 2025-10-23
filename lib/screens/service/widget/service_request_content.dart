@@ -2,13 +2,13 @@ import 'package:homefind/screens/service/techView/widget/service_request_model.d
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:homefind/screens/service/widget/serviceType.dart';
+import 'package:homefind/screens/service/widget/service_type.dart';
 import 'package:homefind/screens/service/widget/service_location.dart';
-import 'package:homefind/screens/service/widget/step1Card.dart';
-import 'package:homefind/screens/service/widget/step2Card.dart';
-import 'package:homefind/screens/service/widget/step3Card.dart';
-import 'package:homefind/screens/service/widget/step4Card.dart';
-import 'package:homefind/screens/service/techView/widget/technicianResponse.dart';
+import 'package:homefind/screens/service/widget/step1_card.dart';
+import 'package:homefind/screens/service/widget/step2_card.dart';
+import 'package:homefind/screens/service/widget/step3_card.dart';
+import 'package:homefind/screens/service/widget/step4_card.dart';
+import 'package:homefind/screens/service/techView/widget/technician_response.dart';
 import 'package:latlong2/latlong.dart';
 
 class ServiceRequestContent extends StatefulWidget {
@@ -36,7 +36,7 @@ class ServiceRequestContent extends StatefulWidget {
   final Function() onResetForm;
 
   const ServiceRequestContent({
-    Key? key,
+    super.key,
     required this.currentStep,
     required this.selectedService,
     required this.offerPrice,
@@ -58,7 +58,7 @@ class ServiceRequestContent extends StatefulWidget {
     required this.onDescriptionChanged,
     required this.onTechnicianResponsesChanged,
     required this.onResetForm,
-  }) : super(key: key);
+  });
 
   @override
   State<ServiceRequestContent> createState() => _ServiceRequestContentState();
@@ -258,9 +258,7 @@ class _ServiceRequestContentState extends State<ServiceRequestContent> {
                 'suggestedPrice': widget.selectedLocation!.suggestedPrice,
               }
             : null,
-        'paymentMethod': widget.paymentMethod != null
-            ? widget.paymentMethod.toString().split('.').last
-            : null,
+        'paymentMethod': widget.paymentMethod?.toString().split('.').last,
       };
 
       // No simulated technician responses here — the app will display only real responses.
@@ -269,6 +267,7 @@ class _ServiceRequestContentState extends State<ServiceRequestContent> {
 
       widget.onStepChanged(4);
 
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('ຊ່າງໄດ້ຮັບການແຈ້ງເຕືອນແລ້ວ  ກຳລັງລໍຖ້າການຕອບຮັບ...'),

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 import 'package:homefind/screens/service/techView/widget/service_request_model.dart';
 import 'package:image_picker/image_picker.dart';
 // intl import no longer needed here
@@ -21,7 +21,7 @@ class Step2DetailsPrice extends StatefulWidget {
   final Function() onSubmit;
 
   const Step2DetailsPrice({
-    Key? key,
+    super.key,
     required this.attachments,
     required this.selectedLocation,
     required this.description,
@@ -33,7 +33,7 @@ class Step2DetailsPrice extends StatefulWidget {
     required this.onPaymentMethodChanged,
     required this.onPreviousStep,
     required this.onSubmit,
-  }) : super(key: key);
+  });
 
   @override
   State<Step2DetailsPrice> createState() => _Step2DetailsPriceState();
@@ -43,8 +43,8 @@ class _Step2DetailsPriceState extends State<Step2DetailsPrice> {
   final ImagePicker _picker = ImagePicker();
 
   Future<void> _pickImages() async {
-    final List<XFile>? images = await _picker.pickMultiImage();
-    if (images != null && images.isNotEmpty) {
+    final List<XFile> images = await _picker.pickMultiImage();
+    if (images.isNotEmpty) {
       final newAttachments = images
           .map((x) => MediaAttachment(path: x.path, type: MediaType.image))
           .toList();

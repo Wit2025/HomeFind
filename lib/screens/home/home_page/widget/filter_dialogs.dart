@@ -270,7 +270,9 @@ class FilterDialogs {
         return RadioListTile<String>(
           title: Text(displayText),
           value: option,
+          // ignore: deprecated_member_use
           groupValue: selectedValue,
+          // ignore: deprecated_member_use
           onChanged: (value) {
             if (value != null) {
               onChanged(value);

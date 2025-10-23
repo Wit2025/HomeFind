@@ -21,7 +21,7 @@ class UploadReceiptSection extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: Offset(0, 2),
           ),
@@ -41,10 +41,7 @@ class UploadReceiptSection extends StatelessWidget {
           if (image != null) ...[
             SizedBox(height: 16),
             Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 8,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: Colors.green.shade50,
                 borderRadius: BorderRadius.circular(20),
@@ -53,11 +50,7 @@ class UploadReceiptSection extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
-                    Icons.check_circle,
-                    color: Colors.green,
-                    size: 18,
-                  ),
+                  Icon(Icons.check_circle, color: Colors.green, size: 18),
                   SizedBox(width: 8),
                   Text(
                     S.of(context).upload_completed,
@@ -142,7 +135,7 @@ class UploadReceiptSection extends StatelessWidget {
                           child: Container(
                             padding: EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.6),
+                              color: Colors.black.withValues(alpha: 0.6),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Icon(

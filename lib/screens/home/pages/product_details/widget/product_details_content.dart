@@ -17,7 +17,7 @@ class ProductDetailsContent extends StatelessWidget {
   final NumberFormat format;
 
   const ProductDetailsContent({
-    Key? key,
+    super.key,
     required this.slideAnimation,
     required this.title,
     required this.status,
@@ -29,7 +29,7 @@ class ProductDetailsContent extends StatelessWidget {
     required this.currency,
     required this.rental,
     required this.format,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class ProductDetailsContent extends StatelessWidget {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withValues(alpha: 0.05),
                   blurRadius: 20,
                   offset: Offset(0, 10),
                 ),
@@ -288,7 +288,7 @@ class ProductDetailsContent extends StatelessWidget {
                               ),
 
                               TextSpan(
-                                text: ' ${currency}',
+                                text: ' $currency',
                                 style: TextStyle(
                                   color: Colors.blue.shade700,
                                   fontSize: 20,

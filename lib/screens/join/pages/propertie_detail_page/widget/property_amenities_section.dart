@@ -56,7 +56,7 @@ class PropertyAmenitiesSection extends StatelessWidget {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: Colors.black.withValues(alpha: 0.05),
                       blurRadius: 10,
                       offset: const Offset(0, 2),
                     ),
@@ -73,7 +73,10 @@ class PropertyAmenitiesSection extends StatelessWidget {
                     const SizedBox(width: 8),
                     Flexible(
                       child: Text(
-                        PropertyTranslations.translateValue(amenity, context), // Display translated amenity
+                        PropertyTranslations.translateValue(
+                          amenity,
+                          context,
+                        ), // Display translated amenity
                         style: TextStyle(
                           color: isSelected ? Colors.white : Colors.black87,
                           fontSize: 13,

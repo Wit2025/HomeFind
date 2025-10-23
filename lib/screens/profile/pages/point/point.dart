@@ -3,7 +3,7 @@ import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/profile/pages/point/widget/history_header.dart';
 import 'package:homefind/screens/profile/pages/point/widget/history_item.dart';
 import 'package:homefind/screens/profile/pages/point/widget/points_summary_card.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class PointPages extends StatefulWidget {
   const PointPages({super.key});
@@ -94,10 +94,10 @@ class _PointPagesState extends State<PointPages> {
               PointsSummaryCard(
                 totalPoints: totalPoints,
                 onRedeem: () {
-                  // TODO: redeem points
+                  // tTODO: redeem points
                 },
                 onDetails: () {
-                  // TODO: show details
+                  // tTODO: show details
                 },
               ),
               const SizedBox(height: 16),
@@ -105,7 +105,7 @@ class _PointPagesState extends State<PointPages> {
               // History Header
               HistoryHeader(
                 onShowAll: () {
-                  // TODO: show all history
+                  // tTODO: show all history
                 },
               ),
               const SizedBox(height: 8),
@@ -126,7 +126,7 @@ class _PointPagesState extends State<PointPages> {
                     date: item['date'],
                     points: item['points'],
                     onTap: () {
-                      // TODO: show transaction details
+                      // tTODO: show transaction details
                     },
                   );
                 },

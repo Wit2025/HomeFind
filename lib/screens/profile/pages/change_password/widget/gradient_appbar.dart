@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class GradientAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -7,11 +7,11 @@ class GradientAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget>? actions;
 
   const GradientAppBar({
-    Key? key,
+    super.key,
     required this.title,
     this.onBackPressed,
     this.actions,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

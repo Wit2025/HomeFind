@@ -68,6 +68,7 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: _canAcceptButtonBeEnabled,
+      // ignore: deprecated_member_use
       onPopInvoked: (didPop) {
         if (didPop && !_canAcceptButtonBeEnabled) {}
       },

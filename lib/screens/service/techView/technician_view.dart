@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/screens/service/techView/widget/service_request_model.dart';
-import 'package:homefind/screens/service/techView/widget/techEmptyState.dart';
-import 'package:homefind/screens/service/techView/widget/techHeader.dart';
-import 'package:homefind/screens/service/techView/techRequestCard/techRequestCard.dart';
-import 'package:homefind/screens/service/techView/widget/techStateCard.dart';
+import 'package:homefind/screens/service/techView/widget/tech_empty_state.dart';
+import 'package:homefind/screens/service/techView/widget/tech_header.dart';
+import 'package:homefind/screens/service/techView/tech_request_card/tech_request_card.dart';
+import 'package:homefind/screens/service/techView/widget/tech_state_card.dart';
 
 typedef OnTechDecision =
     void Function(
@@ -17,8 +17,7 @@ class TechnicianView extends StatefulWidget {
   final List<ServiceRequestModel> requests;
   final OnTechDecision? onDecision;
 
-  const TechnicianView({Key? key, required this.requests, this.onDecision})
-    : super(key: key);
+  const TechnicianView({super.key, required this.requests, this.onDecision});
 
   @override
   State<TechnicianView> createState() => _TechnicianViewState();
@@ -96,7 +95,7 @@ class _TechnicianViewState extends State<TechnicianView> {
                   border: Border.all(color: Colors.grey.shade300, width: 2),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.03),
+                      color: Colors.black.withValues(alpha: 0.03),
                       blurRadius: 6,
                       offset: const Offset(0, 2),
                     ),

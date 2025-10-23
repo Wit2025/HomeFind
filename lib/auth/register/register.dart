@@ -6,7 +6,7 @@ import 'package:homefind/auth/register/widget/register_form.dart';
 import 'package:homefind/auth/register/widget/register_header.dart';
 import 'package:homefind/screens/main_screen/main_screen.dart';
 import 'dart:math';
-import 'package:homefind/service/Auth_Service.dart';
+import 'package:homefind/service/service_auth.dart';
 import 'package:homefind/generated/l10n.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -82,6 +82,7 @@ class _SignUpPageState extends State<Register> {
       } else {
         final errorData = jsonDecode(response.body);
         String errorMessage =
+            // ignore: use_build_context_synchronously
             errorData['message'] ?? S.of(context).registration_error;
 
         if (mounted) {

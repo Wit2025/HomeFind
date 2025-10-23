@@ -22,7 +22,7 @@ class Productdetails extends StatefulWidget {
   final String? currency;
   final String? rental;
 
-  Productdetails({
+  const Productdetails({
     required this.title,
     required this.location,
     required this.date,

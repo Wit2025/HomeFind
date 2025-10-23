@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class ProductBookingButton extends StatelessWidget {
   final VoidCallback onPressed;
 
-  const ProductBookingButton({
-    Key? key,
-    required this.onPressed,
-  }) : super(key: key);
+  const ProductBookingButton({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +16,7 @@ class ProductBookingButton extends StatelessWidget {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 20,
               offset: Offset(0, -5),
             ),
@@ -40,7 +37,7 @@ class ProductBookingButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(25),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.teal.withOpacity(0.3),
+                      color: Colors.teal.withValues(alpha: 0.3),
                       blurRadius: 15,
                       offset: Offset(0, 8),
                     ),

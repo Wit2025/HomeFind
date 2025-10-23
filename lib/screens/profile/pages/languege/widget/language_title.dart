@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/screens/profile/pages/languege/widget/language_model.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class LanguageTile extends StatelessWidget {
   final LanguageModel language;
@@ -51,7 +51,9 @@ class LanguageTile extends StatelessWidget {
       ),
       trailing: Radio<String>(
         value: language.code,
+        // ignore: deprecated_member_use
         groupValue: isSelected ? language.code : null,
+        // ignore: deprecated_member_use
         onChanged: (value) {
           if (value != null) {
             onTap();

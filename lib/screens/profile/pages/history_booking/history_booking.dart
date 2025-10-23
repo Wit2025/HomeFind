@@ -5,7 +5,7 @@ import 'package:homefind/screens/profile/pages/history_booking/widget/booking_da
 import 'package:homefind/screens/profile/pages/history_booking/widget/booking_filter_widget.dart';
 import 'package:homefind/screens/profile/pages/history_booking/widget/booking_helper.dart';
 import 'package:homefind/screens/profile/pages/history_booking_detail/history_booking_detail.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class HistoryBookingPages extends StatefulWidget {
   const HistoryBookingPages({super.key});

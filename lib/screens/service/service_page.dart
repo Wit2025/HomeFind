@@ -1,15 +1,15 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:homefind/screens/service/widget/roleToggle.dart';
-import 'package:homefind/screens/service/widget/serviceRequestContent.dart';
+import 'package:homefind/screens/service/widget/role_toggle.dart';
+import 'package:homefind/screens/service/widget/service_request_content.dart';
 import 'package:homefind/screens/service/widget/service_location.dart';
-import 'package:homefind/screens/service/widget/serviceType.dart';
-import 'package:homefind/screens/service/techView/widget/technicianResponse.dart';
+import 'package:homefind/screens/service/widget/service_type.dart';
+import 'package:homefind/screens/service/techView/widget/technician_response.dart';
 import 'package:homefind/screens/service/techView/technician_view.dart';
 import 'package:homefind/screens/service/techView/widget/service_request_model.dart';
 
 class ServiceRequestPage extends StatefulWidget {
-  const ServiceRequestPage({Key? key}) : super(key: key);
+  const ServiceRequestPage({super.key});
 
   @override
   State<ServiceRequestPage> createState() => _ServiceRequestPageState();

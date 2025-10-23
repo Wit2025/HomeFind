@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 import 'package:image_picker/image_picker.dart';
 
 // Handles UI & logic for uploading personal and/or document images.
@@ -98,8 +98,10 @@ class ImageUploadSection extends StatelessWidget {
         }
       }
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          // ignore: use_build_context_synchronously
           content: Text('${S.of(context).image_selection_error}: $e'),
           backgroundColor: AppColors.color1,
         ),
@@ -144,7 +146,7 @@ class ImageUploadSection extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 15,
               offset: const Offset(0, 5),
             ),

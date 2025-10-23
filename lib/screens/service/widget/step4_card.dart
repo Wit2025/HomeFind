@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:homefind/screens/service/chat/chatService.dart';
-import 'package:homefind/screens/service/widget/serviceType.dart';
-import 'package:homefind/screens/service/techView/widget/technicianResponse.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/screens/service/chat/chat_service.dart';
+import 'package:homefind/screens/service/widget/service_type.dart';
+import 'package:homefind/screens/service/techView/widget/technician_response.dart';
+import 'package:homefind/widgets/colors.dart';
 import 'package:intl/intl.dart';
 
 class Step4Responses extends StatelessWidget {
@@ -17,7 +17,7 @@ class Step4Responses extends StatelessWidget {
   final Function(int) onStepChanged;
 
   const Step4Responses({
-    Key? key,
+    super.key,
     required this.technicianResponses,
     required this.hasNewResponses,
     required this.offerPrice,
@@ -26,7 +26,7 @@ class Step4Responses extends StatelessWidget {
     required this.onResetForm,
     required this.onTechnicianResponsesChanged,
     required this.onStepChanged,
-  }) : super(key: key);
+  });
 
   String _formatNumber(double number) {
     final formatter = NumberFormat('#,###.00', 'en_US');
@@ -183,7 +183,6 @@ class Step4Responses extends StatelessWidget {
                         // Navigate back to step 2 so the user can change their offer
                         onStepChanged(2);
                       },
-                      child: const Text('ສະເໜີໃໝ່'),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: AppColors.color1,
                         side: const BorderSide(
@@ -195,6 +194,7 @@ class Step4Responses extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
+                      child: const Text('ສະເໜີໃໝ່'),
                     ),
                   ),
 
@@ -261,7 +261,7 @@ class Step4Responses extends StatelessWidget {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.color1.withOpacity(0.2),
+                    color: AppColors.color1.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(

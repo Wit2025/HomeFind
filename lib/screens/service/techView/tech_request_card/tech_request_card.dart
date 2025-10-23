@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:homefind/screens/service/techView/techRequestCard/widget/techCardDescription.dart';
-import 'package:homefind/screens/service/techView/techRequestCard/widget/techCardHeader.dart';
-import 'package:homefind/screens/service/techView/techRequestCard/widget/techCardImage.dart';
-import 'package:homefind/screens/service/techView/techRequestCard/widget/techCardLocation.dart';
-import 'package:homefind/screens/service/techView/techRequestCard/widget/techCardPrice.dart';
+import 'package:homefind/screens/service/techView/tech_request_card/widget/tech_card_description.dart';
+import 'package:homefind/screens/service/techView/tech_request_card/widget/tech_card_header.dart';
+import 'package:homefind/screens/service/techView/tech_request_card/widget/tech_card_image.dart';
+import 'package:homefind/screens/service/techView/tech_request_card/widget/tech_card_location.dart';
+import 'package:homefind/screens/service/techView/tech_request_card/widget/tech_card_price.dart';
 import 'package:homefind/screens/service/techView/technician_view.dart';
 import 'package:homefind/screens/service/techView/widget/service_request_model.dart';
-import 'package:homefind/screens/service/techView/widget/techActionButton.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/screens/service/techView/widget/tech_action_button.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class TechRequestCard extends StatelessWidget {
   final ServiceRequestModel request;
@@ -16,12 +16,12 @@ class TechRequestCard extends StatelessWidget {
   final Function(String) onStateChange;
 
   const TechRequestCard({
-    Key? key,
+    super.key,
     required this.request,
     required this.requestState,
     required this.onDecision,
     required this.onStateChange,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class TechRequestCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: AppColors.color1.withOpacity(0.08),
+            color: AppColors.color1.withValues(alpha: 0.08),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
@@ -99,7 +99,7 @@ class TechRequestCard extends StatelessWidget {
         gradient: LinearGradient(
           colors: [
             Colors.transparent,
-            AppColors.color1.withOpacity(0.2),
+            AppColors.color1.withValues(alpha: 0.2),
             Colors.transparent,
           ],
         ),

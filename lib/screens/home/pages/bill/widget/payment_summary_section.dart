@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/home/pages/bill/widget/dashed_divider.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 import 'package:intl/intl.dart';
 
 class PaymentSummarySection extends StatelessWidget {
@@ -10,11 +10,11 @@ class PaymentSummarySection extends StatelessWidget {
   final NumberFormat money;
 
   const PaymentSummarySection({
-    Key? key,
+    super.key,
     required this.bookingFee,
     required this.currency,
     required this.money,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:homefind/screens/service/chat/widget/chatModel.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/screens/service/chat/widget/chat_model.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class MessageBubble extends StatelessWidget {
   final ChatMessage message;
   final IconData serviceIcon;
 
   const MessageBubble({
-    Key? key,
+    super.key,
     required this.message,
     required this.serviceIcon,
-  }) : super(key: key);
+  });
 
   String _formatTime(DateTime time) {
     return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
@@ -39,7 +39,7 @@ class MessageBubble extends StatelessWidget {
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.color1.withOpacity(0.2),
+                    color: AppColors.color1.withValues(alpha: 0.2),
                     blurRadius: 5,
                     offset: Offset(0, 2),
                   ),
@@ -75,7 +75,7 @@ class MessageBubble extends StatelessWidget {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.08),
+                        color: Colors.black.withValues(alpha: 0.08),
                         blurRadius: 8,
                         offset: Offset(0, 3),
                       ),

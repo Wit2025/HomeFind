@@ -5,10 +5,7 @@ import 'package:homefind/generated/l10n.dart';
 class PropertyWelcomeSection extends StatelessWidget {
   final Color primaryColor;
 
-  const PropertyWelcomeSection({
-    super.key,
-    required this.primaryColor,
-  });
+  const PropertyWelcomeSection({super.key, required this.primaryColor});
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +14,14 @@ class PropertyWelcomeSection extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            primaryColor.withOpacity(0.1),
-            primaryColor.withOpacity(0.05),
+            primaryColor.withValues(alpha: 0.1),
+            primaryColor.withValues(alpha: 0.05),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: primaryColor.withOpacity(0.2)),
+        border: Border.all(color: primaryColor.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

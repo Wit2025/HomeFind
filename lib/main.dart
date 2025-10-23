@@ -14,6 +14,7 @@ class HomeFind extends StatefulWidget {
   @override
   State<HomeFind> createState() => _HomeFindState();
 
+  // ignore: library_private_types_in_public_api
   static _HomeFindState? of(BuildContext context) =>
       context.findAncestorStateOfType<_HomeFindState>();
 }

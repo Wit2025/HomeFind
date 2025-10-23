@@ -3,7 +3,7 @@ import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/profile/pages/history_transection/history_transaction.dart';
 import 'package:homefind/screens/profile/pages/point/point.dart';
 import 'package:homefind/screens/profile/pages/withdraw/withdraw.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class IncomeExpenseCard extends StatelessWidget {
   const IncomeExpenseCard({super.key});
@@ -17,7 +17,7 @@ class IncomeExpenseCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
+            color: Colors.grey.withValues(alpha: 0.2),
             spreadRadius: 2,
             blurRadius: 2,
             offset: const Offset(0, 3),
@@ -61,7 +61,7 @@ class IncomeExpenseCard extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 10),
             height: 4,
             decoration: BoxDecoration(
-              color: Colors.grey.withOpacity(0.2),
+              color: Colors.grey.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(20),
             ),
           ),
@@ -73,7 +73,7 @@ class IncomeExpenseCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
+                  color: Colors.grey.withValues(alpha: 0.3),
                   spreadRadius: 1,
                   blurRadius: 2,
                   offset: const Offset(0, 1),
@@ -93,9 +93,7 @@ class IncomeExpenseCard extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => WithdrawPages(),
-                      ),
+                      MaterialPageRoute(builder: (context) => WithdrawPages()),
                     );
                   },
                 ),
@@ -109,9 +107,7 @@ class IncomeExpenseCard extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => PointPages(),
-                      ),
+                      MaterialPageRoute(builder: (context) => PointPages()),
                     );
                   },
                 ),

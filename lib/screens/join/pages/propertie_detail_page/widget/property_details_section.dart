@@ -71,8 +71,9 @@ class PropertyDetailsSection extends StatelessWidget {
           keyboardType: TextInputType.number,
           validator: (value) {
             if (value?.isEmpty ?? true) return S.of(context).please_enter_price;
-            if (double.tryParse(value!) == null)
+            if (double.tryParse(value!) == null) {
               return S.of(context).please_enter_correct_number;
+            }
             return null;
           },
         ),

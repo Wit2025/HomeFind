@@ -4,10 +4,7 @@ import 'package:homefind/generated/l10n.dart';
 class FaqItemWidget extends StatelessWidget {
   final String question;
 
-  const FaqItemWidget({
-    super.key,
-    required this.question,
-  });
+  const FaqItemWidget({super.key, required this.question});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +15,7 @@ class FaqItemWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 1,
             blurRadius: 4,
             offset: const Offset(0, 2),

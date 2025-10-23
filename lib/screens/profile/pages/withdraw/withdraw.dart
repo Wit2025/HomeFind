@@ -6,7 +6,7 @@ import 'package:homefind/screens/profile/pages/withdraw/widget/add_account_dialo
 import 'package:homefind/screens/profile/pages/withdraw/widget/amount_input_section.dart';
 import 'package:homefind/screens/profile/pages/withdraw/widget/gradient_button.dart';
 import 'package:homefind/screens/profile/pages/withdraw/widget/success_dialog.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 
 class WithdrawPages extends StatefulWidget {
@@ -22,7 +22,7 @@ class _WithdrawPagesState extends State<WithdrawPages> {
   final _primarycolor = AppColors.color1;
   String? _selectedAccountId = '4327';
 
-  List<Account> _accounts = [
+  final List<Account> _accounts = [
     Account(
       id: '4327',
       name: 'ຊື່ບັນຊີທະນາຄານ',

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class BillBottomButtons extends StatelessWidget {
-  const BillBottomButtons({Key? key}) : super(key: key);
+  const BillBottomButtons({super.key});
 
   @override
   Widget build(BuildContext context) {

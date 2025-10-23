@@ -1,13 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:homefind/screens/service/techView/widget/service_request_model.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class TechRequestCardImage extends StatelessWidget {
   final ServiceRequestModel request;
 
-  const TechRequestCardImage({Key? key, required this.request})
-    : super(key: key);
+  const TechRequestCardImage({super.key, required this.request});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +17,7 @@ class TechRequestCardImage extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: AppColors.color1.withOpacity(0.1),
+              color: AppColors.color1.withValues(alpha: 0.1),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -58,8 +57,8 @@ class TechRequestCardImage extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.color1.withOpacity(0.1),
-            AppColors.color2.withOpacity(0.1),
+            AppColors.color1.withValues(alpha: 0.1),
+            AppColors.color2.withValues(alpha: 0.1),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -69,7 +68,7 @@ class TechRequestCardImage extends StatelessWidget {
       alignment: Alignment.center,
       child: Icon(
         Icons.photo_camera_outlined,
-        color: AppColors.color1.withOpacity(0.5),
+        color: AppColors.color1.withValues(alpha: 0.5),
         size: 40,
       ),
     );

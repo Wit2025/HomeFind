@@ -24,7 +24,7 @@ class BookingInfoWidget extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 20,
             offset: Offset(0, 10),
           ),
@@ -69,7 +69,7 @@ class BookingInfoWidget extends StatelessWidget {
             ],
           ),
           SizedBox(height: 2),
-          
+
           // Type and Rating
           Row(
             children: [
@@ -92,11 +92,7 @@ class BookingInfoWidget extends StatelessWidget {
               Row(
                 children: List.generate(
                   5,
-                  (index) => Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                    size: 18,
-                  ),
+                  (index) => Icon(Icons.star, color: Colors.amber, size: 18),
                 ),
               ),
               SizedBox(width: 8),
@@ -110,7 +106,7 @@ class BookingInfoWidget extends StatelessWidget {
             ],
           ),
           SizedBox(height: 10),
-          
+
           // Location
           Container(
             padding: EdgeInsets.all(16),
@@ -127,11 +123,7 @@ class BookingInfoWidget extends StatelessWidget {
                     color: Colors.red.shade100,
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(
-                    Icons.location_on,
-                    color: Colors.red,
-                    size: 20,
-                  ),
+                  child: Icon(Icons.location_on, color: Colors.red, size: 20),
                 ),
                 SizedBox(width: 12),
                 Expanded(
@@ -148,18 +140,14 @@ class BookingInfoWidget extends StatelessWidget {
             ),
           ),
           SizedBox(height: 10),
-          
+
           // Date
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  Icon(
-                    Icons.calendar_today,
-                    color: Colors.blue,
-                    size: 20,
-                  ),
+                  Icon(Icons.calendar_today, color: Colors.blue, size: 20),
                   SizedBox(width: 8),
                   Text(
                     booking['date'] ?? '',
@@ -174,7 +162,7 @@ class BookingInfoWidget extends StatelessWidget {
             ],
           ),
           SizedBox(height: 10),
-          
+
           // Details
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

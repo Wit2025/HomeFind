@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/main_screen/main_screen.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LogoutDialog {
@@ -11,7 +11,7 @@ class LogoutDialog {
       context: context,
       barrierDismissible: true,
       barrierLabel: '',
-      barrierColor: Colors.black.withOpacity(0.5),
+      barrierColor: Colors.black.withValues(alpha: 0.5),
       transitionDuration: const Duration(milliseconds: 300),
       pageBuilder: (_, animation, secondaryAnimation) {
         return ScaleTransition(
@@ -31,7 +31,7 @@ class LogoutDialog {
                 borderRadius: BorderRadius.circular(25),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
+                    color: Colors.black.withValues(alpha: 0.2),
                     blurRadius: 20,
                     spreadRadius: 5,
                   ),
@@ -52,7 +52,7 @@ class LogoutDialog {
                       width: 80,
                       height: 80,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withValues(alpha: 0.2),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
@@ -212,10 +212,9 @@ class LogoutDialog {
 
     // Navigate to main screen
     Navigator.pushAndRemoveUntil(
+      // ignore: use_build_context_synchronously
       context,
-      MaterialPageRoute(
-        builder: (context) => MainScreen(),
-      ),
+      MaterialPageRoute(builder: (context) => MainScreen()),
       (Route<dynamic> route) => false,
     );
   }

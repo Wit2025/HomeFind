@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class AddAccountDialog extends StatelessWidget {
   final Function(String, String) onAddAccount;

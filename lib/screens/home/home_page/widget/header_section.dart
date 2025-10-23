@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:homefind/generated/l10n.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class HeaderSection extends StatefulWidget {
   final TextEditingController controller;
@@ -13,14 +13,14 @@ class HeaderSection extends StatefulWidget {
   final VoidCallback onSearchPressed;
 
   const HeaderSection({
-    Key? key,
+    super.key,
     required this.controller,
     required this.focusNode,
     required this.showHint,
     required this.isFocused,
     required this.onClearPressed,
     required this.onSearchPressed,
-  }) : super(key: key);
+  });
 
   @override
   State<HeaderSection> createState() => _HeaderSectionState();

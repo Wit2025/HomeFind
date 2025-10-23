@@ -16,7 +16,7 @@ class PropertyFormFields {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -65,7 +65,7 @@ class PropertyFormFields {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -120,7 +120,7 @@ class PropertyFormFields {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -154,7 +154,9 @@ class PropertyFormFields {
             items: items.map((String item) {
               return DropdownMenuItem<String>(
                 value: item, // Keep original Lao value
-                child: Text(PropertyTranslations.translateValue(item, context)), // Display translated text
+                child: Text(
+                  PropertyTranslations.translateValue(item, context),
+                ), // Display translated text
               );
             }).toList(),
             onChanged: onChanged,

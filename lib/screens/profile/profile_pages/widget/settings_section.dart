@@ -6,7 +6,7 @@ import 'package:homefind/screens/profile/pages/history_booking/history_booking.d
 import 'package:homefind/screens/profile/pages/languege/languege.dart';
 import 'package:homefind/screens/profile/pages/my_account/my_account.dart';
 import 'package:homefind/screens/profile/pages/privacy/privacy.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class SettingsSection extends StatelessWidget {
   final VoidCallback onLogout;

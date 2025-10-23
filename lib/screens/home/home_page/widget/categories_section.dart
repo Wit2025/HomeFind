@@ -11,10 +11,10 @@ class CategoriesSection extends StatelessWidget {
   final Function(int) onCategorySelected;
 
   const CategoriesSection({
-    Key? key,
+    super.key,
     required this.selectedCategoryIndex,
     required this.onCategorySelected,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class CategoriesSection extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   spreadRadius: 1,
                   blurRadius: 4,
                   offset: const Offset(0, 2),

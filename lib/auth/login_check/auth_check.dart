@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/auth/login/login.dart';
 import 'package:homefind/generated/l10n.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthChecker {
@@ -19,14 +19,17 @@ class AuthChecker {
 
     if (!isLoggedIn) {
       if (showLoginPrompt) {
+        // ignore: use_build_context_synchronously
         _showLoginPrompt(context);
       } else {
         Navigator.push(
+          // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(builder: (context) => const LoginPage()),
         );
       }
     } else {
+      // ignore: use_build_context_synchronously
       Navigator.push(context, MaterialPageRoute(builder: (context) => page));
     }
   }

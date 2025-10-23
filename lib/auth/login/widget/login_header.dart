@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class LoginHeader extends StatelessWidget {
   final bool isSmallScreen;
 
   const LoginHeader({
-    Key? key,
+    super.key,
     required this.isSmallScreen,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class LoginHeader extends StatelessWidget {
                   borderRadius: BorderRadius.circular(50),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withValues(alpha: 0.1),
                       blurRadius: 10,
                       spreadRadius: 2,
                     ),
@@ -69,7 +69,7 @@ class LoginHeader extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'NotoSansLao',
                   fontSize: isSmallScreen ? 14 : 16,
-                  color: Colors.white.withOpacity(0.9),
+                  color: Colors.white.withValues(alpha: 0.9),
                 ),
               ),
             ],

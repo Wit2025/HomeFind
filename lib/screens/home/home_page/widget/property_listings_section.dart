@@ -18,7 +18,7 @@ class PropertyListingsSection extends StatelessWidget {
   final Function(String?, String?) onSaleFiltersChanged;
 
   const PropertyListingsSection({
-    Key? key,
+    super.key,
     required this.selectedCategory,
     required this.selectedStatus,
     required this.selectedPropertyType,
@@ -28,7 +28,7 @@ class PropertyListingsSection extends StatelessWidget {
     required this.onStatusChanged,
     required this.onRentFiltersChanged,
     required this.onSaleFiltersChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

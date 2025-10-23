@@ -4,7 +4,7 @@ import 'package:homefind/screens/notification/widget/notification_constant.dart'
 import 'package:homefind/screens/notification/widget/notification_item.dart';
 import 'package:homefind/screens/notification/widget/notification_item_widget.dart';
 import 'package:homefind/screens/notification/widget/notification_tab_button.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class NotificationsBody extends StatefulWidget {
   const NotificationsBody({super.key});

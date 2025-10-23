@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:homefind/screens/service/widget/serviceType.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/screens/service/widget/service_type.dart';
+import 'package:homefind/widgets/colors.dart';
 import 'package:homefind/screens/service/widget/service_location.dart';
 
 class Step1LocationService extends StatefulWidget {
@@ -15,7 +15,7 @@ class Step1LocationService extends StatefulWidget {
   final Function() onNextStep;
 
   const Step1LocationService({
-    Key? key,
+    super.key,
     required this.selectedService,
     required this.services,
     required this.selectedLocation,
@@ -25,7 +25,7 @@ class Step1LocationService extends StatefulWidget {
     required this.onLocationChanged,
     required this.onPriceChanged,
     required this.onNextStep,
-  }) : super(key: key);
+  });
 
   @override
   State<Step1LocationService> createState() => _Step1LocationServiceState();
@@ -175,7 +175,7 @@ class _Step1LocationServiceState extends State<Step1LocationService> {
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -240,7 +240,7 @@ class _Step1LocationServiceState extends State<Step1LocationService> {
                       boxShadow: isSelected
                           ? [
                               BoxShadow(
-                                color: AppColors.color1.withOpacity(0.12),
+                                color: AppColors.color1.withValues(alpha: 0.12),
                                 blurRadius: 8,
                                 offset: const Offset(0, 2),
                               ),
@@ -273,8 +273,8 @@ class _Step1LocationServiceState extends State<Step1LocationService> {
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
                                 color: isSelected
-                                    ? Colors.white.withOpacity(0.12)
-                                    : AppColors.color1.withOpacity(0.08),
+                                    ? Colors.white.withValues(alpha: 0.12)
+                                    : AppColors.color1.withValues(alpha: 0.08),
                                 shape: BoxShape.circle,
                               ),
                               child: Icon(
@@ -326,8 +326,9 @@ class _Step1LocationServiceState extends State<Step1LocationService> {
                                               setState(() {
                                                 _editingPrice =
                                                     (_editingPrice ?? 0) - 1000;
-                                                if (_editingPrice! < 0)
+                                                if (_editingPrice! < 0) {
                                                   _editingPrice = 0;
+                                                }
                                                 _priceController.text =
                                                     _editingPrice!
                                                         .toStringAsFixed(0);
@@ -470,11 +471,10 @@ class _SuggestedPriceBar extends StatefulWidget {
   final ValueChanged<double?> onPriceChanged;
 
   const _SuggestedPriceBar({
-    Key? key,
     required this.serviceType,
     required this.locationId,
     required this.onPriceChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<_SuggestedPriceBar> createState() => _SuggestedPriceBarState();
@@ -509,7 +509,7 @@ class _SuggestedPriceBarState extends State<_SuggestedPriceBar> {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),

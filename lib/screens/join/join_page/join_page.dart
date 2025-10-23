@@ -5,7 +5,7 @@ import 'package:homefind/widgets/loading.dart';
 import 'package:homefind/screens/join/join_page/widget/option_card.dart';
 import 'package:homefind/screens/join/pages/personal_info_page/persional_info_page.dart';
 import 'package:homefind/screens/join/pages/propertie_detail_page/property_details_page.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class JoinPages extends StatefulWidget {
@@ -74,6 +74,7 @@ class _JoinPagesState extends State<JoinPages> {
 
     if (isFilled) {
       Navigator.push(
+        // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(
           builder: (context) => PropertyDetailsPage(personalData: {}),
@@ -81,6 +82,7 @@ class _JoinPagesState extends State<JoinPages> {
       );
     } else {
       Navigator.push(
+        // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(builder: (context) => PersonalInfoPage()),
       );

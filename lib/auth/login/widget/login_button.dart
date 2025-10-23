@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class LoginButton extends StatelessWidget {
   final bool isLoading;
@@ -8,11 +8,11 @@ class LoginButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   const LoginButton({
-    Key? key,
+    super.key,
     required this.isLoading,
     required this.isSmallScreen,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

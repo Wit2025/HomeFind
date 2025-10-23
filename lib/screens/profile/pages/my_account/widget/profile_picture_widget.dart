@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 import 'dart:io';
 
 class ProfilePictureWidget extends StatelessWidget {

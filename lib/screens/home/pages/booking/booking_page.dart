@@ -6,7 +6,7 @@ import 'package:homefind/screens/home/pages/booking/widget/image_picker_modal.da
 import 'package:homefind/screens/home/pages/booking/widget/qr_code_section.dart';
 import 'package:homefind/screens/home/pages/booking/widget/submit_button.dart';
 import 'package:homefind/screens/home/pages/booking/widget/upload_receipt_section.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -15,7 +15,7 @@ class BookingPage extends StatefulWidget {
   final double price;
   final String? currency;
   final String? rental;
-  BookingPage({
+  const BookingPage({
     required this.title,
     required this.price,
     required this.currency,
@@ -134,7 +134,7 @@ class _BookingPageState extends State<BookingPage> {
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
+                            color: Colors.black.withValues(alpha: 0.1),
                             blurRadius: 30,
                             offset: Offset(0, 15),
                           ),
@@ -181,8 +181,10 @@ class _BookingPageState extends State<BookingPage> {
                 );
 
                 await Future.delayed(Duration(seconds: 2));
+                // ignore: use_build_context_synchronously
                 Navigator.pop(context); // Close loading
                 Navigator.pushReplacement(
+                  // ignore: use_build_context_synchronously
                   context,
                   PageRouteBuilder(
                     pageBuilder: (context, animation, secondaryAnimation) =>

@@ -10,7 +10,7 @@ class CustomPasswordField extends StatelessWidget {
   final TextInputAction? textInputAction;
 
   const CustomPasswordField({
-    Key? key,
+    super.key,
     this.controller,
     required this.label,
     required this.isVisible,
@@ -18,7 +18,7 @@ class CustomPasswordField extends StatelessWidget {
     required this.validator,
     this.contentPadding,
     this.textInputAction,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

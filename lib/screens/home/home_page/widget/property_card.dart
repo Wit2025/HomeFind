@@ -4,12 +4,12 @@ import 'package:homefind/screens/home/home_page/widget/property_model.dart';
 import 'package:homefind/screens/home/home_page/widget/translation_utils.dart';
 import 'package:intl/intl.dart';
 import 'package:homefind/generated/l10n.dart';
-import 'package:homefind/screens/home/pages/product_details/productDetail.dart';
+import 'package:homefind/screens/home/pages/product_details/product_detail.dart';
 
 class PropertyCard extends StatelessWidget {
   final Property property;
 
-  const PropertyCard({Key? key, required this.property}) : super(key: key);
+  const PropertyCard({super.key, required this.property});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class PropertyCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.6),
+            color: Colors.grey.withValues(alpha: 0.6),
             spreadRadius: 2,
             blurRadius: 3,
             offset: Offset(0, 2),
@@ -46,7 +46,7 @@ class PropertyCard extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            Container(
+            SizedBox(
               width: double.infinity,
               height: double.infinity,
               child: ClipRRect(
@@ -168,7 +168,7 @@ class PropertyCard extends StatelessWidget {
                 SizedBox(width: 4),
                 Expanded(
                   child: Text(
-                    '${S.of(context).daysAgo(property.date)}',
+                    S.of(context).daysAgo(property.date),
                     style: TextStyle(fontSize: 10, color: Colors.black),
                   ),
                 ),

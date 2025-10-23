@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/auth/login/widget/login_form.dart';
 import 'package:homefind/auth/login/widget/login_header.dart';
-import 'package:homefind/service/Auth_Service.dart';
+import 'package:homefind/service/service_auth.dart';
 import 'package:homefind/generated/l10n.dart';
 import 'package:homefind/screens/main_screen/main_screen.dart';
 import 'package:homefind/auth/forget_password/forget_pass.dart';
@@ -83,6 +83,7 @@ class _LoginPageState extends State<LoginPage> {
           );
         }
       } else {
+        // ignore: use_build_context_synchronously
         final errorMsg = S.of(context).login_failed;
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(

@@ -4,7 +4,7 @@ import 'package:homefind/screens/profile/pages/my_account/widget/edit_profile_fo
 import 'package:homefind/screens/profile/pages/my_account/widget/gradient_button_widget.dart';
 import 'package:homefind/screens/profile/pages/my_account/widget/info_tile_widget.dart';
 import 'package:homefind/screens/profile/pages/my_account/widget/profile_picture_widget.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
@@ -153,7 +153,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
+                    color: Colors.grey.withValues(alpha: 0.1),
                     blurRadius: 10,
                     spreadRadius: 3,
                   ),

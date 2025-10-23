@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
-import 'package:homefind/widgets/Colors.dart' show AppColors;
+import 'package:homefind/widgets/colors.dart' show AppColors;
 
 class OTPSuccessDialog {
   static void show({
@@ -11,7 +11,7 @@ class OTPSuccessDialog {
       context: context,
       barrierDismissible: false,
       barrierLabel: '',
-      barrierColor: Colors.black.withOpacity(0.5),
+      barrierColor: Colors.black.withValues(alpha: 0.5),
       transitionDuration: const Duration(milliseconds: 300),
       pageBuilder: (_, __, ___) {
         return ScaleTransition(
@@ -35,7 +35,7 @@ class OTPSuccessDialog {
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withValues(alpha: 0.1),
                         blurRadius: 20,
                         spreadRadius: 5,
                       ),
@@ -69,9 +69,7 @@ class OTPSuccessDialog {
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 15,
-                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 15),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -104,7 +102,7 @@ class OTPSuccessDialog {
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF00CEB0).withOpacity(0.3),
+                          color: const Color(0xFF00CEB0).withValues(alpha: 0.3),
                           blurRadius: 10,
                           spreadRadius: 3,
                         ),

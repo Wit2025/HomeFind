@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class RememberForgotRow extends StatelessWidget {
   final bool rememberMe;
@@ -8,11 +8,11 @@ class RememberForgotRow extends StatelessWidget {
   final VoidCallback onNavigateToForgotPassword;
 
   const RememberForgotRow({
-    Key? key,
+    super.key,
     required this.rememberMe,
     required this.onToggleRememberMe,
     required this.onNavigateToForgotPassword,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

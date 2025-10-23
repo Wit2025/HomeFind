@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class RegisterHeader extends StatelessWidget {
   final bool isSmallScreen;
 
-  const RegisterHeader({
-    super.key,
-    required this.isSmallScreen,
-  });
+  const RegisterHeader({super.key, required this.isSmallScreen});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    
+
     return Container(
       height: isSmallScreen ? size.height * 0.25 : size.height * 0.3,
       width: double.infinity,
@@ -39,7 +36,7 @@ class RegisterHeader extends StatelessWidget {
                   borderRadius: BorderRadius.circular(50),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withValues(alpha: 0.1),
                       blurRadius: 10,
                       spreadRadius: 2,
                     ),
@@ -71,7 +68,7 @@ class RegisterHeader extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'NotoSansLao',
                   fontSize: isSmallScreen ? 14 : 16,
-                  color: Colors.white.withOpacity(0.9),
+                  color: Colors.white.withValues(alpha: 0.9),
                 ),
               ),
             ],

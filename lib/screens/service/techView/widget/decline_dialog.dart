@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/screens/service/techView/widget/service_request_model.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class DeclineDialog extends StatelessWidget {
   final ServiceRequestModel request;
   final VoidCallback onDecline;
 
   const DeclineDialog({
-    Key? key,
+    super.key,
     required this.request,
     required this.onDecline,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:homefind/generated/l10n.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class LoginTitle extends StatelessWidget {
   final bool isSmallScreen;
 
   const LoginTitle({
-    Key? key,
+    super.key,
     required this.isSmallScreen,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

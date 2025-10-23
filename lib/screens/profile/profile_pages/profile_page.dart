@@ -3,7 +3,7 @@ import 'package:homefind/screens/profile/profile_pages/widget/income_expense_car
 import 'package:homefind/screens/profile/profile_pages/widget/logout_dialog.dart';
 import 'package:homefind/screens/profile/profile_pages/widget/profile_header.dart';
 import 'package:homefind/screens/profile/profile_pages/widget/settings_section.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

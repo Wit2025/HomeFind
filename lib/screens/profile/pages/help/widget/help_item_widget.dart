@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 
 class HelpItemWidget extends StatelessWidget {
   final IconData icon;
@@ -22,7 +22,7 @@ class HelpItemWidget extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
         onTap: () {
-          // TODO: go to detail help page
+          // tTODO: go to detail help page
         },
         child: Padding(
           padding: const EdgeInsets.all(16),

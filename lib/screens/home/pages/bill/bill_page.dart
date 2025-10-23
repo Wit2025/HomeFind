@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:homefind/screens/home/pages/bill/widget/bill_bottom_button.dart';
 import 'package:homefind/screens/home/pages/bill/widget/bill_header.dart';
 import 'package:homefind/screens/home/pages/bill/widget/bill_receipt_card.dart';
-import 'package:homefind/widgets/Colors.dart';
+import 'package:homefind/widgets/colors.dart';
 import 'package:intl/intl.dart';
 
 /// Modern, animated Bill Page for a successful booking/checkout

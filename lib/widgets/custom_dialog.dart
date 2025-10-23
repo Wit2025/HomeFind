@@ -15,7 +15,7 @@ class CustomDialog {
       context: context,
       barrierDismissible: false,
       barrierLabel: '',
-      barrierColor: Colors.black.withOpacity(0.5),
+      barrierColor: Colors.black.withValues(alpha: 0.5),
       transitionDuration: const Duration(milliseconds: 300),
       pageBuilder: (_, animation, __) {
         return ScaleTransition(
@@ -36,7 +36,7 @@ class CustomDialog {
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withValues(alpha: 0.1),
                         blurRadius: 20,
                         spreadRadius: 5,
                       ),
@@ -127,7 +127,7 @@ class CustomDialog {
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF00CEB0).withOpacity(0.3),
+                          color: const Color(0xFF00CEB0).withValues(alpha: 0.3),
                           blurRadius: 10,
                           spreadRadius: 3,
                         ),
@@ -162,7 +162,7 @@ class CustomDialog {
       context: context,
       barrierDismissible: false,
       barrierLabel: '',
-      barrierColor: Colors.black.withOpacity(0.5),
+      barrierColor: Colors.black.withValues(alpha: 0.5),
       transitionDuration: const Duration(milliseconds: 300),
       pageBuilder: (_, animation, __) {
         return ScaleTransition(
@@ -183,7 +183,7 @@ class CustomDialog {
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withValues(alpha: 0.1),
                         blurRadius: 20,
                         spreadRadius: 5,
                       ),
@@ -274,7 +274,7 @@ class CustomDialog {
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFFE74C3C).withOpacity(0.3),
+                          color: const Color(0xFFE74C3C).withValues(alpha: 0.3),
                           blurRadius: 10,
                           spreadRadius: 3,
                         ),
@@ -309,7 +309,7 @@ class CustomDialog {
       context: context,
       barrierDismissible: false,
       barrierLabel: '',
-      barrierColor: Colors.black.withOpacity(0.5),
+      barrierColor: Colors.black.withValues(alpha: 0.5),
       transitionDuration: const Duration(milliseconds: 300),
       pageBuilder: (_, animation, __) {
         return ScaleTransition(
@@ -330,7 +330,7 @@ class CustomDialog {
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: Colors.black.withValues(alpha: 0.1),
                         blurRadius: 20,
                         spreadRadius: 5,
                       ),
@@ -421,7 +421,7 @@ class CustomDialog {
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFFF39C12).withOpacity(0.3),
+                          color: const Color(0xFFF39C12).withValues(alpha: 0.3),
                           blurRadius: 10,
                           spreadRadius: 3,
                         ),

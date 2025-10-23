@@ -17,7 +17,7 @@ class BillReceiptCard extends StatelessWidget {
   final NumberFormat money;
 
   const BillReceiptCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.bookingId,
     required this.customerName,
@@ -25,7 +25,7 @@ class BillReceiptCard extends StatelessWidget {
     required this.bookingFee,
     required this.currency,
     required this.money,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
